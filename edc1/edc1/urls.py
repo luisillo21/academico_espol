@@ -19,6 +19,7 @@ from django.views.generic import RedirectView
 from django.conf.urls.static import static
 from django.conf import settings
 from .routers import *
+from apps_academico.reporte_aca.Acta_entrega_certificados import Acta_entrega_certificados
 
 urlpatterns = [
     path('', RedirectView.as_view(url='academico/designListar/')),
@@ -30,7 +31,8 @@ urlpatterns = [
     path('academico/docente/', include('apps_academico.docente.urls')),
     path('api/', include(plan_trabajo_router.urls)),
     path('api/', include(docente_router.urls)),
-    path('api/', include(participante_router.urls))
+    path('api/', include(participante_router.urls)),
+    path('entrega_certificado/',Acta_entrega_certificados.as_view(),name='entrega_certificado')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 """path('evento/', include(('apps_academico.crearEvento.urls', 'index'), namespace="index")),
