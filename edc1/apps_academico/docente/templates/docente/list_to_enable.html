@@ -1,0 +1,406 @@
+{% extends "base.html" %} {% block content %}
+
+<div id="app">
+  <div class="card my-2">
+    <div class="card-header">
+      <h6>
+        Docentes
+      </h6>
+    </div>
+    <div class="card-body">
+      <docente-list-to-approve-content
+        component_name="Docente"
+      ></docente-list-to-approve-content>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block specific_scripts %}
+
+<script type="text/javascript">
+  // START - components
+
+  // Docentes
+  Vue.component("docente-list-to-approve-content", {
+    delimiters: ["[[", "]]"],
+    props: ["component_name"],
+    template: `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light text-center">
+    <tr> <th> ID </th> <th> Nombres </th> <th> Appellidos </th> <th> Estado </th>  <th> Calificación </th>  <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items" class="text-center">
+      <td>[[ value.id ]]</td>      
+      <td>[[ value.nombres ]]</td>      
+      <td>[[ value.apellidos ]]</td>
+      <td>[[ value.estado ]]</td>      
+      <td>
+        <button class="btn btn-info" v-on:click="getDocenteScore(value.id)">Ver</button>
+      </td>
+      <td>
+        <!--button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')">Edit</button>
+        <button class="btn btn-danger text-light" v-on:click="deleteItem(value.id)">Delete</button-->
+        <button class="btn darkgreen-bg text-light" v-on:click="getDocenteToEnable(value.id)">Habilitar</button>
+        <button class="btn btn-danger text-light" v-on:click="getDocenteToDisable(value.id)">Deshabilitar</button>
+        <button class="btn btn-primary" v-on:click="checkDocente(value.id)">Revisar</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end">
+    <!--button class="btn btn-primary" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button-->
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.estado" placeholder="Estado" required>
+          </div>
+          </div>
+          <div class="modal-footer"> 
+            <button type="submit" class="btn btn-primary">Continuar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.estado" placeholder="Estado" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.estado" placeholder="Estado" required disabled>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  
+  <!-- START Habilitar Docente Modal -->
+  <div class="modal fade" :id="this.modals.enable.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Habilitar Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form  v-on:submit.prevent="enableDocente()">
+          <div class="modal-body">
+          <div class="form-group">
+            <p>¿Está seguro que desea habilitar el docente?</p>
+          </div>
+          </div>          
+          <div class="modal-footer">          
+            <button type="submit" class="btn darkgreen-bg text-light">Sí, Continuar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Habilitar Docente Modal -->
+
+  <!-- START Deshabilitar Docente Modal -->
+  <div class="modal fade" :id="this.modals.disable.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Deshabilitar Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="disableDocente()" >
+          <div class="modal-body">
+          <div class="form-group">
+            <textarea class="form-control" placeholder="Explique el motivo." v-model="currentItem.observacion" rows="3" required></textarea>
+          </div>
+          </div>
+          <div class="modal-footer">          
+            <button type="submit" class="btn darkgreen-bg text-light">Continuar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END  Deshabilitar Docente Modal -->
+
+  <!-- START Calificacion Docente Modal -->
+  <div class="modal fade" :id="this.modals.docenteScore.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Calificación Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>      
+        <div class="modal-body">          
+          <table class="table table-sm table-borderless table-hover">
+          <thead class="darkgreen-bg text-light text-center">
+            <tr>  <th> Actualización Académica </th> <th> Formación Docente </th> <th> Experiencia Docente </th>  <th> Perfil </th>  </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr>   
+              <td>[[ currentDocenteScore.actualizacionAcademica ]]</td>      
+              <td>[[ currentDocenteScore.formacionDocente ]]</td>
+              <td>[[ currentDocenteScore.experienciaDocente ]]</td>
+              <td>[[ currentDocenteScore.perfil ]]</td>
+            </tr>
+          </tbody>
+          </table>
+          <p class="small mt-5">Los valores mostrados son las horas totales.</p>
+        </div>     
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>
+  <!-- END  Calificacion Docente Modal -->
+
+  </div>
+  `,
+    data: function() {
+      return {
+        url: "/api/docente/",
+        items: [],
+        loading: false,
+        currentItem: {},
+        message: null,
+        newItem: { estado: null },
+        modals: {
+          view: {
+            id: "viewItemModal_" + this.component_name
+          },
+          add: {
+            id: "addItemModal_" + this.component_name
+          },
+          update: {
+            id: "updateItemModal_" + this.component_name
+          },
+          enable: {
+            id: "enableDocenteModal_" + this.component_name
+          },
+          disable: {
+            id: "disableDocenteModal_" + this.component_name
+          },
+          docenteScore: {
+            id: "docenteScoreModal_" + this.component_name
+          }
+        },
+        currentDocenteScore: {}
+      };
+    },
+    mounted: function() {
+      this.getItems();
+    },
+    methods: {
+      getItems: function() {
+        this.loading = true;
+        axios
+          .get(this.url)
+          .then(response => {
+            this.items = response.data;
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      getItem: function(id, type) {
+        this.loading = true;
+        axios
+          .get(`${this.url}${id}/`)
+          .then(response => {
+            this.currentItem = response.data;
+            if (type == "edit") {
+              $(`#${this.modals.update.id}`).modal("show");
+            } else {
+              $(`#${this.modals.view.id}`).modal("show");
+            }
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      addItem: function() {
+        this.loading = true;
+        axios
+          .post(this.url, this.newItem)
+          .then(response => {
+            this.loading = false;
+            this.getItems();
+            $(`#${this.modals.add.id}`).modal("hide");
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      updateItem: function() {
+        this.loading = true;
+        axios
+          .put(`${this.url}${this.currentItem.id}/`, this.currentItem)
+          .then(response => {
+            this.loading = false;
+            this.currentItem = response.data;
+            this.getItems();
+            $(`#${this.modals.update.id}`).modal("hide");
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      deleteItem: function(id) {
+        this.loading = true;
+        axios
+          .delete(`${this.url}${id}/`)
+          .then(response => {
+            this.loading = false;
+            this.getItems();
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      getDocenteToEnable: function(id) {
+        this.loading = true;
+        axios
+          .get(`${this.url}${id}/`)
+          .then(response => {
+            this.currentItem = response.data;
+            $(`#${this.modals.enable.id}`).modal("show");
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      getDocenteToDisable: function(id) {
+        this.loading = true;
+        axios
+          .get(`${this.url}${id}/`)
+          .then(response => {
+            this.currentItem = response.data;
+            $(`#${this.modals.disable.id}`).modal("show");
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      enableDocente: function() {
+        this.loading = true;
+        this.currentItem.estado = "Habilitado";
+        this.currentItem.observacion = null;
+        axios
+          .put(`${this.url}${this.currentItem.id}/`, this.currentItem)
+          .then(response => {
+            this.loading = false;
+            this.currentItem = response.data;
+            this.getItems();
+            $(`#${this.modals.enable.id}`).modal("hide");
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      disableDocente: function() {
+        this.loading = true;
+        this.currentItem.estado = "No Habilitado";
+        axios
+          .put(`${this.url}${this.currentItem.id}/`, this.currentItem)
+          .then(response => {
+            this.loading = false;
+            this.currentItem = response.data;
+            this.getItems();
+            $(`#${this.modals.disable.id}`).modal("hide");
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      getDocenteScore: function(id) {
+        this.loading = true;
+        axios
+          .get(`/academico/docente/${id}/score/`)
+          .then(response => {
+            this.currentDocenteScore = response.data;
+            $(`#${this.modals.docenteScore.id}`).modal("show");
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      checkDocente: function(id) {
+        window.location = `/academico/docente/${id}/fill`;
+      },
+      isHabilitado: estado => estado == "Habilitado"
+    }
+  });
+
+  var app = new Vue({
+    delimiters: ["[[", "]]"], //https://stackoverflow.com/questions/49948261/vuejs-data-wont-display
+    el: "#app"
+  });
+</script>
+{% endblock%}

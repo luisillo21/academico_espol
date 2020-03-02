@@ -1,0 +1,2389 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="app">
+<div class="accordion" id="accordionExample">
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#informacionpersonal" >
+          Información Personal
+        </button>
+      </h2>
+    </div>
+
+    <div id="informacionpersonal" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <informacion-personal-content 
+          component_name="InformacionPersonal" 
+          v-bind:read_only="READ_ONLY"
+        ></informacion-personal-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#educacionsuperior_collapse" >
+          Educacion Superior
+        </button>
+      </h2>
+    </div>
+
+    <div id="educacionsuperior_collapse" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <educacion-superior-content 
+          component_name="EducacionSuperior" 
+          v-bind:read_only="READ_ONLY"
+        ></educacion-superior-content>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#actualizacionacademica_collapse" >
+          Actualización Académica
+        </button>
+      </h2>
+    </div>
+
+    <div id="actualizacionacademica_collapse" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <actualizacion-academica-content 
+          component_name="ActualizacionAcademica" 
+          v-bind:read_only="READ_ONLY" 
+        ></actualizacion-academica-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#formaciondocente_collapse" >
+          Formación Docente
+        </button>
+      </h2>
+    </div>
+
+    <div id="formaciondocente_collapse" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <formacion-docente-content 
+          component_name="FormacionDocente" 
+          v-bind:read_only="READ_ONLY"
+        ></formacion-docente-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#experienciaprofesional_collapse" >
+          Experiencia Profesional
+        </button>
+      </h2>
+    </div>
+
+    <div id="experienciaprofesional_collapse" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <experiencia-profesional-content 
+          component_name="ExperienciaProfesional" 
+          v-bind:read_only="READ_ONLY" 
+        ></experiencia-profesional-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#experienciadocente_collapse" >
+          Experiencia Docente
+        </button>
+      </h2>
+    </div>
+
+    <div id="experienciadocente_collapse" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <experiencia-docente-content 
+          component_name="ExperienciaDocente" 
+          v-bind:read_only="READ_ONLY" 
+        ></experiencia-docente-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#perfil_collapse" >
+          Perfil
+        </button>
+      </h2>
+    </div>
+
+    <div id="perfil_collapse" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <perfil-content 
+          component_name="Perfil" 
+          v-bind:read_only="READ_ONLY"
+        ></perfil-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#publicaciones_collapse" >
+          Publicaciones
+        </button>
+      </h2>
+    </div>
+
+    <div id="publicaciones_collapse" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <publicaciones-content 
+          component_name="Publicaciones" 
+          v-bind:read_only="READ_ONLY" 
+        ></publicaciones-content>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#anexosdocente_collapse" >
+          Anexos
+        </button>
+      </h2>
+    </div>
+
+    <div id="anexosdocente_collapse" class="collapse" data-parent="#accordionExample">
+      <div class="card-body">
+        <anexos-docente-content 
+          component_name="AnexosDocente" 
+          v-bind:read_only="READ_ONLY" 
+        ></anexos-docente-content>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="d-flex justify-content-center"> 
+    <a href={% url 'docente_list_to_create' %} class="btn text-light darkgreen-bg mx-2 my-2">Terminar</a>
+</div>
+</div>
+
+<div id="DOCENTE_ID" hidden>{{ docente_id }}</div>
+
+{% endblock %}
+
+{% block specific_scripts %}
+
+<script type="text/javascript">
+
+const DOCENTE_ID = document.getElementById('DOCENTE_ID').innerHTML;
+
+// START - Dynamic components
+
+// START - Dynamic components
+//Informacion Personal
+Vue.component('informacion-personal-content',{
+  delimiters: ['[[', ']]'],
+  props : ['read_only','component_name'],
+  template : `
+  <div :id="this.component.id">
+   <form v-on:submit.prevent="updateItem()">
+    <!-- CUSTOM FORM -->           
+    <div class="form-row">
+    <div class="col">
+      <div class="form-group">
+      <input type="text" class="form-control" v-model="currentItem.nombres" placeholder="Nombres" required>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+      <input type="text" class="form-control" v-model="currentItem.direccion_de_domicilio" placeholder="Dirección de domicilio" required>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col">
+      <div class="form-group">
+      <input type="text" class="form-control" v-model="currentItem.apellidos" placeholder="Apellidos" required>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+      <input type="text" class="form-control" v-model="currentItem.telefono_movil" placeholder="Teléfono Móvil" required>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col">
+      <div class="form-group">            
+      <textarea 
+        class="form-control" 
+        placeholder="Síntesis de Currículum redactado en tercera persona, utilizando 600 caracteres. Iniciar con títulos de cuarto nivel, resaltar experiencia profesional en el área del curso o seminario que imparte. Detallar experiencia académica sin especificar nombres de otras universidades."
+        v-model="currentItem.sintesis_cv" 
+        rows="7" 
+        required>
+      </textarea>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+      <input type="text" class="form-control" v-model="currentItem.telefono_convencional" placeholder="Teléfono Convencional" required>
+      </div>
+      <div class="form-group">
+      <label>Fecha de nacimiento : </label>
+      <input type="date" class="form-control" v-model="currentItem.fecha_de_nacimiento" placeholder="Fecha De nacimiento" required>
+      </div>
+      <div class="form-group">
+      <input type="text" class="form-control" v-model="currentItem.lugar_de_nacimiento" placeholder="Lugar de Nacimiento" required>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col">
+      <div class="form-group">
+      <input type="text" class="form-control" v-model="currentItem.indice_dactilar" placeholder="Indice Dáctilar" required>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+      <input type="email" class="form-control" v-model="currentItem.correo_principal" placeholder="Correo Principal" required>
+      </div>
+    </div>
+  </div>                                                                                            
+  
+  <div class="form-row">
+    <div class="col">
+      <div class="form-group">
+      <input type="text" class="form-control" v-model="currentItem.numero_de_cedula" placeholder="Número de cédula" required>
+      </div>
+    </div>
+    <div class="col">            
+      <div class="form-group">
+      <input type="email" class="form-control" v-model="currentItem.correo_secundario" placeholder="Correo Secundario" required>
+      </div>
+    </div>
+  </div>
+    <div class="d-flex justify-content-end" v-if="!read_only">
+      <button type="submit" class="btn darkgreen-bg text-light">Guardar</button>
+    </div>
+  </form> 
+  </div>
+  `,
+  data: function(){
+    return {
+      loading: false,
+      url: '/api/docente/',
+      currentItem : {},
+      component: { id : 'component_' + this.component_name },
+    }
+  },  
+  mounted : function(){
+    this.getItem(DOCENTE_ID);
+    this.disableInputs(this.read_only);
+  },
+  methods : {    
+    getItem: function(id) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },    
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;        
+        console.log("Docente updated success!");
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    disableInputs : function(readOnlyFlag){
+      if (readOnlyFlag==true) {
+        $(`#${this.component.id} form :input`).prop('disabled',true);
+      }
+    }
+  }
+});
+
+//Anexos del Docente
+Vue.component('anexos-docente-content',{
+  delimiters: ['[[', ']]'],  
+  props : ['read_only','component_name'],
+  template : `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light">
+    <tr> <th> # </th> <th> Nombre </th> <th> Descripción </th>  <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items">
+      <td>[[ index + 1 ]]</td>
+      <td>[[ value.nombre ]]</td>            
+      <td>[[ value.descripcion ]]</td>
+      <td>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')" v-if="!read_only">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)" v-if="!read_only">Delete</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end" v-if="!read_only">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Anexo </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre" placeholder="Nombre" required>
+          </div>
+          <div class="form-group">            
+            <textarea class="form-control" placeholder="Descripción" v-model="newItem.descripcion" rows="3" required></textarea>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Anexo </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre" placeholder="Nombre" required>
+          </div>
+          <div class="form-group">            
+            <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required></textarea>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Anexo </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre" placeholder="Nombre" required disabled>
+          </div>
+          <div class="form-group">            
+            <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required disabled></textarea>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  </div>
+  `,
+  data: function(){
+    return {
+      url : '/api/anexoDocente/',
+      items: [],
+      loading: false,
+      currentItem: {},
+      message: null,
+      newItem: { 'nombre': null, 'descripcion': null , 'docente': null},
+      modals : {
+        view : {
+          id: 'viewItemModal_' + this.component_name,
+        },
+        add : {
+          id: 'addItemModal_' + this.component_name,
+        },
+        update: {
+          id: 'updateItemModal_' + this.component_name
+        }
+      }
+    }
+  },  
+  mounted: function() {
+    this.getItems();
+    this.disableFormInViewModal();
+  },
+  methods: {
+    getItems : function(){
+      this.loading = true;
+      axios.get(`${this.url}?docente_id=${DOCENTE_ID}`)
+      .then((response) => {
+        this.items = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getItem: function(id,type) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        if( type =='edit' ){
+          $(`#${this.modals.update.id}`).modal('show');
+        }else {
+          $(`#${this.modals.view.id}`).modal('show');
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    addItem: function() {
+      this.loading = true;
+      this.newItem.docente = DOCENTE_ID;
+      axios.post(`${this.url}`,this.newItem)
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+        $(`#${this.modals.add.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;
+        this.getItems();        
+        $(`#${this.modals.update.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    deleteItem: function(id) {
+      this.loading = true;
+      axios.delete(`${this.url}${id}/` )
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },    
+    disableFormInViewModal : function(){      
+      $(`#${this.modals.view.id} form :input`).prop('disabled',true);      
+    }
+  }
+});
+
+//Publicaciones del Docente
+Vue.component('publicaciones-content',{
+  delimiters: ['[[', ']]'],  
+  props : ['read_only','component_name'],
+  template : `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light">
+    <tr> <th> # </th> <th> Revista </th> <th> Título </th>  <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items">
+      <td>[[ index + 1 ]]</td>
+      <td>[[ value.nombre_de_revista ]]</td>            
+      <td>[[ value.titulo ]]</td>
+      <td>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')" v-if="!read_only">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)" v-if="!read_only">Delete</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end" v-if="!read_only">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Publicacion </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body"> 
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.titulo" placeholder="Título" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_revista" placeholder="Revista" required>
+          </div>          
+          <div class="form-group">
+            <label>Medio : </label>
+            <select class="form-control" v-model="newItem.medio" placeholder="Medio"  required>              
+              <option>Impreso</option>
+              <option>Digital</option>
+            </select>
+          </div>
+          <div class="form-group">            
+            <textarea class="form-control" placeholder="Descripción" v-model="newItem.descripcion" rows="3" required></textarea>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.enlace" placeholder="Enlace" required>
+          </div>          
+          <div class="form-group">
+            <label>Fecha de publicación : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_publicacion" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Publicacion </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.titulo" placeholder="Título" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_revista" placeholder="Revista" required>
+          </div>          
+          <div class="form-group">
+            <label>Medio : </label>
+            <select class="form-control" v-model="currentItem.medio" placeholder="Medio"  required>
+              <option>Impreso</option>
+              <option>Digital</option>
+            </select>
+          </div>
+          <div class="form-group">            
+            <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required></textarea>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.enlace" placeholder="Enlace" required>
+          </div>          
+          <div class="form-group">
+            <label>Fecha de publicación : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_publicacion" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Publicacion </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.titulo" placeholder="Título" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_revista" placeholder="Revista" required>
+          </div>          
+          <div class="form-group">
+            <label>Medio : </label>
+            <select class="form-control" v-model="currentItem.medio" placeholder="Medio"  required>
+              <option>Impreso</option>
+              <option>Digital</option>
+            </select>
+          </div>
+          <div class="form-group">            
+            <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required></textarea>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.enlace" placeholder="Enlace" required>
+          </div>          
+          <div class="form-group">
+            <label>Fecha de publicación : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_publicacion" required>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  </div>
+  `,
+  data: function(){
+    return {
+      url : '/api/publicacion/',
+      items: [],
+      loading: false,
+      currentItem: {},
+      message: null,
+      newItem: { 'titulo':null, 'nombre_de_revista': null, 'medio': null ,'descripcion': null , 'enlace':null, 'fecha_de_publicacion':null, 'docente': null},
+      modals : {
+        view : {
+          id: 'viewItemModal_' + this.component_name,
+        },
+        add : {
+          id: 'addItemModal_' + this.component_name,
+        },
+        update: {
+          id: 'updateItemModal_' + this.component_name
+        }
+      }
+    }
+  },  
+  mounted: function() {
+    this.getItems();
+    this.disableFormInViewModal();
+  },
+  methods: {
+    getItems : function(){
+      this.loading = true;
+      axios.get(`${this.url}?docente_id=${DOCENTE_ID}`)
+      .then((response) => {
+        this.items = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getItem: function(id,type) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        if( type =='edit' ){
+          $(`#${this.modals.update.id}`).modal('show');
+        }else {
+          $(`#${this.modals.view.id}`).modal('show');
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    addItem: function() {
+      this.loading = true;
+      this.newItem.docente = DOCENTE_ID;
+      axios.post(`${this.url}`,this.newItem)
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+        $(`#${this.modals.add.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err.response);
+      })
+    },
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;
+        this.getItems();        
+        $(`#${this.modals.update.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    deleteItem: function(id) {
+      this.loading = true;
+      axios.delete(`${this.url}${id}/` )
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },      
+    disableFormInViewModal : function(){      
+      $(`#${this.modals.view.id} form :input`).prop('disabled',true);      
+    }
+  }
+});
+
+//Perfil 
+Vue.component('perfil-content',{
+  delimiters: ['[[', ']]'],  
+  props : ['read_only','component_name'],
+  template : `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light">
+    <tr> <th> # </th> <th> Empresa </th> <th> Perfil </th> <th> Desde </th> <th> Hasta </th> <th> Duración en horas </th> <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items">
+      <td>[[ index + 1 ]]</td>
+      <td>[[ value.nombre_de_empresa ]]</td>            
+      <td>[[ value.nombre ]]</td>
+      <td>[[ value.fecha_de_inicio ]]</td>
+      <td>[[ value.fecha_de_fin ]]</td>
+      <td>[[ value.duracion_en_horas ]]</td>
+      <td>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')" v-if="!read_only">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)" v-if="!read_only">Delete</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end" v-if="!read_only">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Perfil </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">  
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre" placeholder="Perfil" required>
+          </div>          
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="newItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de fin : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Perfil </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre" placeholder="Perfil" required>
+          </div>          
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="currentItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Perfil </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre" placeholder="Perfil" required>
+          </div>          
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="currentItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  </div>
+  `,
+  data: function(){
+    return {
+      url : '/api/perfil/',
+      items: [],
+      loading: false,
+      currentItem: {},
+      message: null,
+      newItem: { 'nombre_de_empresa':null, 'nombre': null, 'duracion_en_horas': null ,'fecha_de_inicio':null, 'fecha_de_fin':null, 'docente': null},
+      modals : {
+        view : {
+          id: 'viewItemModal_' + this.component_name,
+        },
+        add : {
+          id: 'addItemModal_' + this.component_name,
+        },
+        update: {
+          id: 'updateItemModal_' + this.component_name
+        }
+      }
+    }
+  },  
+  mounted: function() {
+    this.getItems();
+    this.disableFormInViewModal();
+  },
+  methods: {
+    getItems : function(){
+      this.loading = true;
+      axios.get(`${this.url}?docente_id=${DOCENTE_ID}`)
+      .then((response) => {
+        this.items = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getItem: function(id,type) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        if( type =='edit' ){
+          $(`#${this.modals.update.id}`).modal('show');
+        }else {
+          $(`#${this.modals.view.id}`).modal('show');
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    addItem: function() {
+      this.loading = true;
+      this.newItem.docente = DOCENTE_ID;
+      axios.post(`${this.url}`,this.newItem)
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+        $(`#${this.modals.add.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err.response);
+      })
+    },
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;
+        this.getItems();        
+        $(`#${this.modals.update.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    deleteItem: function(id) {
+      this.loading = true;
+      axios.delete(`${this.url}${id}/` )
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },      
+    disableFormInViewModal : function(){      
+      $(`#${this.modals.view.id} form :input`).prop('disabled',true);      
+    }
+  }
+});
+
+//Items de Experiencia Docente
+Vue.component('experiencia-docente-content',{
+  delimiters: ['[[', ']]'],  
+  props : ['read_only','component_name'],
+  template : `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light">
+    <tr> <th> # </th> <th> Empresa </th> <th> Curso </th> <th> Desde </th> <th> Hasta </th> <th> Duración en horas </th> <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items">
+      <td>[[ index + 1 ]]</td>
+      <td>[[ value.nombre_de_empresa ]]</td>            
+      <td>[[ value.nombre_de_curso ]]</td>
+      <td>[[ value.fecha_de_inicio ]]</td>
+      <td>[[ value.fecha_de_fin ]]</td>
+      <td>[[ value.duracion_en_horas ]]</td>
+      <td>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')" v-if="!read_only">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)" v-if="!read_only" >Delete</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end" v-if="!read_only">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Experiencia Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">  
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_especialidad" placeholder="Nombre de la especialidad" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.pais" placeholder="País" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="newItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Experiencia Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_especialidad" placeholder="Nombre de la especialidad" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.pais" placeholder="País" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="currentItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Experiencia Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_especialidad" placeholder="Nombre de la especialidad" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.pais" placeholder="País" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="currentItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  </div>
+  `,
+  data: function(){
+    return {
+      url : '/api/experienciaDocente/',
+      items: [],
+      loading: false,
+      currentItem: {},
+      message: null,
+      newItem: { 'nombre_de_empresa':null, 'nombre_de_curso': null,'nombre_de_especialidad':null, 'pais':null, 'duracion_en_horas': null ,'fecha_de_inicio':null, 'fecha_de_fin':null, 'docente': null},
+      modals : {
+        view : {
+          id: 'viewItemModal_' + this.component_name,
+        },
+        add : {
+          id: 'addItemModal_' + this.component_name,
+        },
+        update: {
+          id: 'updateItemModal_' + this.component_name
+        }
+      }
+    }
+  },  
+  mounted: function() {
+    this.getItems();
+    this.disableFormInViewModal();
+  },
+  methods: {
+    getItems : function(){
+      this.loading = true;
+      axios.get(`${this.url}?docente_id=${DOCENTE_ID}`)
+      .then((response) => {
+        this.items = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getItem: function(id,type) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        if( type =='edit' ){
+          $(`#${this.modals.update.id}`).modal('show');
+        }else {
+          $(`#${this.modals.view.id}`).modal('show');
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    addItem: function() {
+      this.loading = true;
+      this.newItem.docente = DOCENTE_ID;
+      axios.post(`${this.url}`,this.newItem)
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+        $(`#${this.modals.add.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err.response);
+      })
+    },
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;
+        this.getItems();        
+        $(`#${this.modals.update.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    deleteItem: function(id) {
+      this.loading = true;
+      axios.delete(`${this.url}${id}/` )
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },      
+    disableFormInViewModal : function(){      
+      $(`#${this.modals.view.id} form :input`).prop('disabled',true);      
+    }
+  }
+});
+
+//Items de Experiencia Profesional
+Vue.component('experiencia-profesional-content',{
+  delimiters: ['[[', ']]'],  
+  props : ['read_only','component_name'],
+  template : `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light">
+    <tr> <th> # </th> <th> Empresa </th> <th> País </th> <th> Cargo </th> <th> Desde </th> <th> Hasta </th>  <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items">
+      <td>[[ index + 1 ]]</td>
+      <td>[[ value.nombre_de_empresa ]]</td>            
+      <td>[[ value.pais ]]</td>      
+      <td>[[ value.nombre_de_cargo ]]</td>
+      <td>[[ value.fecha_de_inicio ]]</td>
+      <td>[[ value.fecha_de_fin ]]</td>
+      <td>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')" v-if="!read_only">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)" v-if="!read_only" >Delete</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end" v-if="!read_only">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Experiencia Profesional </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">  
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>       
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.pais" placeholder="País" required>
+          </div>               
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_cargo" placeholder="Cargo" required>
+          </div>
+          <div class="form-group">
+            <textarea type="number" class="form-control" v-model="newItem.descripcion_de_actividades" placeholder="Descripción de actividades" rows="3" required></textarea>
+          </div>      
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Experiencia Profesional </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>             
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.pais" placeholder="País" required>
+          </div>               
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_cargo" placeholder="Cargo" required>
+          </div>
+          <div class="form-group">
+            <textarea type="number" class="form-control" v-model="currentItem.descripcion_de_actividades" placeholder="Descripción de actividades" rows="3" required></textarea>
+          </div>   
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">      
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Experiencia Profesional </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+           <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_empresa" placeholder="Empresa" required>
+          </div>             
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.pais" placeholder="País" required>
+          </div>               
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_cargo" placeholder="Cargo" required>
+          </div>
+          <div class="form-group">
+            <textarea type="number" class="form-control" v-model="currentItem.descripcion_de_actividades" placeholder="Descripción de actividades" rows="3" required></textarea>
+          </div>   
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  </div>
+  `,
+  data: function(){
+    return {
+      url : '/api/experienciaProfesional/',
+      items: [],
+      loading: false,
+      currentItem: {},
+      message: null,
+      newItem: { 'nombre_de_empresa':null, 'pais': null,'nombre_de_cargo':null, 'descripcion_de_actividades': null ,'fecha_de_inicio':null, 'fecha_de_fin':null, 'docente': null},
+      modals : {
+        view : {
+          id: 'viewItemModal_' + this.component_name,
+        },
+        add : {
+          id: 'addItemModal_' + this.component_name,
+        },
+        update: {
+          id: 'updateItemModal_' + this.component_name
+        }
+      }
+    }
+  },  
+  mounted: function() {
+    this.getItems();
+    this.disableFormInViewModal();
+  },
+  methods: {
+    getItems : function(){
+      this.loading = true;
+      axios.get(`${this.url}?docente_id=${DOCENTE_ID}`)
+      .then((response) => {
+        this.items = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getItem: function(id,type) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        if( type =='edit' ){
+          $(`#${this.modals.update.id}`).modal('show');
+        }else {
+          $(`#${this.modals.view.id}`).modal('show');
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    addItem: function() {
+      this.loading = true;
+      this.newItem.docente = DOCENTE_ID;
+      axios.post(`${this.url}`,this.newItem)
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+        $(`#${this.modals.add.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err.response);
+      })
+    },
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;
+        this.getItems();        
+        $(`#${this.modals.update.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    deleteItem: function(id) {
+      this.loading = true;
+      axios.delete(`${this.url}${id}/` )
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },      
+    disableFormInViewModal : function(){      
+      $(`#${this.modals.view.id} form :input`).prop('disabled',true);      
+    }
+  }
+});
+
+//Items de Formación Docente
+Vue.component('formacion-docente-content',{
+  delimiters: ['[[', ']]'],  
+  props : ['read_only','component_name'],
+  template : `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light">
+    <tr> <th> # </th> <th> Curso </th> <th> Institución </th> <th> Nombre de Certificado </th> <th> Desde </th> <th> Hasta </th> <th> Duración en horas </th> <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items">
+      <td>[[ index + 1 ]]</td>
+      <td>[[ value.nombre_de_curso ]]</td>
+      <td>[[ value.nombre_de_institucion ]]</td>      
+      <td>[[ value.nombre_de_certificado ]]</td>
+      <td>[[ value.fecha_de_inicio ]]</td>
+      <td>[[ value.fecha_de_fin ]]</td>
+      <td>[[ value.duracion_en_horas ]]</td>
+      <td>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')" v-if="!read_only">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)" v-if="!read_only">Delete</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end" v-if="!read_only">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Formación Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">  
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_certificado" placeholder="Nombre de Certificado" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="newItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Formación Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_certificado" placeholder="Nombre de certificado" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="currentItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">          
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">          
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Formación Docente </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_certificado" placeholder="Nombre de certificado" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="currentItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+            
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+          
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  </div>
+  `,
+  data: function(){
+    return {
+      url : '/api/formacionDocente/',
+      items: [],
+      loading: false,
+      currentItem: {},
+      message: null,
+      newItem: { 'nombre_de_institucion':null, 'nombre_de_curso': null,'nombre_de_certificado':null, 'duracion_en_horas': null ,'fecha_de_inicio':null, 'fecha_de_fin':null, 'docente': null},
+      modals : {
+        view : {
+          id: 'viewItemModal_' + this.component_name,
+        },
+        add : {
+          id: 'addItemModal_' + this.component_name,
+        },
+        update: {
+          id: 'updateItemModal_' + this.component_name
+        }
+      }
+    }
+  },  
+  mounted: function() {
+    this.getItems();
+    this.disableFormInViewModal();
+  },
+  methods: {
+    getItems : function(){
+      this.loading = true;
+      axios.get(`${this.url}?docente_id=${DOCENTE_ID}`)
+      .then((response) => {
+        this.items = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getItem: function(id,type) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        if( type =='edit' ){
+          $(`#${this.modals.update.id}`).modal('show');
+        }else {
+          $(`#${this.modals.view.id}`).modal('show');
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    addItem: function() {
+      this.loading = true;
+      this.newItem.docente = DOCENTE_ID;
+      axios.post(`${this.url}`,this.newItem)
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+        $(`#${this.modals.add.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err.response);
+      })
+    },
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;
+        this.getItems();        
+        $(`#${this.modals.update.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    deleteItem: function(id) {
+      this.loading = true;
+      axios.delete(`${this.url}${id}/` )
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },      
+    disableFormInViewModal : function(){      
+      $(`#${this.modals.view.id} form :input`).prop('disabled',true);      
+    }
+  }
+});
+
+//Items de Actualización Académica
+Vue.component('actualizacion-academica-content',{
+  delimiters: ['[[', ']]'],  
+  props : ['read_only','component_name'],
+  template : `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light">
+    <tr> <th> # </th> <th> Curso </th> <th> Institución </th> <th> Nombre de Certificado </th> <th> Desde </th> <th> Hasta </th> <th> Duración en horas </th> <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items">
+      <td>[[ index + 1 ]]</td>
+      <td>[[ value.nombre_de_curso ]]</td>
+      <td>[[ value.nombre_de_institucion ]]</td>      
+      <td>[[ value.nombre_de_certificado ]]</td>
+      <td>[[ value.fecha_de_inicio ]]</td>
+      <td>[[ value.fecha_de_fin ]]</td>
+      <td>[[ value.duracion_en_horas ]]</td>
+      <td>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')" v-if="!read_only">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)" v-if="!read_only">Delete</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end" v-if="!read_only">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Actualización Académica </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">  
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_certificado" placeholder="Nombre de Certificado" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="newItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+          
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+          
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Actualización Académica </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_certificado" placeholder="Nombre de certificado" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="currentItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+          
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Actualización Académica </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_curso" placeholder="Nombre del Curso" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_certificado" placeholder="Nombre de certificado" required>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="currentItem.duracion_en_horas" placeholder="Duración en Horas" required>
+          </div>      
+          <div class="form-group">
+          
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+          
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  </div>
+  `,
+  data: function(){
+    return {
+      url : '/api/actualizacionAcademica/',
+      items: [],
+      loading: false,
+      currentItem: {},
+      message: null,
+      newItem: { 'nombre_de_institucion':null, 'nombre_de_curso': null,'nombre_de_certificado':null, 'duracion_en_horas': null ,'fecha_de_inicio':null, 'fecha_de_fin':null, 'docente': null},
+      modals : {
+        view : {
+          id: 'viewItemModal_' + this.component_name,
+        },
+        add : {
+          id: 'addItemModal_' + this.component_name,
+        },
+        update: {
+          id: 'updateItemModal_' + this.component_name
+        }
+      }
+    }
+  },  
+  mounted: function() {
+    this.getItems();
+    this.disableFormInViewModal();
+  },
+  methods: {
+    getItems : function(){
+      this.loading = true;
+      axios.get(`${this.url}?docente_id=${DOCENTE_ID}`)
+      .then((response) => {
+        this.items = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getItem: function(id,type) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        if( type =='edit' ){
+          $(`#${this.modals.update.id}`).modal('show');
+        }else {
+          $(`#${this.modals.view.id}`).modal('show');
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    addItem: function() {
+      this.loading = true;
+      this.newItem.docente = DOCENTE_ID;
+      axios.post(`${this.url}`,this.newItem)
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+        $(`#${this.modals.add.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err.response);
+      })
+    },
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;
+        this.getItems();        
+        $(`#${this.modals.update.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    deleteItem: function(id) {
+      this.loading = true;
+      axios.delete(`${this.url}${id}/` )
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },      
+    disableFormInViewModal : function(){      
+      $(`#${this.modals.view.id} form :input`).prop('disabled',true);      
+    }
+  }
+});
+
+//Items de Educación Superior
+Vue.component('educacion-superior-content',{
+  delimiters: ['[[', ']]'],  
+  props : ['read_only','component_name'],
+  template : `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="darkgreen-bg text-light">
+    <tr> <th> # </th> <th> Tipo </th> <th> Institución </th> <th> Título </th> <th> Desde </th> <th> Hasta </th> <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items">
+      <td>[[ index + 1 ]]</td>
+      <td>[[ value.tipo ]]</td>
+      <td>[[ value.nombre_de_institucion ]]</td>      
+      <td>[[ value.nombre_de_titulo ]]</td>
+      <td>[[ value.fecha_de_inicio ]]</td>
+      <td>[[ value.fecha_de_fin ]]</td>
+      <td>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')" v-if="!read_only">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)" v-if="!read_only">Delete</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end" v-if="!read_only">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Educación Superior </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <label>Tipo : </label>
+            <select class="form-control" v-model="newItem.tipo" placeholder="Tipo" required>              
+              <option>PREGRADO</option>
+              <option>POSTGRADO</option>
+              <option>TÉCNICO O TECNOLÓGICO</option>
+              <option>ARTESANAL</option>
+              <option>CERTIFICACIÓN POR COMPETENCIAS LABORALES</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.pais" placeholder="País" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.nombre_de_titulo" placeholder="Nombre de Título" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newItem.registro_senesyct" placeholder="Registro Senesyct" required>
+          </div>      
+          <div class="form-group">
+          
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+          
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="newItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Educación Superior </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <label>Tipo : </label>
+            <select class="form-control" v-model="currentItem.tipo" placeholder="Tipo" required>              
+              <option>PREGRADO</option>
+              <option>POSTGRADO</option>
+              <option>TÉCNICO O TECNOLÓGICO</option>
+              <option>ARTESANAL</option>
+              <option>CERTIFICACIÓN POR COMPETENCIAS LABORALES</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.pais" placeholder="País" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_titulo" placeholder="Nombre de Título" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.registro_senesyct" placeholder="Registro Senesyct" required>
+          </div>      
+          <div class="form-group">
+          
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">          
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Educación Superior </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+           <div class="form-group">
+           <label>Tipo : </label>
+           <select class="form-control" v-model="currentItem.tipo" placeholder="Tipo" disabled>
+              <option>PREGRADO</option>
+              <option>POSTGRADO</option>
+              <option>TÉCNICO O TECNOLÓGICO</option>
+              <option>ARTESANAL</option>
+              <option>CERTIFICACIÓN POR COMPETENCIAS LABORALES</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_institucion" placeholder="Institución" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.pais" placeholder="País" required>
+          </div>          
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.nombre_de_titulo" placeholder="Nombre de Título" required>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.registro_senesyct" placeholder="Registro Senesyct" required>
+          </div>      
+          <div class="form-group">
+          
+            <label>Fecha de Inicio : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_inicio" required>
+          </div>              
+          <div class="form-group">
+          
+            <label>Fecha de Fin : </label>
+            <input type="date" class="form-control" v-model="currentItem.fecha_de_fin" required>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  </div>
+  `,
+  data: function(){
+    return {
+      url : '/api/educacionSuperior/',
+      items: [],
+      loading: false,
+      currentItem: {},
+      message: null,
+      newItem: { 'tipo':null, 'nombre_de_institucion':null, 'pais':null, 'nombre_de_titulo': null,'registro_senesyct':null ,'fecha_de_inicio':null, 'fecha_de_fin':null, 'docente': null},
+      modals : {
+        view : {
+          id: 'viewItemModal_' + this.component_name,
+        },
+        add : {
+          id: 'addItemModal_' + this.component_name,
+        },
+        update: {
+          id: 'updateItemModal_' + this.component_name
+        }
+      }
+    }
+  },  
+  mounted: function() {
+    this.getItems();
+    this.disableFormInViewModal();
+  },
+  methods: {
+    getItems : function(){
+      this.loading = true;
+      axios.get(`${this.url}?docente_id=${DOCENTE_ID}`)
+      .then((response) => {
+        this.items = response.data;
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getItem: function(id,type) {
+      this.loading = true;
+      axios.get(`${this.url}${id}/`)
+      .then((response) => {        
+        this.currentItem = response.data;
+        if( type =='edit' ){
+          $(`#${this.modals.update.id}`).modal('show');
+        }else {
+          $(`#${this.modals.view.id}`).modal('show');
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    addItem: function() {
+      this.loading = true;
+      this.newItem.docente = DOCENTE_ID;
+      axios.post(`${this.url}`,this.newItem)
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+        $(`#${this.modals.add.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err.response);
+      })
+    },
+    updateItem: function() {
+      this.loading = true;
+      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      .then((response) => {
+        this.loading = false;
+        this.currentItem = response.data;
+        this.getItems();        
+        $(`#${this.modals.update.id}`).modal('hide');
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },
+    deleteItem: function(id) {
+      this.loading = true;
+      axios.delete(`${this.url}${id}/` )
+      .then((response) => {
+        this.loading = false;
+        this.getItems();
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    },      
+    disableFormInViewModal : function(){      
+      $(`#${this.modals.view.id} form :input`).prop('disabled',true);      
+    }
+  }
+});
+
+// END - Dynamic components
+var app = new Vue({        
+  delimiters: ['[[', ']]'],//https://stackoverflow.com/questions/49948261/vuejs-data-wont-display
+  el: '#app',
+  data: {
+    READ_ONLY : true, //default  
+    currentDocente : null
+  },
+  mounted : function() {
+    this.setReadOnlyStatus();
+  },
+  methods : {
+    setReadOnlyStatus : function(){       
+      this.loading = true;
+      axios.get(`/api/docente/${DOCENTE_ID}/`)
+      .then((response) => {
+        this.currentDocente = response.data;
+        console.log(`Docente status : ${this.currentDocente.estado}`);
+        if ( this.currentDocente.estado=="No Habilitado") {
+          console.log(`Setting READ_ONLY: false`);
+          this.READ_ONLY = false;
+        } else if ( this.currentDocente.estado=="Habilitado"){
+          console.log(`Setting READ_ONLY: true`);
+          this.READ_ONLY = true;
+        }
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);
+      })
+    }
+  }
+});
+
+</script>
+{% endblock%}

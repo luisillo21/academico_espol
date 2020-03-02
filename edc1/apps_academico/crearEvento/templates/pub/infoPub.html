@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+{% block specific_head %}
+<style>
+    #tipo,
+    #page {
+        text-align: center;
+    }
+
+    #titulo {
+        text-align: center;
+        color: green;
+    }
+
+    #duracion,
+    #area,
+    #modalidad,
+    #certificado {
+        color: grey;
+    }
+
+    #justificacion,
+    #dirigido,
+    #requisitos,
+    #metodologia,
+    #contenido {
+        background-color: lightgray;
+        text-align: justify;
+    }
+
+    h3 {
+        color: green;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<h2 id="tipo">{{ object.evento.tipo_evento }}</h2>
+<h2 id="titulo">{{ object.evento.nombre }}</h2>
+
+<div class="row pt-5">
+
+    <div class="col-sm-4 col-md-4 col-xl-4">
+        <img src="{{ object.picture.url }}" alt="fail">
+    </div>
+    <div class="col-sm-4 col-md-4 col-xl-4">
+        <h5 class="pt-2 pl-5">Duracion</h5>
+        <h5 class="pt-2 pl-5">Area de capacitacion</h5>
+        <h5 class="pt-2 pl-5">Modalidad</h5>
+        <h5 class="pt-2 pl-5">Certificado</h5>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-xl-4">
+        <h5 id="duracion" class="pt-2">{{ object.evento.duracion }} horas</h5>
+        <h5 id="area" class="pt-2">{{ object.evento.diseno.area.getNameArea }}</h5>
+        <h5 id="modalidad" class="pt-2">{{ object.evento.modalidad }}</h5>
+        <h5 id="certificado" class="pt-2">{{ object.evento.diseno.tipo_certificado }}</h5>
+    </div>
+
+    <div id="justificacion" class="mt-5">
+        <h3 class="pl-3 pt-2">¿Por qué tomar este curso?</h3>
+        <p class="pl-5 pr-5">{{ object.evento.diseno.justificacion }}</p>
+    </div>
+
+    <div id="dirigido" class="mt-5">
+        <h3 class="pl-3 pt-2">Dirigido a</h3>
+        <ul class="pl-5 pr-5">
+            <li>{{ object.evento.diseno.dirigido_participante }}</li>
+        </ul>
+    </div>
+
+    <div id="requisitos" class="mt-5">
+        <h3 class="pl-3 pt-2">Requisitos del Participante</h3>
+        <div class="pl-5 pr-5">
+            <div>
+                <label class="pl-3 pt-2"><b>Requisitos indispensables</b></label>
+                <ul class="pl-5 pr-5">
+                    <li>{{ object.evento.diseno.indispensable_participante }}</li>
+                </ul>
+            </div>
+            <div>
+                <label class="pl-3 pt-2"><b>Requisitos recomendables</b></label>
+                <ul class="pl-5 pr-5">
+                    <li>{{ object.evento.diseno.recomendables_participante }}</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="metodologia" class="mt-5">
+        <h3 class="pl-3 pt-2">Metodología</h3>
+        <p class="pl-5 pr-5">Con el fin de potenciar el aprendizaje del participante aplicamos las siguientes
+            metodologías basadas en el enfoque de Aprender-Haciendo:</p>
+        <div class="pl-5 pr-5">
+            <div>
+                <ul>
+                    {% if object.evento.diseno.metodologia1 %}
+                    <li>Exploración de los conocimientos previos.</li>
+                    {% endif %}
+                    {% if object.evento.diseno.metodologia3 %}
+                    <li>Fomento del aprendizaje autónomo.</li>
+                    {% endif %}
+                    {% if object.evento.diseno.metodologia5 %}
+                    <li>Fomento del aprendizaje basado en actitudes y valores.</li>
+                    {% endif %}
+                    {% if object.evento.diseno.metodologia7 %}
+                    <li>Acompañamiento de un facilitador experto en la temática.</li>
+                    {% endif %}
+                    {% if object.evento.diseno.metodologia2 %}
+                    <li>Aprendizaje a través de casos o talleres prácticos aplicables en el ámbito laboral.</li>
+                    {% endif %}
+                    {% if object.evento.diseno.metodologia4 %}
+                    <li>Aprendizaje experiencial en entornos online a través una plataforma tecnológica.</li>
+                    {% endif %}
+                    {% if object.evento.diseno.metodologia6 %}
+                    <li>Aplicación de estrategias y herramientas didácticas activas y participativas.</li>
+                    {% endif %}
+                    {% if object.evento.diseno.metodologia8 %}
+                    <li>Aprendizaje colaborativo: Trabajos en grupo, proyectos, talleres.</li>
+                    {% endif %}
+                    
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="contenido" class="w-100 mt-5">
+        <h3 class="pl-3 pt-2">Contenido</h3>
+        {% for u in object.evento.diseno.getUnidades %}
+        <div class="pl-4 pr-4">
+            <ul class="pl-4 pr-4 ">
+                Unidad {{ u.numero }}: {{ u.nombre_unidad }} ({{ u.horas_totales }} horas)
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+{% block specific_scripts %}
+{% endblock %}

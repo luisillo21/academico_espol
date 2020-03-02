@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="app">
+
+</div>
+{% endblock %}
+
+{% block specific_scripts %}
+
+<script type="text/javascript">
+// START - Dynamic components
+
+// END - Dynamic components
+var app = new Vue({        
+  delimiters: ['[[', ']]'],//https://stackoverflow.com/questions/49948261/vuejs-data-wont-display
+  el: '#app',
+});
+
+</script>
+{% endblock%}

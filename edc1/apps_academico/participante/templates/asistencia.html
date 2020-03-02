@@ -1,0 +1,290 @@
+{% extends "base.html" %} {% block content %}
+
+<div id="app">
+  <tomar-asistencia-content></tomar-asistencia-content>
+</div>
+
+{% endblock %} {% block specific_scripts %}
+
+<script type="text/javascript">
+  //Register vue select component
+  Vue.component("v-select", VueSelect.VueSelect);
+
+  // START - Dynamic components
+  //Tomar Asistencia
+  Vue.component("tomar-asistencia-content", {
+    delimiters: ["[[", "]]"],
+    template: `
+  <div>
+    <div class="form-group">    
+      <label>Evento : </label>
+      <v-select 
+        :options="eventos"
+        @input="getSesiones()"
+        label="nombre"
+        v-model="evento"
+      ></v-select>
+      <!-- Selected = [[ evento.id ]] -->
+    </div>
+    <div class="form-group">
+      <label>Sesion : </label>
+      <select class="d-block form-control" v-model="fecha">
+            <option v-for="sesion in sesiones" :value="sesion.fecha">
+              [[ sesion.fecha ]], [[sesion.hora_inicio]] - [[sesion.hora_fin]]
+            </option>
+      </select>
+    </div>    
+    <div class="d-flex justify-content-end">  
+    <button class="btn darkgreen-bg text-light mx-2 my-2" v-on:click="load()" >Cargar</button>
+    </div>
+  <template v-if="participantes.length > 0">
+    <table class="table">
+    <thead class="thead-light">
+      <tr> <th>Nombres y Apellidos </th>  <th>Horas Faltas</th> <th>Horas Justificadas</th> <th>Observación</th> </tr>
+    </thead>
+    <tbody  id="asistencia-registro">
+      <tr v-for="item in participantes" :data-participante-id="item.id">
+      <td> [[ item.nombres ]]  [[ item.apellidos ]]</td>
+      <td>      
+        <div class="form-group col-6">
+          <input type="number" class="form-control horas-faltas" :value="getHorasFaltas(item.id)">
+        </div>
+      </td>
+      <td>
+        <div class="form-group col-6">
+          <input type="number" class="form-control horas-justificadas" :value="getHorasJustificadas(item.id)">
+        </div>
+      </td>
+      <td>
+        <div class="form-group">
+          <input type="text" class="form-control observacion" :value="getObservacion(item.id)">
+        </div>
+      </td>
+      </tr>
+    </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary mx-2 my-2" v-on:click="createAsistencia()">Guardar</button>
+    </div>
+  </template>
+  </div>
+  `,
+    data: function() {
+      return {
+        loading: false,
+        eventos: [],
+        evento: { id: null },
+        sesiones: [],
+        sesion: null,
+        fecha: null,
+        participantes: [],
+        asistencia: null
+      };
+    },
+    mounted: function() {
+      this.getEventos();
+    },
+    methods: {
+      getEventos: function() {
+        axios
+          .get(`/api/evento/`)
+          .then(response => {
+            this.loading = true;
+            this.eventos = response.data;
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      getParticipantes: function() {
+        axios
+          .get(`/api/participante/?evento_id=${this.evento.id}`)
+          .then(response => {
+            this.loading = true;
+            this.participantes = response.data;
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            this.participantes = [];
+            console.log(err);
+          });
+      },
+      getSesiones: function() {
+        if (this.evento.id != null) {
+          axios
+            .get(`/api/sesion/?evento_id=${this.evento.id}`)
+            .then(response => {
+              this.loading = true;
+              this.sesiones = response.data;
+              console.log(response);
+              this.loading = false;
+            })
+            .catch(err => {
+              this.loading = false;
+              console.log(err);
+            });
+        } else {
+          console.log("No evento selected");
+        }
+      },
+      getAsistencia: function() {
+        axios
+          .get(
+            `/academico/participante/asistencia/by_evento_and_fecha?evento_id=${this.evento.id}&fecha=${this.fecha}`
+          )
+          .then(response => {
+            this.loading = true;
+            this.asistencia = response.data;
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            this.asistencia = null;
+            console.log("No asistencia for the selected date and evento");
+            console.log(err.response);
+          });
+      },
+      participanteIsChecked: function(id) {
+        //Function to render checkbox state
+        if (this.asistencia == null) {
+          return false;
+        } else {
+          let registro = this.asistencia.registro;
+          let participanteRegistro = R.find(
+            R.propEq("participante_id", id),
+            registro
+          );
+          return participanteRegistro.is_presente;
+        }
+      },
+      getHorasFaltas: function(id) {
+        //Function to render Horas Faltas
+        if (this.asistencia == null) {
+          return 0;
+        } else {
+          let registro = this.asistencia.registro;
+          let participanteRegistro = R.find(
+            R.propEq("participante_id", id),
+            registro
+          );
+          return participanteRegistro.horas_faltas;
+        }
+      },
+      getHorasJustificadas: function(id) {
+        //Function to render Horas Justificadas
+        if (this.asistencia == null) {
+          return 0;
+        } else {
+          let registro = this.asistencia.registro;
+          let participanteRegistro = R.find(
+            R.propEq("participante_id", id),
+            registro
+          );
+          return participanteRegistro.horas_justificadas;
+        }
+      },
+      getObservacion: function(id) {
+        //Function to render Observacion
+        if (this.asistencia == null) {
+          return "";
+        } else {
+          let registro = this.asistencia.registro;
+          let participanteRegistro = R.find(
+            R.propEq("participante_id", id),
+            registro
+          );
+          return participanteRegistro.observacion;
+        }
+      },
+      load: function() {
+        if (this.evento != null && this.fecha != null) {
+          this.getParticipantes();
+          this.getAsistencia();
+        } else {
+          console.log("Error : Must select fecha and evento");
+        }
+      },
+      createAsistencia: function() {
+        this.loading = true;
+        let newAsistencia = {
+          fecha: null,
+          evento: null,
+          registro: null
+        };
+        //Get current state of asistencia.registro
+        let registro = Array.from(
+          document.querySelectorAll("#asistencia-registro tr")
+        ).map(function(node) {
+          let participante_id = parseInt(
+            node.getAttribute("data-participante-id")
+          );
+          let horas_faltas = parseInt(
+            node.querySelector(".horas-faltas").value
+          );
+          let horas_justificadas = parseInt(
+            node.querySelector(".horas-justificadas").value
+          );
+          let observacion = node.querySelector(".observacion").value;
+          return {
+            participante_id: parseInt(
+              node.getAttribute("data-participante-id")
+            ),
+            horas_faltas: horas_faltas,
+            horas_justificadas: horas_justificadas,
+            observacion: observacion
+          };
+        });
+        console.log(registro);
+
+        if (this.evento != null && this.fecha != null) {
+          newAsistencia.fecha = this.fecha;
+          newAsistencia.evento = this.evento.id;
+          newAsistencia.registro = registro;
+        } else {
+          console.log("Error : Must select fecha and evento");
+          return;
+        }
+
+        if (this.asistencia == null) {
+          axios
+            .post("/api/asistencia/", newAsistencia)
+            .then(response => {
+              console.log("New Asistencia saved!");
+              console.log("Reloading!");
+              this.load();
+              this.loading = false;
+            })
+            .catch(err => {
+              this.loading = false;
+              console.log(err.response);
+            });
+        } else {
+          axios
+            .patch(`/api/asistencia/${this.asistencia.id}/`, {
+              registro: registro
+            })
+            .then(response => {
+              this.loading = true;
+              console.log("Registro updated!");
+              this.load();
+              this.loading = false;
+            })
+            .catch(err => {
+              this.loading = false;
+              console.log(err);
+            });
+        }
+      }
+    }
+  });
+
+  // END - Dynamic components
+  var app = new Vue({
+    delimiters: ["[[", "]]"], //https://stackoverflow.com/questions/49948261/vuejs-data-wont-display
+    el: "#app"
+  });
+</script>
+{% endblock%}

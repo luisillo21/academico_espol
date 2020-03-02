@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="row p-4 justify-content-center">
+    <h5 class="text-center col-12 col-sm-12 col-xl-12">Lista de Aliados</h5>
+</div>
+<div class="row justify-content-center p-3">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card card-sm">
+            <div class="card-body row no-gutters align-items-center">
+                <div class="col-10  p-2">
+                    <h5>Ingresar Nuevo Aliado</h5>
+                </div>
+                   
+                <div class="col-2 p-2">
+                    <button type="button" class="btn btn-outline-success rounded-circle font-weight-bold" data-toggle="modal" data-target="#exampleModal">
+                        &#43
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="align-items-center">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Cod. Aliado</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if object_list %}
+                    {% for aliado in object_list  %}
+                    <tr>
+                        <td class="text-center">{{aliado.codigo_aliado}}</td>
+                        <td>{{aliado.nombre}}</td>
+                        <td class="text-center">
+                            <a href="{% url 'editarAliado' aliado.codigo_aliado %}" class="btn btn-primary">Editar</a>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalDelete{{aliado.codigo_aliado}}">Eliminar
+                            </button>
+                            
+                            <!--modal-eliminar-->
+                            <div class="modal fade" id="exampleModalDelete{{aliado.codigo_aliado}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Eliminar Registro</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          Seguro que desea eliminar Aliado: {{aliado.nombre}}?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form method="post" action="{% url 'eliminarAliado' aliado.codigo_aliado  %}" class="mt-3">
+                                            {% csrf_token %}<input type="submit" class="btn btn-danger" value="Si, eliminar">
+                                            </form>
+                                            <a href="{% url 'listarAliado' %}" class="btn btn-success" data-dismiss="modal">Cancelar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <div class="row p-4 justify-content-center">
+                        <h5 class="text-center col-12 col-sm-12 col-xl-12">No hay ningun registro disponible</h5>
+                    </div>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Crear Nuevo Aliado</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Desea crear un aliado nuevo
+        </div>
+        <div class="modal-footer">
+            <a href="{% url 'crearAliado' %}" class="btn btn-success">Si</a>
+          <a href="{% url 'listarAliado' %}" class="btn btn-primary" data-dismiss="modal">Cancelar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

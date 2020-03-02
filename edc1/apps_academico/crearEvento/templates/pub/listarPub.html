@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block specific_head %}
+<style>
+    #tipo,
+    #page {
+        text-align: center;
+    }
+
+    #titulo {
+
+        color: green;
+    }
+
+    #duracion,
+    #area,
+    #modalidad,
+    #certificado {
+        color: grey;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<h1 class="pl-5">Publicaciones</h1>
+<div class="pl-5">
+    <ul class="pl-5">
+        {% for pub in object_list %}
+        <li>
+            <a href="{% url 'detallePub' pk=pub.pk %}" class="pt-2">
+                <h4 id="titulo">{{ pub.evento.nombre }}</h4>
+            </a>
+        </li>
+        {% empty %}
+        <li>No pubs yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
+{% block specific_scripts %}
+{% endblock %}

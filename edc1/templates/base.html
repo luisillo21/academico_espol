@@ -1,0 +1,390 @@
+{% load static %}
+<html>
+
+<head>
+	<title>EDC1</title>
+
+	<!-- tag for responsive behaviour. See on google for more info-->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{% static 'css\addons\datatables.min.css' %}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+	<!-- css styles for all views -->
+
+	<!-- css styles specific to a view -->
+	{% block specific_styles %}
+	{% endblock %}
+
+
+	
+	<link href="{% static 'css\planTrabajo.css' %}" rel="stylesheet" />
+	<link href="{% static 'css\breadcrumb.css' %}" rel="stylesheet" />
+
+	<!-- jquery -->
+	<script src="{% static  'jquery-3.4.1\jquery-3.4.1.js' %}"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="{% static 'jquery-ui-1.12.1.custom\jquery-ui.min.css' %}" rel="stylesheet" />
+	<script src="{% static 'jquery-ui-1.12.1.custom\external\jquery\jquery.js' %}"></script>
+	<script src="{% static 'jquery-ui-1.12.1.custom\jquery-ui.min.js' %}"></script>
+	<script src="{% static  'js\jquery-3.4.1\jquery.bootstrap.modal.forms.js' %}"></script>
+	<!-- bootstrap -->
+	<link href="{% static 'bootstrap-4.3.1\css\bootstrap.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'css\base.css' %}" rel="stylesheet" />
+	<link href="{% static 'css\navMenu\menu.css' %}" rel="stylesheet" />
+	<script src="{% static 'bootstrap-4.3.1\js\bootstrap.bundle.min.js' %}"></script>
+
+	<!-- dataTables -->
+	<link href="{% static 'css\dataTable-1.10.20\dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+	<script src="{% static 'js\dataTable-1.10.20\jquery.dataTables.min.js' %}"></script>
+	<script src="{% static 'js\dataTable-1.10.20\dataTables.bootstrap4.min.js' %}"></script>
+	<script src="{% static 'js\dataTable-1.10.20\dataTable.js' %}"></script>
+	
+	<!--fonts-->
+	<link rel="stylesheet" href="{% static 'css\all.min.css' %}">
+
+	<!--Vue-->
+	<script src="{% static 'js\vue\vue.min.js' %}"></script>
+	<script src="{% static 'js\vue\vue-resource.min.js' %}"></script>
+
+	<!-- Vue Select Lib -->
+	<script src="{% static 'vue-select\vue-select.js' %}"></script>		
+	<link href="{% static 'vue-select\vue-select.css' %}" rel="stylesheet" />
+
+	<!-- bootstrap -->
+	<link href="{% static 'bootstrap-4.3.1\css\bootstrap.min.css' %}" rel="stylesheet" />
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<script src="{% static 'bootstrap-4.3.1\js\bootstrap.bundle.min.js' %}"></script>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+	<!-- Latest compiled and minified Locales -->
+	<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+
+
+	<!-- django bootstrap modal forms -->
+	<script src="{% static 'django-bootstrap-modal-forms\jquery.bootstrap.modal.forms.js' %}"></script>
+
+	<!-- Axios http client -->		
+	<script src="{% static 'axios\axios.min.js' %}"></script>
+		
+	<!-- Ramda js - functional programming utilities -->
+	<script src="{% static 'ramda\ramda.min.js' %}"></script>
+
+	<!-- SweetAlert2 library for popups -->
+	<script src="{% static 'sweetalert2\js\sweetalert2.all.min.js' %}"></script>
+	<link  href="{% static 'sweetalert2\css\sweetalert2.min.css' %}" rel="stylesheet"/>
+
+	<!-- css styles, js files or any other head element specific to a view -->
+	{% block specific_head %}
+	{% endblock %}
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row" id="main">
+
+			<!--
+								<div class="p-2"><a href="{% url 'listarDesign' %}" class="list-group-item list-group-item-action font-weight-bold">Diseños</a></div>
+								<div class="p-2"><a href="{% url 'listarEvento' %}" class="list-group-item list-group-item-action font-weight-bold">Programar Eventos</a></div>
+								
+								<div class="p-2"><a href="{% url 'plan_trabajo_list_to_create' %}" class="list-group-item list-group-item-action font-weight-bold">Crear Plan de trabajo</a></div>
+								<div class="p-2"><a href="{% url 'plan_trabajo_list_to_approve' %}"  class="list-group-item list-group-item-action font-weight-bold">Aprobar y Rechazar planes de trabajo</a></div>
+								<div class="p-2"><a href="{% url 'docente_list_to_create' %}"  class="list-group-item list-group-item-action font-weight-bold">Agregar Docentes</a></div>
+								<div class="p-2"><a href="{% url 'docente_list_to_enable' %}"  class="list-group-item list-group-item-action font-weight-bold">Habilitar y Deshabilitar Docentes</a></div>
+								<div class="p-2"><a href="{% url 'participante_asistencia' %}"  class="list-group-item list-group-item-action font-weight-bold">Tomar asistencia</a></div>
+
+								<div class="p-2"><a href="#" class="list-group-item list-group-item-action font-weight-bold">Aulas</a></div>
+								<div class="p-2"><a href="#" class="list-group-item list-group-item-action font-weight-bold">Aliados</a></div>
+								<div class="p-2"><a href="#" class="list-group-item list-group-item-action font-weight-bold">Calificaciones</a></div>
+								<div class="p-2"><a href="#" class="list-group-item list-group-item-action{% url 'plan_trabajo_list_to_create' %} font-weight-bold">Informe Evento</a></div>
+								<div class="p-2"><a href="#" class="list-group-item list-group-item-action font-weight-bold">Consulta/Reportes</a></div>
+								<div class="p-2"><a href="{% url 'listarGeneral' %}" class="list-group-item list-group-item-action font-weight-bold">Areas/Especialidades</a></div>
+
+			-->
+
+
+			<div class="col-12 col-xl-2" id="mainmenu">
+				<div class="row p-3" id="userinfo">
+					<div class="col-12 px-5 d-flex justify-content-center">
+						<img src="{% static 'image/user_copy.png' %}" class="rounded-circle" alt="userimg">
+					</div>
+					<div class="col-12 mt-2">
+						<div class=" d-flex row justify-content-center">
+							<span>user@mail.com</span>
+						</div>
+						<div class="d-flex row justify-content-center">
+							<small>Nombre del Usuario</small>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 py-2">
+						MENÚ
+					</div>
+				</div>
+				<div class="row" id="accordion">
+					<div class="col-12">
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'listarDesign' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Diseños</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'listarEvento' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Programar Eventos</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'plan_trabajo_list_to_create' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Crear plan de trabajo</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'plan_trabajo_list_to_approve' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Aprobar y Rechazar planes de trabajo</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'docente_list_to_create' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Agregar Docentes</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+
+						
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'docente_list_to_enable' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Habilitar y Deshabilitar</span>
+											<span class="pl-2">Docentes</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'participante_asistencia' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Tomar asistencia</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="#">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Aulas</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="#">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Aliados</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="#">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Calificaciones</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'plan_trabajo_list_to_create' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Informe Evento</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="#">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Consulta/Reportes</span>
+										</div>
+
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div id="menu" class="row">
+							<div class="col-12 mlat">
+								<a class="menu" href="{% url 'listarGeneral' %}">
+									<div id="titulo" class="row">
+										<div class="col-10">
+											<span class="pl-2">Areas / Especialidades</span>
+										</div>
+										<div class="col-2">
+											<i class="fas fa-angle-right"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+			<div class="col-12 col-xl-10">
+				<div class="row mb-3">
+					<header class="col-12 col-xl-12 darkwhite-bg">
+						<div class="row">
+							<div class="col-xl-3" href="#">
+								<img class="img-fluid" src="{% static 'image/logo_EC.png' %}" alt="logo">
+							</div>
+
+							<div class="col-xl-7 d-flex justify-content-center">
+								<span id ="fenix" class="v-align">FÉNIX 4.0</span>
+							</div>
+							<div class="col-xl-2 d-flex justify-content-center">
+								<a href=# class="v-align align-middle btn btn-light">Cerrar Sesion <i class="fas fa-sign-out-alt"></i></a>
+							</div>
+						</a>
+					</header>
+				</div>
+				<div class="col-9 col-xl-9">
+					<main class="main">
+					<div class="row">
+						<div class="col-12 col-xl-12">
+							{% block content %}
+							{% endblock %}
+						</div>
+					</div>
+					</main>
+				</div>
+			</div>
+
+
+		</div>
+		<!--
+		<footer class="col-12 col-xl-12">
+			<div class="bg-dark p-2">
+				<h5 class="text-center text-light">Educacion Continua II Módulos Académicos y Administrativo</h5>
+			</div>
+		</footer>
+		-->
+		</div>
+	</div>	
+</body>
+
+<!-- js files specific to a view -->
+{% block specific_scripts %}
+
+{% endblock %}
+
+
+	</body>
+
+	
+</html>

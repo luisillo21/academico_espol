@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% load static %} {% block specific_head %}
+<script src="{% static  'js\table.js' %}"></script>
+{% endblock %} {% block content %}
+<div id="designListar">
+  <div class="row p-2">
+    <div class="col-10 col-sm-10 col-xl-10">
+      <h2 class="text-left">
+        CONSULTAR <span class="darkgreen-text"> DISEÑO </span>
+      </h2>
+    </div>
+
+    <div class="col-2 col-sm-2 col-xl-2">
+      <a href="{% url 'crearDesign' %}" class="btn btn-success m-1 text-left"
+        >Nuevo <span class="fas fa-plus-circle"></span
+      ></a>
+    </div>
+  </div>
+  <!--
+    <div class="row mt-4">
+        <div class="col-12 col-xl-12 table-container">
+            <table id="dataTable" class="table table-responsive border-botton">
+                <thead class="white-text darkgreen-bg">
+                      <tr scope="col">Codigo</tr>
+                      <tr scope="col">Nombre</tr>
+                      <tr scope="col">Tipo</tr>
+                      <tr scope="col">Modalidad</tr>
+                      <tr scope="col">Duracion</tr>
+                      <tr scope="col"> Area de Capacitacion</tr>
+                      <tr scope="col">Fecha emisión</tr>
+                      <tr scope="col">Estado</tr>
+                      <tr scope="col">Acciones</tr>
+                </thead>
+                <tbody>
+                    {% if designs %}
+                    {% for design in designs %}
+                        <tr class="text-center">
+                            <tr scope="col"></tr>
+                            <tr scope="col"></tr>
+                            <tr scope="col"></tr>
+                            <tr scope="col"></tr>
+                            <tr scope="col"></tr>
+                            <tr scope="col"></tr>
+                            <tr scope="col"></tr>
+                            <tr scope="col"></tr>
+                            <tr scope="col"></tr>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                            <h3>No hay registros de diseño para presentar</h3>
+                    {% endif %}    
+                </tbody>
+            </table>
+        </div>
+    </div>
+-->
+
+  <div class="row mt-4">
+    <div class="col-16 col-xl-16 table-container">
+      <table class="table table-responsive table-bordered" id="dtBasicExample">
+        <thead class="white-text darkgreen-bg">
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Modalidad</th>
+            <th scope="col">Duración</th>
+            <th scope="col">Area de Capacitacion</th>
+            <th scope="col">Fecha emisión</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if designs %} {% for design in designs %}
+          <tr class="text-center">
+            <td scope="rol">{{design.codigo}}</td>
+            <td scope="rol">{{design.nombre}}</td>
+            <td scope="rol">{{design.tipo_evento}}</td>
+            <td scope="rol">{{design.modalidad}}</td>
+            <td scope="rol">{{design.horas_totales}}</td>
+            <td scope="rol">{{design.area}}</td>
+            <td scope="rol">{{design.fecha}}</td>
+            <td scope="rol">{{design.estado}}</td>
+            <td class="text-center" scope="rol">
+              <a href=""><span class="fas fa-search text-warning"></span></a>
+            </td>
+          </tr>
+          {% endfor %} {% else %}
+          <h3>No hay registros de diseño para presentar</h3>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block specific_scripts %} {% endblock specific_scripts %}

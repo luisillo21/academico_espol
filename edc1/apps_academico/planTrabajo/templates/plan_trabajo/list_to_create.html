@@ -1,0 +1,387 @@
+{% extends "base.html" %} {% block content %}
+
+<div id="app">
+  <div class="card my-2">
+    <div class="card-header">
+      <h6>
+        Planes de Trabajo
+      </h6>
+    </div>
+    <div class="card-body">
+      <plan-content component_name="PlanTrabajo"></plan-content>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block specific_scripts %}
+
+<script type="text/javascript">
+  //Register vue select component
+  Vue.component("v-select", VueSelect.VueSelect);
+
+  // START - components
+
+  // Planes de Trabajo
+  Vue.component("plan-content", {
+    delimiters: ["[[", "]]"],
+    props: ["component_name"],
+    template: `
+  <div>
+  <!-- START List Items -->
+  <table class="table table-sm table-borderless table-hover">
+  <thead class="text-light darkgreen-bg">
+    <tr> <th> ID </th> <th> Evento </th> <th> Estado </th>  <th> Acciones </th>  </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(value,index) in items" v-if="isEnProgreso(value.estado)||isRechazado(value.estado)">
+      <td>[[ value.id ]]</td>
+      <td> [[ getEventoFromPlan(value.evento) ]] </td>
+      <td>[[ value.estado ]]</td>
+      <td>
+        <!--button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
+        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')">Edit</button>
+        <button class="btn btn-danger" v-on:click="deleteItem(value.id)">Delete</button-->
+        <button class="btn btn-primary" v-on:click="fillPlan(value.id)">Llenar</button>        
+        <button class="btn btn-primary" v-on:click="copyItem(value.id)">Copiar</button>
+        <button class="btn btn-primary" v-on:click="sendToApprove(value.id)">Enviar a aprobación</button>
+        <button class="btn btn-primary" v-on:click="getItem(value.id,'ver_motivo_rechazo')" v-if="value.motivo_de_rechazo!=null">Ver Motivo</button>
+      </td>              
+    </tr>
+  </tbody>
+  </table>
+  <div class="d-flex justify-content-end">
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+  </div>
+  <div class="loading" v-if="loading===true">Loading&#8230;</div>
+  <!-- END List Items -->
+
+  <!-- START Add Item Modal -->
+  <div class="modal fade" :id="this.modals.add.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Agregar Plan </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="addItem()">
+          <div class="modal-body">
+          <div class="form-group" v-if="this.planToCopyId!=null">              
+            <label>A partir del plan con ID : [[this.planToCopyId]]  </label>            
+          </div>
+          <div class="form-group">    
+          <label>Evento : </label>
+          <v-select 
+            :options="eventos"
+            label="nombre"
+            v-model="evento"
+          ></v-select>
+          Selected = [[ evento.id ]]
+          </div>
+          </div>
+          <div class="modal-footer"> 
+            <button type="submit" class="btn darkgreen-bg text-light">Continuar</button>
+            <button type="button" class="btn btn-secondary text-light" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Add Item modal -->
+
+  <!-- START Update Item Modal -->
+  <div class="modal fade" :id="this.modals.update.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Editar Plan </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form v-on:submit.prevent="updateItem()">
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.estado" placeholder="Estado" required>
+          </div>
+          </div>
+          <div class="modal-footer"> <button type="submit" class="btn darkgreen-bg text-light">Guardar</button> </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Edit Item modal -->
+
+  <!-- START View Item Modal -->
+  <div class="modal fade" :id="this.modals.view.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Plan </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.estado" placeholder="Estado" required disabled>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END View Item modal -->
+
+  <!-- START Send to Approve Plan Modal -->
+  <div class="modal fade" :id="this.modals.send_to_approve.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Enviar a Aprobación </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form  v-on:submit.prevent="updatePlanStatus()">
+          <div class="modal-body">
+          <div class="form-group">
+            <p>¿Está seguro que desea enviar este Plan de trabajo a revisión?</p>
+          </div>
+          </div>          
+          <div class="modal-footer">          
+            <button type="submit" class="btn darkgreen-bg text-light">Sí, Continuar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Send to Approve Plan modal -->
+
+   <!-- START Ver motivo Modal -->
+  <div class="modal fade" :id="this.modals.ver_motivo_rechazo.id" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> Motivo de Rechazo </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+        <form>
+          <div class="modal-body"> 
+          <div class="form-group">
+            <textarea 
+              class="form-control" 
+              v-model="this.currentItem.motivo_de_rechazo"
+              rows="5" 
+              disabled>
+            </textarea>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+  </div>  
+  <!-- END Ver motivo modal -->
+
+  </div>
+  `,
+    data: function() {
+      return {
+        url: "/api/planTrabajo/",
+        items: [],
+        loading: false,
+        currentItem: {},
+        message: null,
+        newItem: { estado: null, evento: null },
+        eventos: [],
+        evento: { id: null },
+        planToCopyId: null,
+        planToApproveId: null,
+        modals: {
+          view: {
+            id: "viewItemModal_" + this.component_name
+          },
+          add: {
+            id: "addItemModal_" + this.component_name
+          },
+          copy: {
+            id: "copyItemModal_" + this.component_name
+          },
+          update: {
+            id: "updateItemModal_" + this.component_name
+          },
+          send_to_approve: {
+            id: "sendToApprovePlanModal_" + this.component_name
+          },
+          ver_motivo_rechazo: {
+            id: "verMotivoRechazoModal_" + this.component_name
+          }
+        }
+      };
+    },
+    mounted: function() {
+      this.getEventos();
+      this.getItems();
+    },
+    methods: {
+      getItems: function() {
+        this.loading = true;
+        axios
+          .get(this.url)
+          .then(response => {
+            this.items = response.data;
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      getItem: function(id, type) {
+        this.loading = true;
+        axios
+          .get(`${this.url}${id}/`)
+          .then(response => {
+            this.currentItem = response.data;
+            if (type == "edit") {
+              $(`#${this.modals.update.id}`).modal("show");
+            } else if (type == "view") {
+              $(`#${this.modals.view.id}`).modal("show");
+            } else {
+              $(`#${this.modals.ver_motivo_rechazo.id}`).modal("show");
+            }
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      addItem: function() {
+        if (this.evento == null || this.evento.id == null) {
+          console.log("Error : Must select evento");
+          return;
+        }
+        this.loading = true;
+        this.newItem.evento = this.evento.id;
+        this.newItem.estado = "En progreso";
+
+        //Create new plan de trabajo
+        axios
+          .post(this.url, this.newItem)
+          .then(response => {
+            this.loading = false;
+
+            //Copy, if there is plan to copy
+            if (this.planToCopyId != null) {
+              let newPlanId = response.data.id;
+              let planToCopyId = this.planToCopyId;
+              axios
+                .get(`/academico/planTrabajo/${planToCopyId}/${newPlanId}/copy`)
+                .then(response => {
+                  console.log("Successful copy of plan de trabajo");
+                  this.planToCopyId = null; //reset planToCopyId
+                  this.getItems();
+                  $(`#${this.modals.add.id}`).modal("hide");
+                })
+                .catch(err => {
+                  this.loading = false;
+                  console.log(err);
+                });
+            } else {
+              this.getItems();
+              $(`#${this.modals.add.id}`).modal("hide");
+            }
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      copyItem: function(planToCopyId) {
+        //Set plan to copy and show add modal
+        this.planToCopyId = planToCopyId;
+        $(`#${this.modals.add.id}`).modal("show");
+      },
+      updateItem: function() {
+        this.loading = true;
+        axios
+          .put(`${this.url}${this.currentItem.id}/`, this.currentItem)
+          .then(response => {
+            this.loading = false;
+            this.currentItem = response.data;
+            this.getItems();
+            $(`#${this.modals.update.id}`).modal("hide");
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      deleteItem: function(id) {
+        this.loading = true;
+        axios
+          .delete(`${this.url}${id}/`)
+          .then(response => {
+            this.loading = false;
+            this.getItems();
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      fillPlan: function(id) {
+        window.location = `/academico/planTrabajo/${id}/fill`;
+      },
+      getEventos: function() {
+        axios
+          .get(`/api/evento/`)
+          .then(response => {
+            this.loading = true;
+            this.eventos = response.data;
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      getEventoFromPlan: function(eventoId) {
+        let evento = R.find(R.propEq("id", eventoId), this.eventos);
+        return evento.nombre;
+      },
+      sendToApprove: function(planToApproveId) {
+        //Set planId of plan that will be sent to approve
+        this.planToApproveId = planToApproveId;
+        $(`#${this.modals.send_to_approve.id}`).modal("show");
+      },
+      updatePlanStatus: function() {
+        axios
+          .patch(`${this.url}${this.planToApproveId}/`, {
+            estado: "En espera de aprobación"
+          })
+          .then(response => {
+            this.loading = true;
+            console.log("Estado del plan actualizado!");
+            this.planToApproveId = null; //reset planToApproveId
+            this.getItems();
+            $(`#${this.modals.send_to_approve.id}`).modal("hide");
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      isRechazado: estado => estado == "Rechazado",
+      isEnProgreso: estado => estado == "En progreso"
+    }
+  });
+
+  var app = new Vue({
+    delimiters: ["[[", "]]"], //https://stackoverflow.com/questions/49948261/vuejs-data-wont-display
+    el: "#app"
+  });
+</script>
+{% endblock%}

@@ -1,0 +1,114 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <form role="form" action="{% url 'crearPub' %}" class="container-fluid justify-content-center" method="Post"
+            enctype="multipart/form-data">
+            <div class="modal-header border-bottom-0">
+                <div class="col-lg-12 text-center">
+                    <h3 class="modal-title" id="exampleModalLabel">{{ object.nombre }}</h3>
+                </div>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Código</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.codigo_evento }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Tipo</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.tipo_evento }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Modalidad</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.modalidad }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Tipo de certificado</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control" value="{{ object.diseno.tipo_certificado }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Área de capacitación</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control" value="{{ object.diseno.area.getNameArea }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Fecha inicio</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.fecha_inicio|date:"d/m/Y" }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Fecha fin</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.fecha_fin|date:"d/m/Y" }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Duracion total</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.duracion }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Horas presenciales</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control" value="{{ object.diseno.horas_presenciales }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Horas autonomas</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control" value="{{ object.diseno.horas_autonomas }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Lugar</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.lugar }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Aula</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.get_aula.aula }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Asesor comercial</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.asesor_comercial_responsable }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Servicios incluidos</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.format_servicios }}">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Horarios</label>
+                            <input type="text" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.horarios }}">
+                        </div>
+                        <div class="form-group form-inline">
+
+                            <input type="hidden" class="col-sm-9 col-md-9 col-xl-9 form-control"
+                                value="{{ object.codigo_evento }}" name="evento" required id="id_evento">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3">Precio</label>
+                            <input type="text" name="precio" class="col-sm-9 col-md-9 col-xl-9 form-control" required
+                                id="id_precio">
+                        </div>
+                        <div class="form-group form-inline">
+                            <label class="col-sm-3 col-md-3 col-xl-3"> Imagen</label>
+                            <input type="file" name="picture" accept="image/*"
+                                class="col-sm-9 col-md-9 col-xl-9 form-control" required id="id_picture">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-lg-12 text-center">
+                    <input type="submit" class="btn btn-success" name="submit" value="Publicar evento">
+                    <button type="button" class="btn btn-danger" onclick="return cerrar_modal()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

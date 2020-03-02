@@ -1,0 +1,361 @@
+{% extends "base.html" %}
+{% load static %}
+{% block specific_head %}
+<script src="{% static  'js\table.js' %}"></script>
+<style>
+    table,
+    thead,
+    tr,
+    tbody,
+    th,
+    td {
+        text-align: center;
+    }
+
+    .table td {
+        text-align: center;
+    }
+
+    #view {
+        color: #27C46B;
+        cursor: pointer;
+    }
+
+    #edit {
+        color: #FFC107;
+    }
+
+    #delete {
+        color: #E34724;
+    }
+
+    #consulta {
+        background-color: lightgray;
+    }
+
+    .body {
+        height: 310px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+</style>
+<script>
+    $(function () {
+        $("#fechainicio").datepicker({
+            dateFormat: "dd/mm/yy",
+        });
+    });
+    $(function () {
+        $("#fechafin").datepicker({
+            dateFormat: "dd/mm/yy",
+        });
+    });
+</script>
+{% endblock %}
+{% block content %}
+<div class="row p-4 justify-content-center">
+    <h3 class="col-sm-6 col-md-6 col-xl-6">Lista de Eventos</h3>
+    <div class="col-sm-6 col-md-6 col-xl-6">
+        <a href="{% url 'crearEvento' %}" class="btn btn-success float-right">Agregar Evento</a>
+    </div>
+</div>
+
+<div class="row p-2 mb-3" id="consulta">
+    <h4>Consultas</h4>
+</div>
+
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-xl-3">
+        <input type="text" id="sbcode" onkeyup="searchByCode()" class="form-control" placeholder="Código Evento">
+    </div>
+    <div class="col-sm-9 col-md-9 col-xl-9">
+        <input type="text" id="sbname" onkeyup="searchByName()" class="form-control" placeholder="Nombre del evento">
+    </div>
+</div>
+
+<div class="row">
+    <p></p>
+</div>
+
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-xl-3">
+        <select class="form-control" id="estado">
+            <option selected disabled>Estado</option>
+            <option value="Ejecutado">Ejecutado</option>
+            <option value="No ejecutado">No ejecutado</option>
+            <option value="Por iniciar">Por iniciar</option>
+        </select>
+    </div>
+    <div class="col-sm-2 col-md-2 col-xl-2">
+        <div class="form-group">
+            <input type="text" class="form-control" id="fechainicio" placeholder="Fecha inicio">
+        </div>
+    </div>
+    <div class="col-sm-2 col-md-2 col-xl-2">
+        <div class="form-group">
+            <input type="text" class="form-control" id="fechafin" placeholder="Fecha fin">
+        </div>
+    </div>
+    <div class="col-sm-2 col-md-2 col-xl-2">
+        <select class="form-control" id="modalidad">
+            <option selected disabled>Modalidad</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Semi-virtual">Semi-virtual</option>
+            <option value="Virtual">Virtual</option>
+        </select>
+    </div>
+    <div class="col-sm-3 col-md-3 col-xl-3">
+        <select class="form-control" id="tipo">
+            <option selected disabled>Tipo</option>
+            <option value="Diplomado">Diplomado</option>
+            <option value="Programa">Programa</option>
+            <option value="Curso">Curso</option>
+            <option value="Conferencia">Conferencia</option>
+            <option value="Taller">Taller</option>
+            <option value="Webinario">Webinario</option>
+            <option value="Charla">Charla</option>
+            <option value="Modulo">Modulo</option>
+        </select>
+    </div>
+
+</div>
+
+<div class="row">
+    <p></p>
+</div>
+
+<div class=" row mt-4">
+    <div class="col-16 col-xl-16 table-container">
+         <table class="table table-responsive table-bordered" id="dtBasicExample">
+        <thead class="white-text darkgreen-bg">
+            <tr scope="col">
+                <th scope="col">Código</th>
+                <th scope="col">Evento</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Modalidad</th>
+                <th scope="col">Público</th>
+                <th scope="col">Duración</th>
+                <th scope="col">Fecha inicio</th>
+                <th scope="col">Fecha fin</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Web</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        {% if object_list %}
+        {% for evento in object_list %}
+        <tbody >
+            <tr>
+                <th scope="row">{{evento.codigo_evento}}</td>
+                <th scope="col">{{evento.nombre}}</td>
+                <th scope="col">{{evento.tipo_evento}}</td>
+                <th scope="col">{{evento.modalidad}}</td>
+                <th scope="col">{{evento.publico}}</td>
+                <th scope="col">{{evento.duracion}}</td>
+                <th scope="col">{{evento.fecha_inicio|date:"d/m/Y"}}</td>
+                <th scope="col">{{evento.fecha_fin|date:"d/m/Y"}}</td>
+                <th scope="col">{{evento.estado}}</td>
+                <th scope="col">{{evento.web}}</td>
+                <th scope="col"><a id="ptra" href="{% url 'planTrabajo_create' %}"><i class="material-icons">add_circle_outline</i></a>
+                    <a id="edit" href="{% url 'editarEvento' pk=evento.codigo_evento %}"><i
+                            class="material-icons">edit</i></a>
+                    <a onclick="return abrir_modal('{% url 'detalleEvento' pk=evento.codigo_evento %}')" id="view"><i
+                            class="material-icons">search</i>
+                    </a>
+                    <a id="delete" href="{% url 'eliminarEvento' pk=evento.codigo_evento %}"><i
+                            class="material-icons">delete</i></a>
+                </td>
+            </tr>
+
+        </tbody>
+        {% endfor %}
+        {% else %}
+        <div class="row p-4 justify-content-center">
+            <h5 class="text-center col-12 col-sm-12 col-xl-12">No hay ningun registro disponible</h5>
+        </div>
+        {% endif %}
+
+         </table>
+    </div>
+</div>
+
+<div id="popup" class="modal fade" role="dialog">
+</div>
+<!--a onclick="return abrir_modal('{% url 'crearPub' %}')" class="btn btn-primary">
+    Crear
+</a-->
+<!--div class="container">
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
+        See Modal with Form
+    </button>
+</div-->
+
+{% endblock %}
+
+{% block specific_scripts %}
+<script src="{% static 'js\listaEvento.js' %}"></script>
+<script>
+    function searchByCode() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("sbcode");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    function searchByName() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("sbname");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                console.log(txtValue)
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    $("#fechainicio").on("change", function () {
+
+        var selected, filter, table, tr, td, i, txtValue;
+        selected = this.value;
+        console.log(selected);
+        filter = selected.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[6];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                console.log(txtValue)
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+
+    $("#fechafin").on("change", function () {
+
+        var selected, filter, table, tr, td, i, txtValue;
+        selected = this.value;
+        console.log(selected);
+        filter = selected.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[7];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                console.log(txtValue)
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+
+    $("#tipo").on("change", function () {
+
+        var selected, filter, table, tr, td, i, txtValue;
+        selected = this.value;
+        console.log(selected);
+        filter = selected.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                console.log(txtValue)
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+
+    $("#modalidad").on("change", function () {
+
+        var selected, filter, table, tr, td, i, txtValue;
+        selected = this.value;
+        console.log(selected);
+        filter = selected.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[3];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                console.log(txtValue)
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+
+    $("#estado").on("change", function () {
+
+        var selected, filter, table, tr, td, i, txtValue;
+        selected = this.value;
+        console.log(selected);
+        filter = selected.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[8];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                console.log(txtValue)
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
+
+</script>
+<script>
+    function abrir_modal(url) {
+        $('#popup').load(url, function () {
+            $(this).modal('show');
+        });
+        return false;
+    }
+
+    function cerrar_modal() {
+        $('#popup').modal('hide');
+        return false;
+    }
+</script>
+{% endblock %}

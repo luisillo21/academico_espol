@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="row p-4 justify-content-center">
+    <h3 class="text-center col-12 col-sm-12 col-xl-12">Crear Dia</h3>
+</div>
+
+<form class="container-fluid justify-content-center" method="POST">
+    
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-3 col-md-3 col-xl-3">
+            <div class="form-group">
+                <label>Dia:</label>
+                {{ form.dia }}
+            </div>
+        </div>
+        <div class="col-6 col-md-6 col-xl-6">
+            <div class="form-group">
+                <label>Fecha:</label>
+                <input type="date" name="fecha" class="form-control" id="id_fecha">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-10 col-xl-8">
+            <div class="form-group">
+                <label>Horario inicio:</label>
+                <input type="time" name="horario_inicio" class="form-control" id="id_horario_inicio">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-10 col-xl-8">
+            <div class="form-group">
+                <label>Horario fin:</label>
+                <input type="time" name="horario_fin" class="form-control" id="id_horario_fin">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-10 col-xl-8">
+            <div class="form-group">
+                <label>Horario break:</label>
+                <input type="time" name="horario_break" class="form-control" id="id_horario_break">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-10 col-xl-8">
+            <div class="form-group">
+                <label>Horas de sesion:</label>
+                {{ form.horas_sesion }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-10 col-xl-8">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Crear</button>
+            <a href="{% url 'listarDia' %}" class="btn btn-danger">Cancelar</a>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Nuevo Dia</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Desea crear un dia nuevo
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Si, crear</button>
+              <a href="{% url 'listarDia' %}" class="btn btn-primary" data-dismiss="modal">cancelar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</form>
+{% endblock %}

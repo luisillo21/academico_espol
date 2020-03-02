@@ -1,0 +1,124 @@
+{% extends "base.html" %} {% load static %}
+<!---->
+{% block content %} {% include "modal/modal.html" %}
+<div class="row p-2">
+  <div class="col-10 col-sm-10 col-xl-10">
+    <h3 class="text-left">CONSULTAR ÁREA</h3>
+  </div>
+
+  <div class="col-2 col-sm-2 col-xl-2">
+    <button class="btn btn-success m-1 text-left crear-area">
+      Área <span class="fas fa-plus-circle"></span>
+    </button>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row mt-4">
+    <div class="col-12 col-xl-12 table-container">
+      <div class="align-items-center">
+        <table class="table table-hover table-bordered table-sm" id="tabla1">
+          <thead>
+            <tr class="text-left">
+              <th>Código</th>
+              <th>Área</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if areas %} {% for area in areas %}
+            <tr>
+              <td class="text-center">{{area.codigo}}</td>
+              <td class="text-justify">{{area.area}}</td>
+              <td class="text-center">
+                <button
+                  class="update-area btn btn-primary"
+                  data-id="{% url 'updateArea' area.pk %}"
+                >
+                  <span class="fas fa-edit"></span>
+                </button>
+              </td>
+            </tr>
+            {% endfor %} {% else %}
+            <h3>No hay registros de areas</h3>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row p-2">
+  <div class="col-9 col-sm-9 col-xl-9">
+    <h3 class="text-left">CONSULTAR ESPECIALIDAD</h3>
+  </div>
+
+  <div class="col-3 col-sm-3 col-xl-3">
+    <button href="#" class="btn btn-success m-1 text-left crear-especialidad">
+      Especialidad <span class="fas fa-plus-circle"></span>
+    </button>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-12">
+      <div class="align-items-center">
+        <table class="table table-hover table-bordered table-sm" id="tabla2">
+          <thead>
+            <tr class="text-left">
+              <th>Código</th>
+              <th>Especialidad</th>
+              <th>Área</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if especialidades %} {% for especialidad in especialidades %}
+            <tr>
+              <td class="text-center">{{especialidad.codigo}}</td>
+              <td class="text-justify">{{especialidad.especialidades}}</td>
+              <td>{{especialidad.area}}</td>
+              <td class="text-center">
+                <button
+                  class="update-especialidad btn btn-primary"
+                  data-id="{% url 'updateEspecialidad' especialidad.pk %}"
+                >
+                  <span class="fas fa-edit"></span>
+                </button>
+              </td>
+            </tr>
+            {% endfor %} {% else%}
+            <h3>no hay registros de especialidades</h3>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block specific_scripts %}
+<script src="{% static 'js\tables.js' %}"></script>
+<script type="text/javascript">
+  $(function() {
+    $(".crear-area").modalForm({
+      formURL: "{% url 'crearArea' %}"
+    });
+    $(".update-area").each(function() {
+      $(this).modalForm({
+        formURL: $(this).data("id")
+      });
+    });
+    $(".crear-especialidad").modalForm({
+      formURL: "{% url 'crearEspecialidad' %}"
+    });
+    $(".update-especialidad").each(function() {
+      $(this).modalForm({
+        formURL: $(this).data("id")
+      });
+    });
+  });
+</script>
+{% endblock %}

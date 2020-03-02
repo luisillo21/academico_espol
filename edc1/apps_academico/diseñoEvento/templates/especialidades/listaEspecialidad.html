@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="row p-4 justify-content-center">
+    <h5 class="text-center col-12 col-sm-12 col-xl-12">Registros de Especialidades</h5>
+</div>
+<div class="row justify-content-center p-3">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card card-sm">
+            <div class="card-body row no-gutters align-items-center">
+                <div class="col-10  p-2">
+                    <h5>Ingresar Nueva Especialidad</h5>
+                </div>
+                   
+                <div class="col-2 p-2">
+                    <!--<a href="{% url 'crearEspecialidad' %}" class="btn btn-outline-success rounded-circle font-weight-bold">&#43;</a>-->
+                    <button type="button" class="btn btn-outline-success rounded-circle font-weight-bold" data-toggle="modal" data-target="#exampleModal">
+                        &#43
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-12">
+            <div class="align-items-center">
+                <table class="table table-hover table-bordered" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Cod. Especialidad</th>
+                            <th>Descripción</th>
+                            <th>Area Asociada</th>
+                            <th>#Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if object_list %}
+                    {% for especialidad in object_list  %}
+                    <tr>
+                        <td class="text-center">{{especialidad.codigo}}</td>
+                        <td>{{especialidad.especialidades}}</td>
+                        <td>{{especialidad.area}}</td>
+                        <td class="text-center"><a href="{% url 'editarEspecialidad' especialidad.id %}" class="btn btn-primary m-1">Editar</a>
+                            <!--<a href="{% url 'eliminarEspecialidad' especialidad.id %}" class="btn btn-danger m-1">Eliminar</a>-->
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalDelete{{especialidad.id}}">
+                                    Eliminar
+                                </button>
+                                <div class="modal fade" id="exampleModalDelete{{especialidad.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Eleminar Registro</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          Seguro que desea eliminar: {{especialidad.especialidades}}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="#" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Si, eliminar</button>
+                                            </form>
+                                          <a href="#" class="btn btn-primary" data-dismiss="modal">Cancelar</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Crear Nueva Especialidad</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Desea crear una Especialidad nueva
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-success">si</a>
+          <a href="#" class="btn btn-primary" data-dismiss="modal">cancelar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,1660 @@
+{% extends "base.html" %} {% load static %} {% block specific_head %}
+<link
+  href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"
+  rel="stylesheet"
+/>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+<style type="text/css">
+  .modal-body {
+    overflow-x: auto;
+  }
+
+  .form-check-inline.no_indent,
+  .form-check-inline.no_indent + .checkbox-inline.no_indent {
+    margin-left: 50px;
+    margin-right: 10px;
+  }
+
+  .form-check-inline.no_indent:last-child {
+    margin-right: 0;
+  }
+
+  .bodyform {
+    height: 310px;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="row mb-2">
+  <div class="col-12 col-xl-12">
+    <h2 class="text-uppercase darkgreen-text">
+      {% block regedit %} Programar Evento {% endblock regedit %}
+    </h2>
+  </div>
+</div>
+<form class="container-fluid justify-content-center" method="POST">
+  {% csrf_token %}
+
+  <div class="row">
+    <div class="col-3 col-md-3 col-xl-3">
+      <div class="form-group">
+        <label>Diseño:</label>¿
+        <div class="input-group">
+          {{ form.diseno }}
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" id="disenoSearch">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="classModalD"
+      class="modal fade bs-example-modal-lg"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="classInfo"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="classModalLabel">
+              Busqueda
+            </h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-3 col-md-3 col-xl-3">
+                <label>Buscar por:</label>
+              </div>
+
+              <div class="col-4 col-md-4 col-xl-4">
+                <select id="opti" class="browser-default custom-select">
+                  <option selected>Elija una opcion </option>
+                  <option value="1">Codigo</option>
+                  <option value="2">Nombre</option>
+                </select>
+              </div>
+
+              <div class="col-5 col-md-5 col-xl-5">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    onkeyup="searchByIdD()"
+                    class="form-control"
+                    placeholder="Search"
+                    id="inputSearchD"
+                  />
+                </div>
+              </div>
+            </div>
+            <table id="disenoTable" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th style="display:none;">Id</th>
+                  <th>Codigo</th>
+                  <th>Nombre</th>
+                  <th>Version</th>
+                  <th>Modalidad</th>
+                  <th>Horas presenciales</th>
+                  <th>Horas autonomas</th>
+                  <th>Area</th>
+                  <th>Especialidad</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              {% if diseno %} {% for di in diseno %}
+              <tbody>
+                <tr>
+                  <td style="display:none;">{{ di.id }}</td>
+                  <td>{{ di.codigo }}</td>
+                  <td>{{ di.nombre }}</td>
+                  <td>{{ di.version }}</td>
+                  <td>{{ di.modalidad }}</td>
+                  <td>{{ di.horas_presenciales }}</td>
+                  <td>{{ di.horas_autonomas }}</td>
+                  <td>{{ di.area }}</td>
+                  <td>{{ di.especialidad }}</td>
+                  <td><a id="dis" class="btn btn-primary">Select</a></td>
+                </tr>
+              </tbody>
+              {% endfor %} {% else %}
+              <div class="row p-4 justify-content-center">
+                <h5 class="text-center col-12 col-sm-12 col-xl-12">
+                  No hay ningun registro disponible
+                </h5>
+              </div>
+              {% endif %}
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3 col-md-3 col-xl-3">
+      <div class="form-group">
+        <label>Cód. Evento:</label>
+        {{ form.codigo_evento }}
+        <!--input type="text" name="codigo_evento" class="form-control" id="id_codigo_evento"
+                    value="{% if form.codigo_evento.value %} {{ form.codigo_evento.value }}{% endif %}"-->
+      </div>
+    </div>
+
+    <div class="col-6 col-md-6 col-xl-6">
+      <div class="form-group">
+        <label>Nombre:</label>
+        {{ form.nombre }}
+        <!--input type="text" name="nombre" class="form-control" id="id_name"
+                    value="{% if form.nombre.value %} {{ form.nombre.value }}{% endif %}"-->
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4 col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>Tipo de Evento:</label>
+        {{ form.tipo_evento }}
+      </div>
+    </div>
+
+    <div class="col-2 col-md-2 col-xl-2">
+      <div class="form-group">
+        <label>Evento Padre:</label>
+        {{ form.codigo_evento_padre }}
+      </div>
+    </div>
+
+    <div class="col-6 col-md-6 col-xl-6">
+      <div class="form-group">
+        <label>.</label>
+        {{ form.nombre_evento_Padre }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4 col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>Modalidad:</label>
+        {{ form.modalidad }}
+      </div>
+    </div>
+
+    <div class="col-4 col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>Centro de costos:</label>
+        {{ form.centro_costos }}
+      </div>
+    </div>
+
+    <div class="col-4 col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>Alcance:</label>
+        {{ form.alcance }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4 col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>Promocion:</label>
+        {{ form.promocion }}
+      </div>
+    </div>
+
+    <div class="col-4 col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>Duración:</label>
+        {{ form.duracion}}
+      </div>
+    </div>
+
+    <div class="col-4 col-md-4 col-xl-4">
+      <div class="form-group">
+        <label>Aliado:</label>
+        {{form.aliado}}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-7 col-md-7 col-xl-7">
+      <div class="form-group">
+        <label>Docente:</label>
+
+        <div class="input-group">
+          {{ form.docente }}
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" id="docenteSearch">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="classModal"
+      class="modal fade bs-example-modal-lg"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="classInfo"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="classModalLabel">
+              Busqueda
+            </h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-3 col-md-3 col-xl-3">
+                <label>Buscar por:</label>
+              </div>
+
+              <div class="col-4 col-md-4 col-xl-4">
+                <select id="opt" class="browser-default custom-select">
+                  <option selected>Elija una opcion </option>
+                  <option value="1">Identificacion</option>
+                  <option value="2">Nombre</option>
+                </select>
+              </div>
+
+              <div class="col-5 col-md-5 col-xl-5">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    onkeyup="searchById()"
+                    class="form-control"
+                    placeholder="Search"
+                    id="inputSearch"
+                  />
+                </div>
+              </div>
+            </div>
+            <table id="docenteTable" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th style="display:none;">Id</th>
+                  <th>Identificacion</th>
+                  <th>Nombres</th>
+                  <th>Apellidos</th>
+                  <th>Email</th>
+                  <th>Direccion</th>
+                  <th>Telefono</th>
+                  <th>Codigo</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              {% if docente %} {% for d in docente %}
+              <tbody>
+                <tr>
+                  <td style="display:none;">{{ d.id }}</td>
+                  <td>{{ d.id }}</td>
+                  <td>{{ d.nombres }}</td>
+                  <td>{{ d.apellidos }}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><a id="choose" class="btn btn-primary">Select</a></td>
+                </tr>
+              </tbody>
+              {% endfor %} {% else %}
+              <div class="row p-4 justify-content-center">
+                <h5 class="text-center col-12 col-sm-12 col-xl-12">
+                  No hay ningun registro disponible
+                </h5>
+              </div>
+              {% endif %}
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3 col-md-3 col-xl-3">
+      <div class="form-group">
+        <label>Lugar:</label>
+        {{ form.lugar }}
+      </div>
+    </div>
+  </div>
+
+  <div id="formco">
+    <!--label>Asignar co-facilitador:</label-->
+    {{ form3.management_form }} {% for f in form3 %} {{ f.id}}
+    <div class="row">
+      <div class="col-7 col-md-7 col-xl-7">
+        <div class="form-group">
+          <label>Co-facilitador:</label>
+
+          <div class="input-group">
+            {{ f.co_facilitador }}
+            <div class="input-group-append">
+              <button class="btn btn-secondary" type="button" id="coSearch">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 col-md-3 col-xl-3">
+        <div class="form-group">
+          <br />
+          <input
+            type="button"
+            value="+"
+            id="add_co"
+            class="btn btn-success green-bg"
+          />
+          <input
+            type="button"
+            value="-"
+            id="delete_co"
+            class="btn btn-danger"
+          />
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div id="empty_formthree" style="display:none">
+    <div class="no_error">
+      {{ form3.empty_form.id}}
+
+      <div class="row">
+        <div class="col-7 col-md-7 col-xl-7">
+          <div class="form-group">
+            {{ form3.empty_form.co_facilitador }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-9 col-md-9 col-xl-9">
+      <div class="form-group">
+        <label>Asesor Comercial Responsable:</label>
+        {{ form.asesor_comercial_responsable }}
+      </div>
+    </div>
+
+    <div class="col-3 col-md-3 col-xl-3">
+      <div class="form-group">
+        <label>Público:</label>
+        {{ form.publico }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-12 col-xl-12">
+      <div class="form-group">
+        <label>Servicios incluidos:</label>
+        <ul id="id_servicios_incluidos">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="servicios_incluidos"
+              value="Break"
+              id="id_servicios_incluidos_0"
+            />
+            <label class="form-check-label" for="id_servicios_incluidos_0"
+              >Break</label
+            >
+          </div>
+          <div class="col-sm-2 col-md-2 col-xl-2">
+            <label>Hora break</label>
+            {{ form.hora_break }}
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="servicios_incluidos"
+              value="Almuerzo"
+              id="id_servicios_incluidos_1"
+            />
+            <label class="form-check-label" for="id_servicios_incluidos_1"
+              >Almuerzo</label
+            >
+          </div>
+          <div class="col-sm-2 col-md-2 col-xl-2">
+            <label>Hora almuerzo</label>
+            {{ form.hora_almuerzo }}
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="servicios_incluidos"
+              value="Computadora por participante"
+              id="id_servicios_incluidos_2"
+            />
+            <label class="form-check-label" for="id_servicios_incluidos_2"
+              >Computadora por participante</label
+            >
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6 col-md-6 col-xl-6">
+      <div class="form-group">
+        <label>Opciones para generar calendario del evento:</label>
+        <ul id="id_opciones_de_calendario">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="opciones_de_calendario"
+              value="Lunes a Viernes"
+              maxlength="150"
+              required
+              id="id_opciones_de_calendario_0"
+            />
+            <label class="form-check-label" for="id_opciones_de_calendario_0"
+              >Lunes a Viernes</label
+            >
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="opciones_de_calendario"
+              value="Sabados y Domingos"
+              maxlength="150"
+              required
+              id="id_opciones_de_calendario_1"
+            />
+            <label class="form-check-label" for="id_opciones_de_calendario_1"
+              >Sabados y Domingos</label
+            >
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="opciones_de_calendario"
+              value="Personalizado"
+              maxlength="150"
+              required
+              id="id_opciones_de_calendario_2"
+            />
+            <label class="form-check-label" for="id_opciones_de_calendario_2"
+              >Personalizado</label
+            >
+          </div>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-3 col-md-3 col-xl-3">
+      <div class="form-group">
+        <label>Fecha inicio:</label>
+        <input
+          type="date"
+          name="fecha_inicio"
+          class="form-control"
+          id="id_fecha_inicio"
+        />
+      </div>
+    </div>
+
+    <div class="col-3 col-md-3 col-xl-3">
+      <div class="form-group">
+        <label>Fecha fin:</label>
+        <input
+          type="date"
+          name="fecha_fin"
+          class="form-control"
+          id="id_fecha_fin"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6 col-md-6 col-xl-6">
+      <div class="form-group">
+        <input
+          type="hidden"
+          value="No ejecutado"
+          name="estado"
+          id="id_estado"
+        />
+      </div>
+    </div>
+    <div class="col-6 col-md-6 col-xl-6">
+      <div class="form-group">
+        <input type="hidden" value="No publicado" name="web" id="id_web" />
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p></p>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-12 col-xl-12">
+      <div class="form-group">
+        <div class="form-check form-check-inline no_indent">
+          <input
+            class="form-check-input"
+            name="day"
+            type="checkbox"
+            id="monday"
+            value="Lunes"
+          />
+          <label class="form-check-label" for="monday">Lunes</label>
+        </div>
+        <div class="form-check form-check-inline no_indent">
+          <input
+            class="form-check-input"
+            name="day"
+            type="checkbox"
+            id="tuesday"
+            value="Martes"
+          />
+          <label class="form-check-label" for="tuesday">Martes</label>
+        </div>
+        <div class="form-check form-check-inline no_indent">
+          <input
+            class="form-check-input"
+            name="day"
+            type="checkbox"
+            id="wednesday"
+            value="Miercoles"
+          />
+          <label class="form-check-label" for="wednesday">Miercoles</label>
+        </div>
+        <div class="form-check form-check-inline no_indent">
+          <input
+            class="form-check-input"
+            name="day"
+            type="checkbox"
+            id="thursday"
+            value="Jueves"
+          />
+          <label class="form-check-label" for="thursday">Jueves</label>
+        </div>
+        <div class="form-check form-check-inline no_indent">
+          <input
+            class="form-check-input"
+            name="day"
+            type="checkbox"
+            id="friday"
+            value="Viernes"
+          />
+          <label class="form-check-label" for="friday">Viernes</label>
+        </div>
+        <div class="form-check form-check-inline no_indent">
+          <input
+            class="form-check-input"
+            name="day"
+            type="checkbox"
+            id="saturday"
+            value="Sabados"
+          />
+          <label class="form-check-label" for="saturday">Sabados</label>
+        </div>
+        <div class="form-check form-check-inline no_indent">
+          <input
+            class="form-check-input"
+            name="day"
+            type="checkbox"
+            id="sunday"
+            value="Domingos"
+          />
+          <label class="form-check-label" for="sunday">Domingos</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="formcal">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Dia</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Hora inicio</th>
+          <th scope="col">Hora fin</th>
+          <th scope="col">Facilitador</th>
+          <th scope="col">Aula</th>
+        </tr>
+      </thead>
+
+      {{ form2.management_form }} {% for fo in form2 %} {{ fo.id}}
+      <tbody>
+        <tr>
+          <td scope="row">{{ fo.dia }}</td>
+          <td>
+            <input
+              type="date"
+              name="calendario-0-fecha"
+              class="form-control"
+              id="id_calendario-0-fecha"
+            />
+          </td>
+          <td>{{ fo.hora_inicio }}</td>
+          <td>{{ fo.hora_fin }}</td>
+          <td>{{ fo.facilitador }}</td>
+          <td>{{ fo.aula }}</td>
+        </tr>
+      </tbody>
+
+      {% endfor %}
+    </table>
+    <div></div>
+  </div>
+
+  <div id="empty_formtwo" style="display:none">
+    <table class="table">
+      <div class="no_error">
+        {{ form2.empty_form.id}}
+        <tbody>
+          <tr>
+            <td scope="row">{{ form2.empty_form.dia }}</td>
+            <td>
+              <input
+                type="date"
+                name="calendario-__prefix__-fecha"
+                class="form-control"
+                id="id_calendario-__prefix__-fecha"
+              />
+            </td>
+            <td>{{ form2.empty_form.hora_inicio }}</td>
+            <td>{{ form2.empty_form.hora_fin }}</td>
+            <td>{{ form2.empty_form.facilitador }}</td>
+            <td>{{ form2.empty_form.aula }}</td>
+          </tr>
+        </tbody>
+      </div>
+    </table>
+  </div>
+
+  <div class="col-12 col-md-12 col-xl-12 text-center">
+    <div class="form-group">
+      <input
+        type="button"
+        value="Generar Sesion(es)"
+        id="add_sesion"
+        class="btn btn-success green-bg"
+      />
+
+      <input
+        type="button"
+        value="Eliminar Sesion"
+        id="delete_sesion"
+        class="btn btn-danger"
+      />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-12 col-xl-12">
+      <button type="submit" class="btn btn-success green-bg">Guardar</button>
+      <a href="{% url 'listarEvento' %}" class="btn btn-danger">Cancelar</a>
+    </div>
+  </div>
+</form>
+{% endblock %} {% block specific_scripts %}
+<script>
+  $("#id_diseno").change(function() {
+    var di = $(this).val();
+    $.ajax({
+      url: "/academico/api/design/",
+      data: {},
+      success: function(data) {
+        if (di != "") {
+          for (let h = 0; h < data.length; h++) {
+            if (data[h]["id"] == di) {
+              console.log(data[h]);
+              $("#id_duracion").val(data[h]["horas_totales"]);
+              $("#id_nombre").val(data[h]["nombre"]);
+              $("#id_codigo_evento").val(data[h]["codigo"]);
+              $("#id_modalidad").val(data[h]["modalidad"]);
+              $.ajax({
+                url: "/academico/api/tipoEvento/" + data[h]["tipo_evento"],
+                data: {},
+                success: function(dataa) {
+                  console.log(dataa);
+                  $("#id_tipo_evento").val(dataa["nombre"]);
+                }
+              });
+            }
+          }
+        } else {
+          $("#id_duracion").val("");
+          $("#id_tipo_evento").val("");
+          $("#id_modalidad").val("");
+          $("#id_nombre").val("");
+          $("#id_codigo_evento").val("");
+        }
+      }
+    });
+  });
+
+  $("#disenoSearch").click(function() {
+    $("#classModalD").modal("show");
+  });
+
+  $("#disenoTable tbody").on("click", "#dis", function() {
+    var currow = $(this).closest("tr");
+    var col1 = currow.find("td:eq(0)").text();
+    $("#id_diseno").val(col1);
+    $("#id_diseno").trigger("change");
+    $("#classModalD").modal("hide");
+  });
+
+  function searchByIdD() {
+    var input, filter, table, tr, td, i, txtValue;
+    var opcion_diseno = $("#opti")
+      .children("option:selected")
+      .val();
+
+    input = document.getElementById("inputSearchD");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("disenoTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[opcion_diseno];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
+<script>
+  $("#id_codigo_evento_padre").change(function() {
+    var ide = $(this).val();
+    $.ajax({
+      url: "/academico/api/event/evento/" + ide,
+      data: {},
+      success: function(data) {
+        console.log(data);
+        $("#id_nombre_evento_Padre").val(data["nombre"]);
+      }
+    });
+  });
+</script>
+<script>
+  function addCo() {
+    var form_idx = $("#id_cofaci-TOTAL_FORMS").val();
+    console.log(form_idx);
+    $("#formco").append(
+      $("#empty_formthree")
+        .html()
+        .replace(/__prefix__/g, form_idx)
+    );
+    $("#id_cofaci-TOTAL_FORMS").val(parseInt(form_idx) + 1);
+    $("#id_cofaci-" + form_idx + "-co_facilitador").select2({
+      placeholder: "Buscar co-facilitador"
+    });
+  }
+
+  function deleteCo() {
+    var form_idx = $("#id_cofaci-TOTAL_FORMS").val();
+    console.log(form_idx);
+    console.log($(".no_error").html());
+    if (form_idx > 1) {
+      $("#id_cofaci-" + (form_idx - 1) + "-id").remove();
+      $("#id_cofaci-" + (form_idx - 1) + "-co_facilitador")
+        .parent("div")
+        .parent("div")
+        .parent("div")
+        .remove();
+      $("#id_cofaci-TOTAL_FORMS").val(parseInt(form_idx) - 1);
+    }
+  }
+
+  $("#add_co").click(function() {
+    addCo();
+    console.log("activate");
+  });
+
+  $("#delete_co").click(function() {
+    deleteCo();
+  });
+</script>
+
+<script>
+  $('#docenteSearch').click(function () {
+
+      for (let i = 0; i < {{ docente.count }}; i++) {
+      $('a[id^=ch]').attr('id', 'choose');
+  }
+  $('#classModal').modal('show');
+  });
+
+
+  $('#docenteTable tbody').on('click', '#choose', function () {
+      var currow = $(this).closest('tr');
+      var col1 = currow.find('td:eq(0)').text();
+      $('#id_docente').val(col1);
+      $('#classModal').modal('hide');
+  });
+
+
+  $('#coSearch').click(function () {
+      for (let i = 0; i < {{ docente.count }}; i++) {
+      $('a[id^=ch]').attr('id', 'cho');
+  }
+  $('#classModal').modal('show');
+  });
+
+
+  $('#docenteTable tbody').on('click', '#cho', function () {
+      var currow = $(this).closest('tr');
+      var col1 = currow.find('td:eq(0)').text();
+      $('#id_cofaci-0-co_facilitador').val(col1);
+      $('#classModal').modal('hide');
+  });
+</script>
+
+<script>
+  function searchById() {
+    var input, filter, table, tr, td, i, txtValue;
+    var opcion_docente = $("#opt")
+      .children("option:selected")
+      .val();
+
+    input = document.getElementById("inputSearch");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("docenteTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[opcion_docente];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
+<script>
+  $(document).ready(function() {
+    /*$('#id_docente').select2({
+            placeholder: 'Buscar docente'
+        });
+
+        $('#id_cofaci-0-co_facilitador').select2({
+            placeholder: 'Buscar co-facilitador'
+        });*/
+
+    $("#id_codigo_evento_padre").select2({
+      placeholder: "Codigo"
+    });
+  });
+</script>
+
+<script>
+  var activate = false;
+  var second = false;
+  var dias = 0;
+  var date = null;
+  var date2 = null;
+  var start = null;
+  var end = null;
+  var tmp = null;
+  var semanas = 0;
+  var lunes = 1;
+  var martes = 2;
+  var miercoles = 3;
+  var jueves = 4;
+  var viernes = 5;
+  var sabados = 1;
+  var domingos = 2;
+  var diascheck = [];
+  var lu,
+    ma,
+    mi,
+    ju,
+    vi,
+    sa,
+    dom = 0;
+  var anterior = null;
+  var diferencia = 0;
+
+  function addForm() {
+    var form_idx = $("#id_calendario-TOTAL_FORMS").val();
+    console.log(form_idx);
+    //date = $('#id_fecha_inicio').val().split("-");
+    //start = new Date(parseInt(date[0]), parseInt(date[1]) - 1, date[2]);
+    //console.log(date, $('#id_fecha_inicio').val());
+    /*console.log($('#id_fecha_inicio').val());
+        console.log(start);
+        console.log(start.getDate());
+        console.log(start.getMonth()+1);
+        console.log(start.getFullYear());
+        var dias = 5;
+        start.setDate(start.getDate() + dias);
+        console.log('aumento dias')
+        console.log(start);
+        console.log(start.getDate());
+        console.log(start.getMonth()+1);
+        console.log(start.getFullYear());*/
+    $("#formcal .bodyform").append(
+      $("#empty_formtwo")
+        .html()
+        .replace(/__prefix__/g, form_idx)
+    );
+    $("#id_calendario-TOTAL_FORMS").val(parseInt(form_idx) + 1);
+    $("#id_calendario-" + form_idx + "-facilitador").append(
+      $("<option />").text(
+        $("#id_docente")
+          .children("option:selected")
+          .text()
+      )
+    );
+    $("#id_calendario-" + form_idx + "-facilitador").append(
+      $("<option />").text(
+        $("#id_cofaci-0-co_facilitador")
+          .children("option:selected")
+          .text()
+      )
+    );
+    var cofaci = $("#id_cofaci-TOTAL_FORMS").val();
+    for (let a = 1; a < cofaci; a++) {
+      $("#id_calendario-" + form_idx + "-facilitador").append(
+        $("<option />").text(
+          $("#id_cofaci-" + a + "-co_facilitador")
+            .children("option:selected")
+            .text()
+        )
+      );
+    }
+    $("#id_calendario-" + form_idx + "-aula").select2({
+      placeholder: "Aula"
+    });
+  }
+
+  function deleteForm() {
+    var form_idx = $("#id_calendario-TOTAL_FORMS").val();
+    console.log(form_idx);
+    //console.log($('.no_error').html());
+    if (form_idx >= 1) {
+      $("#id_calendario-" + (form_idx - 1) + "-id").remove();
+      $("#id_calendario-" + (form_idx - 1) + "-dia")
+        .parent("td")
+        .parent("tr")
+        .remove();
+
+      /*$('#id_calendario-' + (form_idx - 1) + '-dia').parent('div').parent('div').parent('div').remove();
+            $('#id_calendario-' + (form_idx - 1) + '-horario_inicio').parent('div').parent('div').parent('div').remove();*/
+      $("#id_calendario-TOTAL_FORMS").val(parseInt(form_idx) - 1);
+    }
+  }
+
+  function dayOfWeek(opcion) {
+    if (opcion == "Lunes a Viernes") {
+      var form_idx = $("#id_calendario-TOTAL_FORMS").val();
+      if ($("#id_calendario-TOTAL_FORMS").val() == lunes) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Lunes");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime()) {
+          tmp.setDate(tmp.getDate() + dias);
+        } else {
+          tmp.setDate(tmp.getDate() + dias);
+        }
+        dias = 1;
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        lunes += 5;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == martes) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Martes");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime()) {
+          tmp.setDate(tmp.getDate() + dias);
+        } else {
+          tmp.setDate(tmp.getDate() + dias);
+        }
+        dias = 1;
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        martes += 5;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == miercoles) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Miercoles");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime()) {
+          tmp.setDate(tmp.getDate() + dias);
+        } else {
+          tmp.setDate(tmp.getDate() + dias);
+        }
+        dias = 1;
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        miercoles += 5;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == jueves) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Jueves");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime()) {
+          tmp.setDate(tmp.getDate() + dias);
+        } else {
+          tmp.setDate(tmp.getDate() + dias);
+        }
+        dias = 1;
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        jueves += 5;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == viernes) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Viernes");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime()) {
+          tmp.setDate(tmp.getDate() + dias);
+        } else {
+          tmp.setDate(tmp.getDate() + dias);
+        }
+        dias = 1;
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        viernes += 5;
+      }
+    } else if (opcion == "Sabados y Domingos") {
+      var form_idx = $("#id_calendario-TOTAL_FORMS").val();
+      if ($("#id_calendario-TOTAL_FORMS").val() == sabados) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Sabados");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime()) {
+          tmp.setDate(tmp.getDate() + dias);
+        } else {
+          tmp.setDate(tmp.getDate() + dias);
+        }
+        dias = 1;
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        sabados += 2;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == domingos) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Domingos");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime()) {
+          tmp.setDate(tmp.getDate() + dias);
+        } else {
+          tmp.setDate(tmp.getDate() + dias);
+        }
+        dias = 1;
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        domingos += 2;
+      }
+    } else {
+      var form_idx = $("#id_calendario-TOTAL_FORMS").val();
+
+      if (!activate) {
+        console.log("entro else");
+        if (diascheck.includes("Lunes")) {
+          lu = 1;
+          console.log("lunes:" + lu);
+        }
+        if (diascheck.includes("Martes")) {
+          let faltaMartes = 0;
+          if (!diascheck.includes("Lunes")) {
+            faltaMartes++;
+          }
+          ma = 2 - faltaMartes;
+          console.log("martes:" + ma);
+        }
+        if (diascheck.includes("Miercoles")) {
+          let faltaMiercoles = 0;
+          if (!diascheck.includes("Lunes")) {
+            faltaMiercoles++;
+          }
+          if (!diascheck.includes("Martes")) {
+            faltaMiercoles++;
+          }
+          mi = 3 - faltaMiercoles;
+          console.log("miercoles:" + mi);
+        }
+        if (diascheck.includes("Jueves")) {
+          let faltaJueves = 0;
+          if (!diascheck.includes("Lunes")) {
+            faltaJueves++;
+          }
+          if (!diascheck.includes("Martes")) {
+            faltaJueves++;
+          }
+          if (!diascheck.includes("Miercoles")) {
+            faltaJueves++;
+          }
+          ju = 4 - faltaJueves;
+          console.log("jueves:" + ju);
+        }
+        if (diascheck.includes("Viernes")) {
+          let faltaViernes = 0;
+          if (!diascheck.includes("Lunes")) {
+            faltaViernes++;
+          }
+          if (!diascheck.includes("Martes")) {
+            faltaViernes++;
+          }
+          if (!diascheck.includes("Miercoles")) {
+            faltaViernes++;
+          }
+          if (!diascheck.includes("Jueves")) {
+            faltaViernes++;
+          }
+          vi = 5 - faltaViernes;
+          console.log("viernes:" + vi);
+        }
+
+        if (diascheck.includes("Sabados")) {
+          let faltaSabados = 0;
+          if (!diascheck.includes("Lunes")) {
+            faltaSabados++;
+          }
+          if (!diascheck.includes("Martes")) {
+            faltaSabados++;
+          }
+          if (!diascheck.includes("Miercoles")) {
+            faltaSabados++;
+          }
+          if (!diascheck.includes("Jueves")) {
+            faltaSabados++;
+          }
+          if (!diascheck.includes("Viernes")) {
+            faltaSabados++;
+          }
+          sa = 6 - faltaSabados;
+          console.log("sabados:" + sa);
+        }
+
+        if (diascheck.includes("Domingos")) {
+          let faltaDomingos = 0;
+          if (!diascheck.includes("Lunes")) {
+            faltaDomingos++;
+          }
+          if (!diascheck.includes("Martes")) {
+            faltaDomingos++;
+          }
+          if (!diascheck.includes("Miercoles")) {
+            faltaDomingos++;
+          }
+          if (!diascheck.includes("Jueves")) {
+            faltaDomingos++;
+          }
+          if (!diascheck.includes("Viernes")) {
+            faltaDomingos++;
+          }
+          if (!diascheck.includes("Sabados")) {
+            faltaDomingos++;
+          }
+          dom = 7 - faltaDomingos;
+          console.log("domingos:" + dom);
+        }
+      }
+
+      activate = true;
+
+      if ($("#id_calendario-TOTAL_FORMS").val() == lu) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Lunes");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime() && !second) {
+          tmp.setDate(tmp.getDate() + diferencia);
+          second = true;
+          anterior = "lunes";
+        } else {
+          if (anterior == "miercoles") {
+            diferencia = 5;
+          } else if (anterior == "martes") {
+            diferencia = 6;
+          } else if (anterior == "domingos") {
+            diferencia = 1;
+          } else if (anterior == "jueves") {
+            diferencia = 4;
+          } else if (anterior == "viernes") {
+            diferencia = 3;
+          } else if (anterior == "sabados") {
+            diferencia = 2;
+          } else {
+            diferencia = 0;
+          }
+          tmp.setDate(tmp.getDate() + diferencia);
+          anterior = "lunes";
+        }
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        lu += diascheck.length;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == ma) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Martes");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime() && !second) {
+          tmp.setDate(tmp.getDate() + diferencia);
+          second = true;
+          anterior = "martes";
+        } else {
+          if (anterior == "miercoles") {
+            diferencia = 6;
+          } else if (anterior == "lunes") {
+            diferencia = 1;
+          } else if (anterior == "domingos") {
+            diferencia = 2;
+          } else if (anterior == "jueves") {
+            diferencia = 5;
+          } else if (anterior == "viernes") {
+            diferencia = 4;
+          } else if (anterior == "sabados") {
+            diferencia = 3;
+          } else {
+            diferencia = 0;
+          }
+          tmp.setDate(tmp.getDate() + diferencia);
+          anterior = "martes";
+        }
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        ma += diascheck.length;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == mi) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Miercoles");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime() && !second) {
+          tmp.setDate(tmp.getDate() + diferencia);
+          second = true;
+          anterior = "miercoles";
+        } else {
+          if (anterior == "lunes") {
+            diferencia = 2;
+          } else if (anterior == "martes") {
+            diferencia = 1;
+          } else if (anterior == "domingos") {
+            diferencia = 3;
+          } else if (anterior == "jueves") {
+            diferencia = 6;
+          } else if (anterior == "viernes") {
+            diferencia = 5;
+          } else if (anterior == "sabados") {
+            diferencia = 4;
+          } else {
+            diferencia = 0;
+          }
+          tmp.setDate(tmp.getDate() + diferencia);
+          anterior = "miercoles";
+        }
+
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        mi += diascheck.length;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == ju) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Jueves");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime() && !second) {
+          tmp.setDate(tmp.getDate() + diferencia);
+          second = true;
+          anterior = "jueves";
+        } else {
+          if (anterior == "lunes") {
+            diferencia = 3;
+          } else if (anterior == "martes") {
+            diferencia = 2;
+          } else if (anterior == "domingos") {
+            diferencia = 4;
+          } else if (anterior == "miercoles") {
+            diferencia = 1;
+          } else if (anterior == "viernes") {
+            diferencia = 6;
+          } else if (anterior == "sabados") {
+            diferencia = 5;
+          } else {
+            diferencia = 0;
+          }
+          tmp.setDate(tmp.getDate() + diferencia);
+          anterior = "jueves";
+        }
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        ju += diascheck.length;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == vi) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Viernes");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+
+        if (tmp.getTime() == start.getTime() && !second) {
+          tmp.setDate(tmp.getDate() + diferencia);
+          second = true;
+          anterior = "viernes";
+        } else {
+          if (anterior == "lunes") {
+            diferencia = 4;
+          } else if (anterior == "martes") {
+            diferencia = 3;
+          } else if (anterior == "miercoles") {
+            diferencia = 2;
+          } else if (anterior == "jueves") {
+            diferencia = 1;
+          } else if (anterior == "sabados") {
+            diferencia = 6;
+          } else if (anterior == "domingos") {
+            diferencia = 5;
+          } else {
+            diferencia = 0;
+          }
+          tmp.setDate(tmp.getDate() + diferencia);
+          anterior = "viernes";
+        }
+
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        vi += diascheck.length;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == sa) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Sabados");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime() && !second) {
+          tmp.setDate(tmp.getDate() + diferencia);
+          second = true;
+          anterior = "sabados";
+        } else {
+          if (anterior == "lunes") {
+            diferencia = 5;
+          } else if (anterior == "martes") {
+            diferencia = 4;
+          } else if (anterior == "miercoles") {
+            diferencia = 3;
+          } else if (anterior == "jueves") {
+            diferencia = 2;
+          } else if (anterior == "viernes") {
+            diferencia = 1;
+          } else if (anterior == "domingos") {
+            diferencia = 6;
+          } else {
+            diferencia = 0;
+          }
+          tmp.setDate(tmp.getDate() + diferencia);
+          anterior = "sabados";
+        }
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        sa += diascheck.length;
+      } else if ($("#id_calendario-TOTAL_FORMS").val() == dom) {
+        $("#id_calendario-" + (form_idx - 1) + "-dia").val("Domingos");
+        $("#id_calendario-" + (form_idx - 1) + "-dia").attr(
+          "readonly",
+          "readonly"
+        );
+        if (tmp.getTime() == start.getTime() && !second) {
+          tmp.setDate(tmp.getDate() + diferencia);
+          second = true;
+          anterior = "domingos";
+        } else {
+          if (anterior == "lunes") {
+            diferencia = 6;
+          } else if (anterior == "martes") {
+            diferencia = 5;
+          } else if (anterior == "miercoles") {
+            diferencia = 4;
+          } else if (anterior == "jueves") {
+            diferencia = 3;
+          } else if (anterior == "viernes") {
+            diferencia = 2;
+          } else if (anterior == "sabados") {
+            diferencia = 1;
+          } else {
+            diferencia = 0;
+          }
+          tmp.setDate(tmp.getDate() + diferencia);
+          anterior = "domingos";
+        }
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").val(
+          tmp.toISOString().substring(0, 10)
+        );
+        $("#id_calendario-" + (form_idx - 1) + "-fecha").attr(
+          "readonly",
+          "readonly"
+        );
+        dom += diascheck.length;
+      }
+    }
+  }
+
+  $("#add_sesion").click(function() {
+    var opcion_calendario = $(
+      "input:radio[name=opciones_de_calendario]:checked"
+    ).val();
+    if (opcion_calendario != undefined) {
+      date = $("#id_fecha_inicio")
+        .val()
+        .split("-");
+      date2 = $("#id_fecha_fin")
+        .val()
+        .split("-");
+      if (date == "" || date2 == "") {
+        console.log("nosepuedecalacular");
+      } else {
+        $("#formcal div").addClass("bodyform");
+        start = new Date(parseInt(date[0]), parseInt(date[1]) - 1, date[2]);
+        end = new Date(parseInt(date2[0]), parseInt(date2[1]) - 1, date2[2]);
+        tmp = new Date(start);
+        console.log(start);
+        console.log(end);
+        var diasdif = end.getTime() - start.getTime();
+        var contdias = Math.round(diasdif / (1000 * 60 * 60 * 24));
+        console.log(contdias + 1, " dias");
+        semanas = Math.trunc(contdias / 7);
+        console.log("sem:" + semanas);
+
+        dias = 0;
+        while ($("#id_calendario-TOTAL_FORMS").val() >= 1) {
+          console.log("entro a borrar");
+          deleteForm();
+        }
+        if (opcion_calendario == "Lunes a Viernes") {
+          var totalForms = 5;
+          activate = false;
+        } else if (opcion_calendario == "Sabados y Domingos") {
+          var totalForms = 2;
+          activate = false;
+        } else if (opcion_calendario == "Personalizado") {
+          $('input[name="day"]:checked').each(function() {
+            diascheck.push(this.value);
+          });
+          var totalForms = diascheck.length;
+        }
+
+        while (semanas >= 0) {
+          if (opcion_calendario == "Lunes a Viernes") {
+            console.log("crear 5 forms");
+            activate = false;
+
+            while ($("#id_calendario-TOTAL_FORMS").val() < totalForms) {
+              addForm();
+              dayOfWeek("Lunes a Viernes");
+            }
+            tmp.setDate(tmp.getDate() + 2);
+
+            $("#delete_sesion").hide();
+
+            semanas--;
+            totalForms += 5;
+          } else if (opcion_calendario == "Sabados y Domingos") {
+            console.log("crear 2 forms");
+            activate = false;
+
+            while ($("#id_calendario-TOTAL_FORMS").val() < totalForms) {
+              addForm();
+              dayOfWeek("Sabados y Domingos");
+            }
+            tmp.setDate(tmp.getDate() + 5);
+
+            $("#delete_form").hide();
+            semanas--;
+            totalForms += 2;
+          } else if (opcion_calendario == "Personalizado") {
+            console.log("permitir crear al usuario hasta 7 forms");
+            console.log(diascheck);
+            console.log("size:" + diascheck.length);
+            console.log(diascheck.includes("Lunes"));
+
+            while ($("#id_calendario-TOTAL_FORMS").val() < totalForms) {
+              addForm();
+              dayOfWeek("Personalizado");
+            }
+            //tmp.setDate(tmp.getDate() + 4);
+            $("#delete_sesion").removeAttr("hidden");
+            $("#delete_sesion").show();
+            semanas--;
+            totalForms += diascheck.length;
+          }
+        }
+      }
+    } else {
+      console.log("no election");
+    }
+  });
+
+  $("#delete_sesion").click(function() {
+    deleteForm();
+  });
+</script>
+{% endblock %}
