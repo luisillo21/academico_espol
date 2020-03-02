@@ -72,9 +72,12 @@
           <label>Evento : </label>
           <v-select 
             :options="eventos"
-            label="nombre"
+            
             v-model="evento"
-          ></v-select>
+          >
+          <template slot="option" slot-scope="option">
+                  {{ option.nombre }}
+   </template></v-select>
           Selected = [[ evento.id ]]
           </div>
           </div>
@@ -265,6 +268,8 @@
         this.loading = true;
         this.newItem.evento = this.evento.id;
         this.newItem.estado = "En progreso";
+        console.log(this.newItem.evento);
+        console.log(this.newItem.estado);
 
         //Create new plan de trabajo
         axios
@@ -295,7 +300,7 @@
           })
           .catch(err => {
             this.loading = false;
-            console.log(err);
+            console.log(err.response);
           });
       },
       copyItem: function(planToCopyId) {
@@ -339,13 +344,18 @@
           .get(`/api/evento/`)
           .then(response => {
             this.loading = true;
+
             this.eventos = response.data;
+            this.eventos.nombrecodigo
             this.loading = false;
           })
           .catch(err => {
             this.loading = false;
             console.log(err);
           });
+      },
+      getNombreYCodigo: function(evento){
+        return evento.nombre;
       },
       getEventoFromPlan: function(eventoId) {
         let evento = R.find(R.propEq("id", eventoId), this.eventos);

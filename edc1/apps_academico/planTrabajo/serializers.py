@@ -18,10 +18,9 @@ from apps_academico.crearEvento.models import Evento
 #Only used for testing for creation of Sesion(Calendario_Evento)
 class EventoSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source='codigo_evento')
-    diseno_evento = serializers.IntegerField(source='diseno')
     class Meta:
         model = Evento
-        fields = ['id','nombre','diseno_evento']
+        fields = ['id','nombre','diseno']
 
 #Only used for testing for creation of Unidad, SubUnidad
 class DisenoEventoSerializer(serializers.ModelSerializer):

@@ -443,7 +443,7 @@ Vue.component('criterios-de-evaluacion-content',{
       <td>Total</td>
       <td>
         <div class="form-group row">
-          <input class="form-control col-8" type="number" v-model="porcentajeTotal" disabled>
+          <input class="form-control col-8" type="number" max=100 v-model="porcentajeTotal" >
           <label class="col-4 col-form-label">%</label>
         </div>
       </td>
