@@ -156,7 +156,7 @@
                 <th scope="col">{{evento.fecha_fin|date:"d/m/Y"}}</td>
                 <th scope="col">{{evento.estado}}</td>
                 <th scope="col">{{evento.web}}</td>
-                <th scope="col"><a id="ptra" href="{% url 'planTrabajo_create' %}"><i class="material-icons">add_circle_outline</i></a>
+                <th scope="col"><a id="ptra" href="{% url 'plan_trabajo_list_to_create' %}"><i class="material-icons">add_circle_outline</i></a>
                     <a id="edit" href="{% url 'editarEvento' pk=evento.codigo_evento %}"><i
                             class="material-icons">edit</i></a>
                     <a onclick="return abrir_modal('{% url 'detalleEvento' pk=evento.codigo_evento %}')" id="view"><i
