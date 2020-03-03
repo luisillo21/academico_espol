@@ -22,15 +22,10 @@ from reportlab.platypus import (
 
 class Acta_entrega_certificados(View):
     def cabecera(self,pdf):
-        #Utilizamos el archivo logo_django.png que está guardado en la carpeta media/imagenes
         archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
-        #Definimos el tamaño de la imagen a cargar y las coordenadas correspondientes
         pdf.drawImage(archivo_imagen, 40, 740, 190, 90,preserveAspectRatio=True)
-        #Se dibuja una linea horizontal
         pdf.line(260,740,35,740)
-        # Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         pdf.setFont("Times-Roman", 10)
-        # Dibujamos una cadena en la ubicación X,Y especificada
         pdf.drawString(325, 790, b"DETALLE DE EVAULACION DEL EVENTO")
         pdf.drawString(426, 774, u"CÓDIGO EVENTO ")
         pdf.drawString(466, 761, u"########") ; pdf.drawString(260,720,"Aula") ; pdf.drawString(300, 720, u"Horario:") 
@@ -53,7 +48,6 @@ class Acta_entrega_certificados(View):
         pdf.drawString(260, 35,u'Usuario')
 
     def tabla(self,pdf,y):
-        #Creamos una tupla de encabezados para neustra tabla
         styles = getSampleStyleSheet()
         styleN = styles["BodyText"]
         styleN.alignment = TA_LEFT
@@ -66,15 +60,11 @@ class Acta_entrega_certificados(View):
         va5 = Paragraph('''<b>Horas justificadas</b>''', styleBH)
         va6 = Paragraph('''<b>Total asistencias</b>''', styleBH)
         va7 = Paragraph('''<b>%Asistencia</b>''', styleBH)
-        #harea = Paragraph('''<b>Área</b>''', styleBH)
         
         encabezados = (va1,va2,va3,va4,va5,va6,va7)
         
-        #Creamos una lista de tuplas que van a contener a las personas
         detalles = [('0'),('1')]
-        #Establecemos el tamaño de cada una de las columnas de la tabla
         detalle_orden = Table([encabezados] + detalles, colWidths=[1 * cm,2*cm, 3 * cm, 2.5 * cm, 2.5 * cm,2.5*cm,2.7*cm])
-        #Aplicamos estilos a las celdas de la tabla
         detalle_orden.setStyle(TableStyle(
             [
                 #La primera fila(encabezados) va a estar centrada
@@ -88,24 +78,17 @@ class Acta_entrega_certificados(View):
 
             ]
         ))
-        #Establecemos e#l tamaño de la hoja que ocupará la tabla 
         detalle_orden.wrapOn(pdf, 850, 650)
-        #Definimos la coordenada donde se dibujará la tabla
         detalle_orden.drawOn(pdf, 65,y-50)
     def get(self, request, ):
             
-            #Indicamos el tipo de contenido a devolver, en este caso un pdf
             response = HttpResponse(content_type='application/pdf')
-            #La clase io.BytesIO permite tratar un array de bytes como un fichero binario, se utiliza como almacenamiento temporal
             buffer = BytesIO()
-            #Canvas nos permite hacer el reporte con coordenadas X y Y
             pdf = canvas.Canvas(buffer)
-            #Llamo al método donde están definidos los datos que aparecen en el reporte.
             y = 590 
             self.cabecera(pdf)
             self.pie_pagina(pdf)
             self.tabla(pdf,y)
-            #Con show page hacemos un corte de página para pasar a la siguiente
             pdf.showPage()
             pdf.save()
             pdf = buffer.getvalue()

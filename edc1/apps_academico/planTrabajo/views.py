@@ -5,7 +5,11 @@ from django.views.generic.edit import *
 from apps_academico.diseñoEvento.models import DesignEvento as DisenoEvento
 from apps_academico.crearEvento.models import Evento
 from apps_academico.planTrabajo.models import *
-
+from django.shortcuts import render
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views import View
 from django.http import JsonResponse
 
 # Create your views here.
@@ -63,3 +67,28 @@ def plan_trabajo_copy(request, basePlanTrabajo_pk, newPlanTrabajo_pk):
     return JsonResponse({
             'detail': '. Plan updated'
         }, status=204)
+
+#-------------- Seccion de reportes-------------------
+
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")),result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(),content_type='application/pdf')
+    return None
+
+
+
+
+class reporte_empresa(View):
+    def get(self, request, *args, **kwargs):
+        template = get_template('reporte_empresa.html')
+        context = {"Nombre":"Luis Eduardo",
+                     "Apellidos":"Ardila Macias",
+                   }
+        pdf = render_to_pdf('reporte_empresa.html',context)
+        return HttpResponse(pdf, content_type='application/pdf')

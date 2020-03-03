@@ -11,4 +11,5 @@ urlpatterns = [
     path('<int:planTrabajo_pk>/fill/', PlanTrabajoCreate.as_view()),
     path('<int:planTrabajo_pk>/check/', PlanTrabajoCheck.as_view()),
     path('<int:basePlanTrabajo_pk>/<int:newPlanTrabajo_pk>/copy/', plan_trabajo_copy, name="plan_trabajo_copy"),
+    path('pdf_view/', reporte_empresa.as_view(), name="pdf_empresa"),
 ]
