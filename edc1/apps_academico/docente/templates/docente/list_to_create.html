@@ -64,24 +64,24 @@
               <div class="form-row">
                 <div class="col">
                   <div class="form-group">
-                  <input type="text" class="form-control" v-model="newItem.nombres" placeholder="Nombres" required>
+                  <input type="text" class="form-control" v-model="newItem.nombres" placeholder="Nombres*" required>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
-                  <input type="text" class="form-control" v-model="newItem.direccion_de_domicilio" placeholder="Dirección de domicilio" required>
+                  <input type="text" class="form-control" v-model="newItem.direccion_de_domicilio" placeholder="Dirección de domicilio*" required>
                   </div>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col">
                   <div class="form-group">
-                  <input type="text" class="form-control" v-model="newItem.apellidos" placeholder="Apellidos" required>
+                  <input type="text" class="form-control" v-model="newItem.apellidos" placeholder="Apellidos*" required>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
-                  <input type="text" class="form-control" v-model="newItem.telefono_movil" placeholder="Teléfono Móvil" required>
+                  <input type="text" class="form-control" v-model="newItem.telefono_movil" placeholder="Teléfono Móvil*" required>
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                   <div class="form-group">            
                   <textarea 
                     class="form-control" 
-                    placeholder="Síntesis de Currículum redactado en tercera persona, utilizando 600 caracteres. Iniciar con títulos de cuarto nivel, resaltar experiencia profesional en el área del curso o seminario que imparte. Detallar experiencia académica sin especificar nombres de otras universidades."
+                    placeholder="Síntesis de Currículum redactado en tercera persona, utilizando 600 caracteres. Iniciar con títulos de cuarto nivel, resaltar experiencia profesional en el área del curso o seminario que imparte. Detallar experiencia académica sin especificar nombres de otras universidades.*"
                     v-model="newItem.sintesis_cv" 
                     rows="7" 
                     required>
@@ -99,26 +99,26 @@
                 </div>
                 <div class="col">
                   <div class="form-group">
-                  <input type="text" class="form-control" v-model="newItem.telefono_convencional" placeholder="Teléfono Convencional" required>
+                  <input type="text" class="form-control" v-model="newItem.telefono_convencional" placeholder="Teléfono Convencional*" required>
                   </div>
                   <div class="form-group">
-                  <label>Fecha de nacimiento : </label>
-                  <input type="date" class="form-control" v-model="newItem.fecha_de_nacimiento" placeholder="Fecha De nacimiento" required>
+                  <label>Fecha de nacimiento* : </label>
+                  <input type="date" class="form-control" v-model="newItem.fecha_de_nacimiento" placeholder="Fecha De nacimiento*" required>
                   </div>
                   <div class="form-group">
-                  <input type="text" class="form-control" v-model="newItem.lugar_de_nacimiento" placeholder="Lugar de Nacimiento" required>
+                  <input type="text" class="form-control" v-model="newItem.lugar_de_nacimiento" placeholder="Lugar de Nacimiento*" required>
                   </div>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col">
                   <div class="form-group">
-                  <input type="text" class="form-control" v-model="newItem.indice_dactilar" placeholder="Indice Dáctilar" required>
+                  <input type="text" class="form-control" maxlength=10 v-model="newItem.indice_dactilar" placeholder="Indice Dáctilar*" required>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
-                  <input type="email" class="form-control" v-model="newItem.correo_principal" placeholder="Correo Principal" required>
+                  <input type="email" class="form-control" v-model="newItem.correo_principal" placeholder="Correo Principal*" required>
                   </div>
                 </div>
               </div>                                                                                            
@@ -126,12 +126,12 @@
               <div class="form-row">
                 <div class="col">
                   <div class="form-group">
-                  <input type="text" class="form-control" v-model="newItem.numero_de_cedula" placeholder="Número de cédula" required>
+                  <input type="text" class="form-control" v-model="newItem.numero_de_cedula" placeholder="Número de cédula*" required>
                   </div>
                 </div>
                 <div class="col">            
                   <div class="form-group">
-                  <input type="email" class="form-control" v-model="newItem.correo_secundario" placeholder="Correo Secundario" required>
+                  <input type="email" class="form-control" v-model="newItem.correo_secundario" placeholder="Correo Secundario">
                   </div>
                 </div>
               </div>

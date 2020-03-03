@@ -20,6 +20,10 @@ from django.conf.urls.static import static
 from django.conf import settings
 from .routers import *
 from apps_academico.reporte_aca.Acta_entrega_certificados import Acta_entrega_certificados
+from apps_academico.reporte_aca.detalle_evaulacion_evento import Detalle_evaulacion_evento
+from apps_academico.reporte_aca.Acta_nota_evento import Acta_nota_evento
+from apps_academico.reporte_aca.Acta_entrega_certificado import Acta_entrega_certificado
+from apps_academico.reporte_aca.Acta_emision_certificado_evento import Acta_emision_certificado_evento
 
 urlpatterns = [
     path('', RedirectView.as_view(url='academico/designListar/')),
@@ -32,7 +36,11 @@ urlpatterns = [
     path('api/', include(plan_trabajo_router.urls)),
     path('api/', include(docente_router.urls)),
     path('api/', include(participante_router.urls)),
-    path('entrega_certificado/',Acta_entrega_certificados.as_view(),name='entrega_certificado')
+    path('entrega_certificado/',Acta_entrega_certificados.as_view(),name='entrega_certificado'),
+    path('detalle_evaulacion_evento/',Detalle_evaulacion_evento.as_view(),name='detalle_evaulacion_evento'),
+    path('acta_nota_evento/',Acta_nota_evento.as_view(),name='acta_nota_evento'),
+    path('Acta_entrega_certificado/',Acta_entrega_certificado.as_view(),name='Acta_entrega_certificado'),
+    path('Acta_emision_certificado_evento/',Acta_emision_certificado_evento.as_view(),name='Acta_emision_certificado_evento')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 """path('evento/', include(('apps_academico.crearEvento.urls', 'index'), namespace="index")),

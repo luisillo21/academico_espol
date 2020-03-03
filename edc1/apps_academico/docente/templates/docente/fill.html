@@ -323,7 +323,7 @@ Vue.component('informacion-personal-content',{
     },
     disableInputs : function(readOnlyFlag){
       if (readOnlyFlag==true) {
-        $(`#${this.component.id} form :input`).prop('disabled',true);
+        $(`#${this.component.id} form :input`).prop('disabled',false);
       }
     }
   }

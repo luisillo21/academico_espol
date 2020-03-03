@@ -75,9 +75,10 @@
             label="nombre"
             v-model="evento"
           >
-          <template slot="evento" slot-scope="evento">
-                  {{ evento.nombre }}
-   </template></v-select>
+          <template slot="option" slot-scope="option">
+            [[option.diseno]] - [[option.nombre]]
+          </template>
+          </v-select>
           Selected = [[ evento.id ]]
           </div>
           </div>
@@ -344,18 +345,14 @@
           .get(`/api/evento/`)
           .then(response => {
             this.loading = true;
-
             this.eventos = response.data;
-            this.eventos.nombrecodigo
+            console.log(typeof this.eventos);
             this.loading = false;
           })
           .catch(err => {
             this.loading = false;
             console.log(err);
           });
-      },
-      getNombreYCodigo: function(evento){
-        return evento.nombre;
       },
       getEventoFromPlan: function(eventoId) {
         let evento = R.find(R.propEq("id", eventoId), this.eventos);
