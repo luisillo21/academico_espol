@@ -20,7 +20,9 @@ from reportlab.platypus import (
     TableStyle,
     Paragraph)
 
-class Detalle_evaulacion_evento(View):
+
+
+class Acta_entrega_certificado(View):
     def cabecera(self,pdf):
         #Utilizamos el archivo logo_django.png que está guardado en la carpeta media/imagenes
         archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
@@ -31,14 +33,13 @@ class Detalle_evaulacion_evento(View):
         # Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         pdf.setFont("Times-Roman", 10)
         # Dibujamos una cadena en la ubicación X,Y especificada
-        pdf.drawString(325, 790, b"DETALLE DE EVAULACION DEL EVENTO")
+        pdf.drawString(315, 790, b"ACTA DE ENTREGA DE CERTIFICADOS")
         pdf.drawString(426, 774, u"CÓDIGO EVENTO ")
-        pdf.drawString(466, 761, u"########") ; pdf.drawString(260,720,"Aula") ; pdf.drawString(400, 720, u"Horario:") 
-        pdf.drawString(35, 720, u"Programa:") ; pdf.drawString(260, 705, u"Duración:")
-        pdf.drawString(35, 705, u"Promoción:") ; pdf.drawString(260, 690, u"Fecha Inicio:")
-        pdf.drawString(35, 690, u"Curso:") ; pdf.drawString(260, 675, u"Fecha Final:")
-        pdf.drawString(35, 675, u"Tipo de Capacitación:")
-
+        pdf.drawString(466, 761, u"########")
+        pdf.drawString(35, 720, u"Programa:") ; pdf.drawString(260, 720, u"Duración:")
+        pdf.drawString(35, 705, u"Promoción:") ; pdf.drawString(260, 705, u"Fecha Inicio:")
+        pdf.drawString(35, 690, u"Curso:") ; pdf.drawString(260, 690, u"Fecha Final:")
+        pdf.drawString(35, 675, u"Instructor:") ; pdf.drawString(260, 675, u"Tipo de Capacitación:")
 
     def pie_pagina(self,pdf):
         pdf.setFillColor(HexColor(308011))
@@ -58,54 +59,40 @@ class Detalle_evaulacion_evento(View):
         styleN = styles["BodyText"]
         styleN.alignment = TA_LEFT
         styleBH = styles["Normal"]
-        styleBH.fontSize = 8
         styleBH.alignment = TA_CENTER
+        va1 = Paragraph('''<b>N.-</b>''', styleBH)
+        va2 = Paragraph('''<b>Cédula</b>''', styleBH)
+        va3 = Paragraph('''<b>Nombre</b>''', styleBH)
+        va4 = Paragraph('''<b>Fecha de recepción</b>''', styleBH)
+        va5 = Paragraph('''<b>Firma de recibí conforme</b>''', styleBH)
+        #-----conteniedo en la tabla-------
+        
+        encabezados = (va1,va2,va3,va4,va5)
 
-        va1 = Paragraph('''<b></b>''', styleBH)
-        va2 = Paragraph('''<b>Participante</b>''', styleBH)
-        va3 = Paragraph('''<b>Evaulación Dianostica (/100)</b>''', styleBH)
-        va4 = Paragraph('''<b>*(Nombre y peso de la actividad 1)(/100)</b>''', styleBH)
-        va5 = Paragraph('''<b>*(Nombre y peso de la actividad 2)(/100)</b>''', styleBH)
-        va6 = Paragraph('''<b>*(Nombre y peso de la actividad 3)(/100)</b>''', styleBH)
-        va7 = Paragraph('''<b>Promedio de Actividades(/100)</b>''', styleBH)
-        va8 = Paragraph('''<b>Prueba final (/100)</b>''', styleBH)
-        va9 = Paragraph('''<b>Nota final (/100)</b>''', styleBH)
-        va10 = Paragraph('''<b>**Observación</b>''', styleBH)
-        enc= Paragraph('''Representante el 40% de la nota final''',styleBH)
-        encabezados = (va1,va2,va3,va4,va5,va6,va7,va8,va9,va10)
-        encabezados2=(' ',' ',' ','Representa el 60% de la nota final','','','','',enc)
         #Creamos una lista de tuplas que van a contener a las personas
         detalles = [('0'),('1')]
         #Establecemos el tamaño de cada una de las columnas de la tabla
-        detalle_orden = Table([encabezados2,encabezados,] + detalles, colWidths=[0.5 * cm,2.2*cm, 2* cm, 2 * cm, 2 * cm,2*cm,2*cm,2*cm,2*cm,3*cm])
+        detalle_orden = Table([encabezados] + detalles, colWidths=[1 * cm,3.5*cm, 6 * cm, 3 * cm, 6 * cm,2.5*cm,0.5*cm])
         #Aplicamos estilos a las celdas de la tabla
         detalle_orden.setStyle(TableStyle(
             [
                 #La primera fila(encabezados) va a estar centrada
                 ('ALIGN',(0,0),(2,0),'CENTER'),
-                ('ALIGN',(0,0),(3,0),'CENTER'),
                 #Los bordes de todas las celdas serán de color negro y con un grosor de 1
-                ('GRID', (9,0), (-1, -1), 0.5, colors.black),
-                ('GRID', (10,1), (-1, -1), 0.5, colors.black),
-                ('GRID', (0, 1), (-1, -1), 0.5, colors.black),
-                ('GRID',(3,0), (-1, -1), 0.5, colors.black),
-                #('BACKGROUND',(3,0),(-1,-1),colors.green),
-                #('BACKGROUND',(3,1),(-1,-1),colors.green),
-                ('SPAN',(0,0),(2,0)),
-                ('SPAN',(3,0),(7,0)),
-                ('BOTTOMPADDING',(3,0),(0,1)),
-                
+                #('GRID', (0, 1), (-1, -1), 0.5, colors.black), 
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
                 #El tamaño de las letras de cada una de las celdas será de 10
-                #('FONTSIZE', (0, 0), (-1, -1), 10),
-                #('BOTTOMPADDING', (6, 0), (-1, 0), 40),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('BOTTOMPADDING', (6, 0), (-1, 0), 40),
 
             ]
         ))
-        #Establecemos e#l tamaño de la hoja que ocupará la tabla 
+        #Establecemos el tamaño de la hoja que ocupará la tabla 
         detalle_orden.wrapOn(pdf, 850, 650)
         #Definimos la coordenada donde se dibujará la tabla
-        detalle_orden.drawOn(pdf, 15,y-80)
+        detalle_orden.drawOn(pdf, 35,y)
     def get(self, request, ):
+
             
             #Indicamos el tipo de contenido a devolver, en este caso un pdf
             response = HttpResponse(content_type='application/pdf')
@@ -125,3 +112,5 @@ class Detalle_evaulacion_evento(View):
             buffer.close()
             response.write(pdf)
             return response
+
+            

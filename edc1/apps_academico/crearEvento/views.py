@@ -529,7 +529,7 @@ class Registro_asistencia_evento(View):
         pdf.drawString(35, 705, u"Promoción:") ; pdf.drawString(260, 705, u"Fecha Inicio:")
         pdf.drawString(35, 690, u"Curso:") ; pdf.drawString(260, 690, u"Fecha Final:")
         pdf.drawString(35, 675, u"Instructor:") ; pdf.drawString(260, 675, u"Tipo de Capacitación:")
-        pdf.drawString(415,660,"CONTROL DE ASISTENCIA")
+        pdf.drawString(460,665,"CONTROL DE ASISTENCIA")
 
 
     def pie_pagina(self,pdf):
@@ -559,13 +559,17 @@ class Registro_asistencia_evento(View):
         hsalida = Paragraph('''<b>H.Salida</b>''', styleBH)
         #hcargo = Paragraph('''<b>Cargo</b>''', styleBH)
         #harea = Paragraph('''<b>Área</b>''', styleBH)
+        #-----conteniedo en la tabla-------
+
+        con= Paragraph('0940659261',styleBH)
+        con1= Paragraph('Steven Burgos',styleBH)
         
         encabezados = (hnum,hcedula,hnombre,hfirma,hentrada,hsalida,"","","","","","","","","","")#hprofesion,hcargo,harea)
         encabezados2=("","","","","")
         #Creamos una lista de tuplas que van a contener a las personas
-        detalles = [('0'),('1')]
+        detalles = [('0',con,con1),('1')]
         #Establecemos el tamaño de cada una de las columnas de la tabla
-        detalle_orden = Table([encabezados2,encabezados] + detalles, colWidths=[1 * cm,2*cm, 2 * cm, 2 * cm, 2.5 * cm,2.5*cm,0.5*cm])
+        detalle_orden = Table([encabezados2,encabezados] + detalles, colWidths=[1 * cm,2.5*cm, 2.5 * cm, 4 * cm, 2.5 * cm,2.5*cm,0.5*cm])
         #Aplicamos estilos a las celdas de la tabla
         detalle_orden.setStyle(TableStyle(
             [
@@ -583,8 +587,9 @@ class Registro_asistencia_evento(View):
         #Establecemos el tamaño de la hoja que ocupará la tabla 
         detalle_orden.wrapOn(pdf, 850, 650)
         #Definimos la coordenada donde se dibujará la tabla
-        detalle_orden.drawOn(pdf, 65,y-50)
+        detalle_orden.drawOn(pdf, 20,y-50)
     def get(self, request, ):
+
             
             #Indicamos el tipo de contenido a devolver, en este caso un pdf
             response = HttpResponse(content_type='application/pdf')
