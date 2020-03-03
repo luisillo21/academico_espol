@@ -72,11 +72,11 @@
           <label>Evento : </label>
           <v-select 
             :options="eventos"
-            
+            label="nombre"
             v-model="evento"
           >
-          <template slot="option" slot-scope="option">
-                  {{ option.nombre }}
+          <template slot="evento" slot-scope="evento">
+                  {{ evento.nombre }}
    </template></v-select>
           Selected = [[ evento.id ]]
           </div>
