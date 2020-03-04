@@ -59,6 +59,8 @@ class PlanTrabajo(models.Model):
     instrumentos_de_evaluacion = JSONField(null=True)
     motivo_de_rechazo = models.TextField(null=True)
 
+def upload_actividad(instance, filename):
+    return "PlanTrabajo/%s/Actividades/%s" %(instance.plan_trabajo, filename)
 
 class ActividadPlan(models.Model):
     plan_trabajo = models.ForeignKey(PlanTrabajo, on_delete=models.CASCADE)
@@ -75,6 +77,7 @@ class ActividadPlan(models.Model):
         TODO:
         adjunto =
     """
+    archivo = models.FileField(upload_to=upload_actividad, null=True)
 
 
 class SesionItem(models.Model):
@@ -94,6 +97,8 @@ class RecursoSesion(models.Model):
     tipo = models.TextField()
     descripcion = models.TextField()
 
+def upload_anexo(instance, filename):
+    return "PlanTrabajo/%s/Anexos/%s" %(instance.plan_trabajo, filename)
 
 class AnexoPlan(models.Model):
     plan_trabajo = models.ForeignKey(PlanTrabajo, on_delete=models.CASCADE)
@@ -102,7 +107,7 @@ class AnexoPlan(models.Model):
     """
         TODO: add archivo adjunto
     """
-
+    archivo = models.FileField(upload_to=upload_anexo, null=True)
 
 class RecursoPlan(models.Model):
     """

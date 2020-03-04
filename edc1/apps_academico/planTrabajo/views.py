@@ -19,7 +19,7 @@ class PlanTrabajoCreate(TemplateView):
         context['planTrabajo_id'] = planTrabajo_id
         context['evento_id'] = plan.evento_id
         evento = get_object_or_404(Evento, codigo_evento=plan.evento_id)
-        context['disenoEvento_id'] = evento.diseno
+        context['disenoEvento_id'] = evento.diseno_id
         return context
 
 

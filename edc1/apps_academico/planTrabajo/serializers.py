@@ -26,7 +26,7 @@ class EventoSerializer(serializers.ModelSerializer):
 class DisenoEventoSerializer(serializers.ModelSerializer):
     class Meta:
         model = DisenoEvento
-        fields = ['id','nombre']
+        fields = ['id','nombre','objetivo']
 
 class UnidadSerializer(serializers.ModelSerializer):
     diseno_evento = serializers.PrimaryKeyRelatedField(source='design',queryset=DisenoEvento.objects.all())

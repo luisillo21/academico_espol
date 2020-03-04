@@ -33,7 +33,7 @@
     <tr> <th> ID </th> <th> Evento </th> <th> Estado </th>  <th> Acciones </th>  </tr>
   </thead>
   <tbody>
-    <tr v-for="(value,index) in items" v-if="isEnProgreso(value.estado)||isRechazado(value.estado)">
+    <tr v-for="(value,index) in items" v-if="isEnProgreso(value.estado)||isRechazado(value.estado)||isAprobado(value.estado)">
       <td>[[ value.id ]]</td>
       <td> [[ getEventoFromPlan(value.evento) ]] </td>
       <td>[[ value.estado ]]</td>
@@ -382,7 +382,8 @@
           });
       },
       isRechazado: estado => estado == "Rechazado",
-      isEnProgreso: estado => estado == "En progreso"
+      isEnProgreso: estado => estado == "En progreso",
+      isAprobado: estado => estado == "Aprobado"
     }
   });
 

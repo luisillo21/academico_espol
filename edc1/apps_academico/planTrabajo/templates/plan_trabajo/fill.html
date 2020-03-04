@@ -254,21 +254,55 @@ const EVENTO_ID = document.getElementById('EVENTO_ID').innerHTML;
 // Objetivo General
 Vue.component('objetivo-general-content',{
   delimiters: ['[[', ']]'],
+  props : ['read_only','component_name'],
   template : `
   <div class="form-group">
     <label>
     Al finalizar el curso el participante estará en condiciones de : 
     </label>
-    <textarea class="form-control" rows="3" disabled>
-      [[ content ]]
+    <textarea class="form-control" v-model="objetivogeneral" rows="3" disabled>
     </textarea>
   </div>
   `,
   data: function(){
     return {
-      content: ''
+      loading: false,
+      url: '/api/disenoEvento/',
+      objetivogeneral : null,
+      component : { id : 'component_' + this.component_name }
     }
-  }  
+  },  
+  mounted : function(){
+    this.getObjetivo();
+  },
+  methods : {
+    getObjetivo: function(){
+      axios.get(`${this.url}${DISENOEVENTO_ID}`)
+      .then((response) => {
+        this.loading = true;
+        this.objetivogeneral = response.data.objetivo;
+        console.log(response.data.objetivo);
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);       
+      })
+    },
+    save : function(){
+      axios.patch(`${this.url}${DISENOEVENTO_ID}/`,{
+        'objetivo' : this.objetivogeneral
+      }).then((response) => {
+        this.loading = true;
+        console.log('Objetivo general saved!');  
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        console.log(err);       
+      })
+    }
+  } 
 });
 
 //Objetivos Específicos
@@ -545,7 +579,7 @@ Vue.component('actividades-plan-content',{
           <h5 class="modal-title"> Agregar Actividad </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
         </div>
-        <form v-on:submit.prevent="addItem()">
+        <form v-on:submit.prevent="addItem()" enctype="multipart/form-data">
           <div class="modal-body">
           <!-- CUSTOM FORM -->
           <div class="form-group">
@@ -553,6 +587,10 @@ Vue.component('actividades-plan-content',{
           </div>
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="newItem.descripcion" rows="3" required></textarea>
+          </div>
+          <label>Adjuntar archivo : </label>
+          <div class="form-group">            
+            <input type="file" class="form-control" v-on:change="selectFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
           </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
@@ -581,6 +619,10 @@ Vue.component('actividades-plan-content',{
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required></textarea>
           </div>
+          <label>Adjuntar archivo : </label>
+          <div class="form-group">            
+            <input type="file" v-model="newItem.archivo" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+          </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
         </form>
@@ -608,6 +650,10 @@ Vue.component('actividades-plan-content',{
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required disabled></textarea>
           </div>
+          <label>Adjuntar archivo : </label>
+          <div class="form-group">            
+            <input type="file" v-model="currentItem.archivo" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+          </div>
           </div>
         </form>
       </div>
@@ -625,7 +671,7 @@ Vue.component('actividades-plan-content',{
       loading: false,
       currentItem: {},
       message: null,
-      newItem: { 'nombre': null, 'descripcion': null , 'plan_trabajo' : null },
+      newItem: { 'nombre': null, 'descripcion': null , 'archivo': null, 'plan_trabajo' : null },
       modals : {
         view : {
           id: 'viewItemModal_' + this.component_name,
@@ -673,10 +719,20 @@ Vue.component('actividades-plan-content',{
         console.log(err);
       })
     },
+    selectFile: function() {
+      this.newItem.archivo = this.$refs.file.files[0];
+    },
     addItem: function() {
       this.loading = true;
       this.newItem.plan_trabajo = PLANTRABAJO_ID;
-      axios.post(this.url,this.newItem)
+
+      let formData = new FormData();
+      formData.append("nombre", this.newItem.nombre);
+      formData.append("descripcion", this.newItem.descripcion);
+      formData.append("plan_trabajo", this.newItem.plan_trabajo);
+      formData.append("archivo", this.newItem.archivo);
+      
+      axios.post(this.url,formData)
       .then((response) => {
         this.loading = false;
         this.getItems();
