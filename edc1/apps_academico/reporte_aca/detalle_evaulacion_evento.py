@@ -59,16 +59,6 @@ class Detalle_evaulacion_evento(View):
         va2 = Paragraph('''<b>Participante</b>''', styleBH)
         va3 = Paragraph('''<b>Evaulación Dianostica (/100)</b>''', styleBH)
         va4 = Paragraph('''<b>*(Nombre y peso de la actividad 1)(/100)</b>''', styleBH)
-<<<<<<< HEAD
-        va5 = Paragraph('''<b>Horas justificadas</b>''', styleBH)
-        va6 = Paragraph('''<b>Total asistencias</b>''', styleBH)
-        va7 = Paragraph('''<b>%Asistencia</b>''', styleBH)
-        
-        encabezados = (va1,va2,va3,va4,va5,va6,va7)
-        
-        detalles = [('0'),('1')]
-        detalle_orden = Table([encabezados] + detalles, colWidths=[1 * cm,2*cm, 3 * cm, 2.5 * cm, 2.5 * cm,2.5*cm,2.7*cm])
-=======
         va5 = Paragraph('''<b>*(Nombre y peso de la actividad 2)(/100)</b>''', styleBH)
         va6 = Paragraph('''<b>*(Nombre y peso de la actividad 3)(/100)</b>''', styleBH)
         va7 = Paragraph('''<b>Promedio de Actividades(/100)</b>''', styleBH)
@@ -83,7 +73,6 @@ class Detalle_evaulacion_evento(View):
         #Establecemos el tamaño de cada una de las columnas de la tabla
         detalle_orden = Table([encabezados2,encabezados,] + detalles, colWidths=[0.5 * cm,2.2*cm, 2* cm, 2 * cm, 2 * cm,2*cm,2*cm,2*cm,2*cm,3*cm])
         #Aplicamos estilos a las celdas de la tabla
->>>>>>> 1180a153d44b07da5cca1f7ddceb3056448dc40e
         detalle_orden.setStyle(TableStyle(
             [
                 #La primera fila(encabezados) va a estar centrada
@@ -107,12 +96,8 @@ class Detalle_evaulacion_evento(View):
             ]
         ))
         detalle_orden.wrapOn(pdf, 850, 650)
-<<<<<<< HEAD
-        detalle_orden.drawOn(pdf, 65,y-50)
-=======
         #Definimos la coordenada donde se dibujará la tabla
         detalle_orden.drawOn(pdf, 15,y-80)
->>>>>>> 1180a153d44b07da5cca1f7ddceb3056448dc40e
     def get(self, request, ):
             
             response = HttpResponse(content_type='application/pdf')

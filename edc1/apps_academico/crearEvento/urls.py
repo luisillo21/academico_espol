@@ -47,10 +47,11 @@ urlpatterns = [
     path('pubCrear/',CrearPub.as_view(), name = 'crearPub'),
     path('pubListar/',ListarPub.as_view(), name = 'listarPub'),
     path('pubDetalle/<int:pk>',infoEvento.as_view(), name = 'detallePub'),
+
     path('getNameE/', loadEventoName),
     #--------Seccion de reportes------------
     path('EventoCriterio/', EventoPorCriterio.as_view(), name='EventoCriterio'),
     path('Eventos_Ejecutados/', Eventos_Ejecutados.as_view(), name='Eventos_Ejecutados'),
     path('Registro_asistencia_evento/',Registro_asistencia_evento.as_view(),name='Registro_asistencia_evento'),
-
+    path('<int:pk>/AsistenciaDocentes/',AsistenciasDocentePDF.as_view()),
 ]

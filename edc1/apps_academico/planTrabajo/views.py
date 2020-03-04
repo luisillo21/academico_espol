@@ -1,7 +1,6 @@
 from django.shortcuts import *
 from django.views.generic import *
 from django.views.generic.edit import *
-
 from apps_academico.diseñoEvento.models import DesignEvento as DisenoEvento
 from apps_academico.crearEvento.models import Evento
 from apps_academico.planTrabajo.models import *
@@ -11,6 +10,7 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views import View
 from django.http import JsonResponse
+
 
 # Create your views here.
 class PlanTrabajoCreate(TemplateView):
