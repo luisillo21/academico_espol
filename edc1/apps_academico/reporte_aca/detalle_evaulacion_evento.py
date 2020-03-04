@@ -22,15 +22,10 @@ from reportlab.platypus import (
 
 class Detalle_evaulacion_evento(View):
     def cabecera(self,pdf):
-        #Utilizamos el archivo logo_django.png que está guardado en la carpeta media/imagenes
         archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
-        #Definimos el tamaño de la imagen a cargar y las coordenadas correspondientes
         pdf.drawImage(archivo_imagen, 40, 740, 190, 90,preserveAspectRatio=True)
-        #Se dibuja una linea horizontal
         pdf.line(260,740,35,740)
-        # Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         pdf.setFont("Times-Roman", 10)
-        # Dibujamos una cadena en la ubicación X,Y especificada
         pdf.drawString(325, 790, b"DETALLE DE EVAULACION DEL EVENTO")
         pdf.drawString(426, 774, u"CÓDIGO EVENTO ")
         pdf.drawString(466, 761, u"########") ; pdf.drawString(260,720,"Aula") ; pdf.drawString(400, 720, u"Horario:") 
@@ -53,7 +48,6 @@ class Detalle_evaulacion_evento(View):
         pdf.drawString(260, 35,u'Usuario')
 
     def tabla(self,pdf,y):
-        #Creamos una tupla de encabezados para neustra tabla
         styles = getSampleStyleSheet()
         styleN = styles["BodyText"]
         styleN.alignment = TA_LEFT
@@ -101,24 +95,18 @@ class Detalle_evaulacion_evento(View):
 
             ]
         ))
-        #Establecemos e#l tamaño de la hoja que ocupará la tabla 
         detalle_orden.wrapOn(pdf, 850, 650)
         #Definimos la coordenada donde se dibujará la tabla
         detalle_orden.drawOn(pdf, 15,y-80)
     def get(self, request, ):
             
-            #Indicamos el tipo de contenido a devolver, en este caso un pdf
             response = HttpResponse(content_type='application/pdf')
-            #La clase io.BytesIO permite tratar un array de bytes como un fichero binario, se utiliza como almacenamiento temporal
             buffer = BytesIO()
-            #Canvas nos permite hacer el reporte con coordenadas X y Y
             pdf = canvas.Canvas(buffer)
-            #Llamo al método donde están definidos los datos que aparecen en el reporte.
             y = 590 
             self.cabecera(pdf)
             self.pie_pagina(pdf)
             self.tabla(pdf,y)
-            #Con show page hacemos un corte de página para pasar a la siguiente
             pdf.showPage()
             pdf.save()
             pdf = buffer.getvalue()

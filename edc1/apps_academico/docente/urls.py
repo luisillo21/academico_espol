@@ -10,6 +10,5 @@ urlpatterns = [
     path('<int:docente_pk>/fill/', DocenteFill.as_view()),
     path('<int:docente_pk>/check/', DocenteCheck.as_view()),
     path('<int:docente_pk>/score/', docente_score),
-    path('AsistenciaDocentes/',AsistenciasDocentePDF.as_view(),name='Asistencia _docentes'),
     path('DocentePorCriterio/',DocentePorCriterio.as_view(),name='DocentePorCriterio'),
 ]

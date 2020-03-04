@@ -33,7 +33,7 @@ class Acta_nota_evento(View):
         # Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         pdf.setFont("Times-Roman", 10)
         # Dibujamos una cadena en la ubicación X,Y especificada
-        pdf.drawString(315, 790, b" ACTA DE NOTAS DEL EVENTO")
+        pdf.drawString(362, 790, b" ACTA DE NOTAS DEL EVENTO")
         pdf.drawString(426, 774, u"CÓDIGO EVENTO ")
         pdf.drawString(466, 761, u"########")
         pdf.drawString(35, 720, u"Programa:") ; pdf.drawString(260, 720, u"Duración:")

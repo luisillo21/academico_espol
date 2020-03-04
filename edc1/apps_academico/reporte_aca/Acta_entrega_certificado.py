@@ -33,7 +33,7 @@ class Acta_entrega_certificado(View):
         # Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         pdf.setFont("Times-Roman", 10)
         # Dibujamos una cadena en la ubicación X,Y especificada
-        pdf.drawString(315, 790, b"ACTA DE ENTREGA DE CERTIFICADOS")
+        pdf.drawString(325, 790, b"ACTA DE ENTREGA DE CERTIFICADOS")
         pdf.drawString(426, 774, u"CÓDIGO EVENTO ")
         pdf.drawString(466, 761, u"########")
         pdf.drawString(35, 720, u"Programa:") ; pdf.drawString(260, 720, u"Duración:")
@@ -91,9 +91,7 @@ class Acta_entrega_certificado(View):
         detalle_orden.wrapOn(pdf, 850, 650)
         #Definimos la coordenada donde se dibujará la tabla
         detalle_orden.drawOn(pdf, 35,y)
-    def get(self, request, ):
-
-            
+    def get(self, request, ):          
             #Indicamos el tipo de contenido a devolver, en este caso un pdf
             response = HttpResponse(content_type='application/pdf')
             #La clase io.BytesIO permite tratar un array de bytes como un fichero binario, se utiliza como almacenamiento temporal
