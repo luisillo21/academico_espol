@@ -24,6 +24,8 @@ from apps_academico.reporte_aca.detalle_evaulacion_evento import Detalle_evaulac
 from apps_academico.reporte_aca.Acta_nota_evento import Acta_nota_evento
 from apps_academico.reporte_aca.Acta_entrega_certificado import Acta_entrega_certificado
 from apps_academico.reporte_aca.Acta_emision_certificado_evento import Acta_emision_certificado_evento
+from apps_academico.reporte_aca.excel import export_users_xls
+
 
 urlpatterns = [
     path('', RedirectView.as_view(url='academico/designListar/')),
@@ -40,7 +42,8 @@ urlpatterns = [
     path('detalle_evaulacion_evento/',Detalle_evaulacion_evento.as_view(),name='detalle_evaulacion_evento'),
     path('acta_nota_evento/',Acta_nota_evento.as_view(),name='acta_nota_evento'),
     path('Acta_entrega_certificado/',Acta_entrega_certificado.as_view(),name='Acta_entrega_certificado'),
-    path('Acta_emision_certificado_evento/',Acta_emision_certificado_evento.as_view(),name='Acta_emision_certificado_evento')
+    path('Acta_emision_certificado_evento/',Acta_emision_certificado_evento.as_view(),name='Acta_emision_certificado_evento'),
+    path('excel/',export_users_xls,name='excel')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 """path('evento/', include(('apps_academico.crearEvento.urls', 'index'), namespace="index")),

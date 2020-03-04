@@ -93,25 +93,23 @@ class Acta_emision_certificado_evento(View):
         #Definimos la coordenada donde se dibujará la tabla
         detalle_orden.drawOn(pdf, 35,y)
     def get(self, request, ):
-
-            
-            #Indicamos el tipo de contenido a devolver, en este caso un pdf
-            response = HttpResponse(content_type='application/pdf')
-            #La clase io.BytesIO permite tratar un array de bytes como un fichero binario, se utiliza como almacenamiento temporal
-            buffer = BytesIO()
-            #Canvas nos permite hacer el reporte con coordenadas X y Y
-            pdf = canvas.Canvas(buffer)
-            #Llamo al método donde están definidos los datos que aparecen en el reporte.
-            y = 590 
-            self.cabecera(pdf)
-            self.pie_pagina(pdf)
-            self.tabla(pdf,y)
-            #Con show page hacemos un corte de página para pasar a la siguiente
-            pdf.showPage()
-            pdf.save()
-            pdf = buffer.getvalue()
-            buffer.close()
-            response.write(pdf)
-            return response
+    #Indicamos el tipo de contenido a devolver, en este caso un pdf
+        response = HttpResponse(content_type='application/pdf')
+        #La clase io.BytesIO permite tratar un array de bytes como un fichero binario, se utiliza como almacenamiento temporal
+        buffer = BytesIO()
+        #Canvas nos permite hacer el reporte con coordenadas X y Y
+        pdf = canvas.Canvas(buffer)
+        #Llamo al método donde están definidos los datos que aparecen en el reporte.
+        y = 590 
+        self.cabecera(pdf)
+        self.pie_pagina(pdf)
+        self.tabla(pdf,y)
+        #Con show page hacemos un corte de página para pasar a la siguiente
+        pdf.showPage()
+        pdf.save()
+        pdf = buffer.getvalue()
+        buffer.close()
+        response.write(pdf)
+        return response
 
             
