@@ -5,7 +5,6 @@
     <div class="card-header">
       <h6 class="mb-0">
         <h2><span class="darkgreen-text">Docentes</span></h2>
-        <input type="text" id="filtro" onkeyup="filtro()" placeholder="Search">
       </h6>
     </div>
     <div class="card-body">
@@ -26,27 +25,39 @@
     template: `
   <div>
   <!-- START List Items -->
-  <table id="tabla" class="table table-sm table-borderless table-hover">
-  <thead class="white-text darkgreen-bg">
-    <tr> <th> ID </th> <th> Cédula </th> <th> Nombres </th>  <th> Apellidos </th> <th> Estado </th> <th> Acciones </th>  </tr>
-  </thead>
-  <tbody>
-    <tr v-for="(value,index) in items">
-      <td>[[ value.id ]]</td>
-      <td>[[ value.numero_de_cedula]]</td>
-      <td>[[ value.nombres ]]</td>
-      <td>[[ value.apellidos ]]</td>      
-      <td>[[ value.estado ]]</td>
-      <td>
-        <!--button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
-        <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')">Edit</button>
-        <button class="btn btn-danger" v-on:click="deleteItem(value.id)">Delete</button-->
-        <button class="btn btn-primary" v-on:click="fillDocente(value.id)">Llenar</button>
-        <button class="btn btn-primary" v-on:click="getItem(value.id,'ver_observacion')" v-if="value.observacion!=null">Ver Observacion</button>
-      </td>
-    </tr>
-  </tbody>
-  </table>
+  <v-app id="inspire">
+      <v-toolbar dark color="primary" fixed>
+        <v-toolbar-title class="white--text">Nutrition</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+        <v-menu offset-y :nudge-left="170" :close-on-content-click="false">
+            <v-btn icon slot="activator">
+                <v-icon>more_vert</v-icon>
+              </v-btn>
+            <v-list>
+              <v-list-tile  v-for="(item, index) in headers"  :key="item.value"   @click="changeSort(item.value)">
+                <v-list-tile-title>{{ item.text }}<v-icon v-if="pagination.sortBy === item.value">[[pagination.descending ? 'arrow_downward':'arrow_upward']]</v-icon></v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+      </v-toolbar>
+          <v-layout column >
+            <v-data-table :headers="headers" :items="items" :search="search" :pagination.sync="pagination" >
+              <template slot="items" slot-scope="props">
+                <tr>
+                  <td>{{ props.item.id }}</td>
+                  <td class="text-xs-right">{{ props.item.numero_de_cedula }}</td>
+                  <td class="text-xs-right">{{ props.item.nombres }}</td>
+                  <td class="text-xs-right">{{ props.item.apellidos }}</td>
+                  <td class="text-xs-right">{{ props.item.estado }}</td>
+                  <td> 
+                    <td class="text-xs-right">{{ props.item.estado }}</td>
+                     </td>
+                </tr>
+              </template>
+            </v-data-table>
+          </v-layout>
+    </v-app>
   <div class="d-flex justify-content-end">
     <button class="btn btn-secondary green-bg" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
   </div>
@@ -369,8 +380,33 @@
         url: "/api/docente/",
         items: [],
         loading: false,
+        search: '',
+        pagination: {
+          sortBy: 'id'
+        },
         currentItem: {},
         message: null,
+        headers: [{
+            text: 'ID',
+            value: 'id'
+          },
+          {
+            text: 'Cédula',
+            value: 'numero_de_cedula'
+          },
+          {
+            text: 'Nombres',
+            value: 'nombres'
+          },
+          {
+            text: 'Apellidos',
+            value: 'apellidos'
+          },
+          {
+            text: 'Estado',
+            value: 'estado'
+          }
+        ],
         newItem: {
           nombres: null,
           apellidos: null,
@@ -406,25 +442,6 @@
       this.getItems();
     },
     methods: {
-      onResize() {
-          if (window.innerWidth < 769)
-            this.isMobile = true;
-          else
-            this.isMobile = false;
-        },
-        toggleAll() {
-          if (this.selected.length) this.selected = []
-          else this.selected = this.desserts.slice()
-        },
-        changeSort(column) {
-          console.log(column);
-          if (this.pagination.sortBy === column) {
-            this.pagination.descending = !this.pagination.descending
-          } else {
-            this.pagination.sortBy = column
-            this.pagination.descending = false
-          }
-        },
       getItems: function() {
         this.loading = true;
         axios
@@ -510,29 +527,5 @@
     delimiters: ["[[", "]]"], //https://stackoverflow.com/questions/49948261/vuejs-data-wont-display
     el: "#app"
   });
-
-  function filtro() {
-        // Declare variables
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("filtro");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("tabla");
-        tr = table.getElementsByTagName("tr");
-
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td");
-          for  (j=0; j< td.length-1; j++){
-              txtValue = td[j].textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-                break; 
-              } else {
-                tr[i].style.display = "none";
-              }
-          }
-        }
-      } 
 </script>
 {% endblock%}

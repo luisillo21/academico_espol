@@ -590,7 +590,7 @@ Vue.component('actividades-plan-content',{
           </div>
           <label>Adjuntar archivo : </label>
           <div class="form-group">            
-            <input type="file" class="form-control" v-on:change="selectFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+            <input type="file" id="archivo" class="form-control" v-on:change="selectFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
           </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
@@ -610,7 +610,7 @@ Vue.component('actividades-plan-content',{
           <h5 class="modal-title"> Editar Actividad </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
         </div>
-        <form v-on:submit.prevent="updateItem()">
+        <form v-on:submit.prevent="updateItem()" enctype="multipart/form-data">
           <div class="modal-body">
           <!-- CUSTOM FORM -->           
           <div class="form-group">
@@ -650,11 +650,12 @@ Vue.component('actividades-plan-content',{
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required disabled></textarea>
           </div>
-          <label>Adjuntar archivo : </label>
+          <label>Descargar Archivo : </label>
           <div class="form-group">            
-            <input type="file" v-model="currentItem.archivo" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+            <a href="{{currentItem.archivo}}" download="a">[[currentItem.archivo]]</a>
           </div>
-          </div>
+
+          </div>  
         </form>
       </div>
     </div>
@@ -671,7 +672,7 @@ Vue.component('actividades-plan-content',{
       loading: false,
       currentItem: {},
       message: null,
-      newItem: { 'nombre': null, 'descripcion': null , 'archivo': null, 'plan_trabajo' : null },
+      newItem: { 'nombre': null, 'descripcion': null , 'archivo': null, 'plan_trabajo' : null , 'nombre_archivo': null},
       modals : {
         view : {
           id: 'viewItemModal_' + this.component_name,
@@ -711,6 +712,7 @@ Vue.component('actividades-plan-content',{
           $(`#${this.modals.update.id}`).modal('show');
         }else {
           $(`#${this.modals.view.id}`).modal('show');
+          console.log(this.currentItem.nombre_archivo);
         }
         this.loading = false;
       })
@@ -722,6 +724,9 @@ Vue.component('actividades-plan-content',{
     selectFile: function() {
       this.newItem.archivo = this.$refs.file.files[0];
     },
+    updateFile: function() {
+      this.currentItem.archivo = this.$refs.file.files[0];
+    },
     addItem: function() {
       this.loading = true;
       this.newItem.plan_trabajo = PLANTRABAJO_ID;
@@ -731,6 +736,9 @@ Vue.component('actividades-plan-content',{
       formData.append("descripcion", this.newItem.descripcion);
       formData.append("plan_trabajo", this.newItem.plan_trabajo);
       formData.append("archivo", this.newItem.archivo);
+      let nombre = document.getElementById('archivo');
+      let filename = nombre.value.replace(/.*[\/\\]/, '');
+      formData.append("nombre_archivo", filename);
       
       axios.post(this.url,formData)
       .then((response) => {
@@ -745,7 +753,16 @@ Vue.component('actividades-plan-content',{
     },
     updateItem: function() {
       this.loading = true;
-      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      let formData2 = new FormData();
+      formData2.append("nombre", this.currentItem.nombre);
+      formData2.append("descripcion", this.currentItem.descripcion);
+      formData2.append("plan_trabajo", this.currentItem.plan_trabajo);
+      formData2.append("archivo", this.currentItem.archivo);
+      let nombre = document.getElementById('archivoedit');
+      let filename = nombre.value.replace(/.*[\/\\]/, '');
+      formData2.append("nombre_archivo", filename);
+
+      axios.put(`${this.url}${this.currentItem.id}/`,formData2)
       .then((response) => {
         this.loading = false;
         this.currentItem = response.data;
@@ -2308,13 +2325,18 @@ Vue.component('anexos-plan-content',{
           <h5 class="modal-title"> Agregar Anexo </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
         </div>
-        <form v-on:submit.prevent="addItem()">
+        <form v-on:submit.prevent="addItem()" enctype="multipart/form-data">
           <div class="modal-body">
+          <!-- CUSTOM FORM -->
           <div class="form-group">
             <input type="text" class="form-control" v-model="newItem.nombre" placeholder="Nombre" required>
           </div>
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="newItem.descripcion" rows="3" required></textarea>
+          </div>
+          <label>Adjuntar archivo : </label>
+          <div class="form-group">            
+            <input type="file" id="anexo" class="form-control" v-on:change="selectFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
           </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
@@ -2333,13 +2355,18 @@ Vue.component('anexos-plan-content',{
           <h5 class="modal-title"> Editar Anexo </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
         </div>
-        <form v-on:submit.prevent="updateItem()">
+        <form v-on:submit.prevent="updateItem()" enctype="multipart/form-data">
           <div class="modal-body">
+          <!-- CUSTOM FORM -->           
           <div class="form-group">
             <input type="text" class="form-control" v-model="currentItem.nombre" placeholder="Nombre" required>
           </div>
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required></textarea>
+          </div>
+          <label>Adjuntar archivo : </label>
+          <div class="form-group">            
+            <input type="file" v-model="newItem.archivo" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
           </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
@@ -2360,13 +2387,19 @@ Vue.component('anexos-plan-content',{
         </div>
         <form>
           <div class="modal-body">
+          <!-- CUSTOM FORM -->
           <div class="form-group">
             <input type="text" class="form-control" v-model="currentItem.nombre" placeholder="Nombre" required disabled>
           </div>
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required disabled></textarea>
           </div>
+          <label>Descargar Archivo : </label>
+          <div class="form-group">            
+            <a href="{{currentItem.archivo}}" download="a">[[currentItem.archivo]]</a>
           </div>
+
+          </div>  
         </form>
       </div>
     </div>
@@ -2383,7 +2416,7 @@ Vue.component('anexos-plan-content',{
       loading: false,
       currentItem: {},
       message: null,
-      newItem: { 'nombre': null, 'descripcion': null , 'plan_trabajo': null},
+      newItem: { 'nombre': null, 'descripcion': null , 'archivo': null, 'plan_trabajo' : null , 'nombre_archivo': null},
       modals : {
         view : {
           id: 'viewItemModal_' + this.component_name,
@@ -2431,10 +2464,26 @@ Vue.component('anexos-plan-content',{
         console.log(err);
       })
     },
+    selectFile: function() {
+      this.newItem.archivo = this.$refs.file.files[0];
+    },
+    updateFile: function() {
+      this.currentItem.archivo = this.$refs.file.files[0];
+    },
     addItem: function() {
       this.loading = true;
       this.newItem.plan_trabajo = PLANTRABAJO_ID;
-      axios.post(`${this.url}`,this.newItem)
+
+      let formData = new FormData();
+      formData.append("nombre", this.newItem.nombre);
+      formData.append("descripcion", this.newItem.descripcion);
+      formData.append("plan_trabajo", this.newItem.plan_trabajo);
+      formData.append("archivo", this.newItem.archivo);
+      let nombre = document.getElementById('anexo');
+      let filename = nombre.value.replace(/.*[\/\\]/, '');
+      formData.append("nombre_archivo", filename);
+      
+      axios.post(this.url,formData)
       .then((response) => {
         this.loading = false;
         this.getItems();
@@ -2442,12 +2491,21 @@ Vue.component('anexos-plan-content',{
       })
       .catch((err) => {
         this.loading = false;
-        console.log(err);
+        console.log(err.response);
       })
     },
     updateItem: function() {
       this.loading = true;
-      axios.put(`${this.url}${this.currentItem.id}/`,this.currentItem)
+      let formData2 = new FormData();
+      formData2.append("nombre", this.currentItem.nombre);
+      formData2.append("descripcion", this.currentItem.descripcion);
+      formData2.append("plan_trabajo", this.currentItem.plan_trabajo);
+      formData2.append("archivo", this.currentItem.archivo);
+      let nombre = document.getElementById('archivoedit');
+      let filename = nombre.value.replace(/.*[\/\\]/, '');
+      formData2.append("nombre_archivo", filename);
+
+      axios.put(`${this.url}${this.currentItem.id}/`,formData2)
       .then((response) => {
         this.loading = false;
         this.currentItem = response.data;

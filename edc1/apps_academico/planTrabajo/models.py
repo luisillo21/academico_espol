@@ -58,6 +58,9 @@ class PlanTrabajo(models.Model):
     estado = models.TextField()
     instrumentos_de_evaluacion = JSONField(null=True)
     motivo_de_rechazo = models.TextField(null=True)
+    
+    def __str__(self):
+        return '{}'.format(self.id)
 
 def upload_actividad(instance, filename):
     return "PlanTrabajo/%s/Actividades/%s" %(instance.plan_trabajo, filename)
@@ -78,6 +81,7 @@ class ActividadPlan(models.Model):
         adjunto =
     """
     archivo = models.FileField(upload_to=upload_actividad, null=True)
+    nombre_archivo = models.TextField()
 
 
 class SesionItem(models.Model):
@@ -108,6 +112,7 @@ class AnexoPlan(models.Model):
         TODO: add archivo adjunto
     """
     archivo = models.FileField(upload_to=upload_anexo, null=True)
+    nombre_archivo = models.TextField()
 
 class RecursoPlan(models.Model):
     """

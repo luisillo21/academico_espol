@@ -49,6 +49,9 @@
 	<script src="{% static 'vue-select\vue-select.js' %}"></script>		
 	<link href="{% static 'vue-select\vue-select.css' %}" rel="stylesheet" />
 
+	<!-- Vuetify -->
+	<script src="{% static 'vuetify\vuetify.min.js' %}"></script>		
+
 	<!-- bootstrap -->
 	<link href="{% static 'bootstrap-4.3.1\css\bootstrap.min.css' %}" rel="stylesheet" />
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -216,7 +219,7 @@
 
 						<div id="menu" class="row">
 							<div class="col-12 mlat">
-								<a class="menu" href="#">
+								<a class="menu" href="{% url 'listarAula' %}">
 									<div id="titulo" class="row">
 										<div class="col-10">
 											<span class="pl-2">Aulas</span>
@@ -231,7 +234,7 @@
 
 						<div id="menu" class="row">
 							<div class="col-12 mlat">
-								<a class="menu" href="#">
+								<a class="menu" href="{% url 'listarAliado' %}">
 									<div id="titulo" class="row">
 										<div class="col-10">
 											<span class="pl-2">Aliados</span>
@@ -246,7 +249,7 @@
 
 						<div id="menu" class="row">
 							<div class="col-12 mlat">
-								<a class="menu" href="#">
+								<a class="menu" href="{% url 'listarDia' %}">
 									<div id="titulo" class="row">
 										<div class="col-10">
 											<span class="pl-2">Calificaciones</span>
@@ -261,7 +264,7 @@
 						
 						<div id="menu" class="row">
 							<div class="col-12 mlat">
-								<a class="menu" href="{% url 'plan_trabajo_list_to_create' %}">
+								<a class="menu" href="#">
 									<div id="titulo" class="row">
 										<div class="col-10">
 											<span class="pl-2">Informe Evento</span>

@@ -19,7 +19,7 @@ class Docente(models.Model):
     fecha_de_nacimiento = models.DateField(null=True)
     lugar_de_nacimiento = models.TextField(null=True)
     correo_principal = models.TextField(null=True)
-    correo_secundario = models.TextField(null=True)
+    correo_secundario = models.TextField(null=True, blank=True)
     numero_de_cedula = models.TextField(null=True)
     estado = models.TextField(null=True)
     observacion = models.TextField(null=True)
