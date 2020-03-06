@@ -49,6 +49,31 @@
                                 <div class="col-12 col-sm-12 col-xl-12">
                                     <div class="form-group">
                                         <div class="row d-flex align-items-center">
+                                            <div class="col-2 col-sm-2 col-xl-2">
+                                                <label class="font-weight-bold" for="area">Área de Capacitación:</label>
+                                            </div>
+                                            <div class="col-4 col-sm-4 col-xl-4">
+                                                <select  v-model="newDesign.area" class="form-control" name="areas" id="area" required> 
+                                                    <option v-for="area in areas" v-bind:value="area.id">{area.codigo} : {area.area}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-2 col-sm-2 col-xl-2">
+                                                <label class="font-weight-bold" for="especialidad">Especialidad:</label>
+                                            </div>
+                                            <div class="col-4 col-sm-4 col-xl-4">
+                                                <select v-model="newDesign.especialidad" class="form-control" name="especialidades" id="especialidad" required> 
+                                                    <option v-for="especialidad in especialidades" v-bind:value="especialidad.id" v-if="especialidad.area===newDesign.area">{especialidad.codigo} : {especialidad.especialidades}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-xl-12">
+                                    <div class="form-group">
+                                        <div class="row d-flex align-items-center">
                                             <div class="col-1 col-sm-1 col-xl-1">
                                                 <label class="font-weight-bold" for="codigo">Código:</label>
                                             </div>
@@ -66,31 +91,6 @@
                                             </div>
                                             <div class="col-3 col-sm-3 col-xl-3">
                                                 <input v-model="newDesign.cod_programa" type="text" class="form-control" id="cod_programa" placeholder="Código Programa" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="area">Área de Capacitación:</label>
-                                            </div>
-                                            <div class="col-4 col-sm-4 col-xl-4">
-                                                <select  v-model="newDesign.area" class="form-control" name="areas" id="area" required> 
-                                                    <option v-for="area in areas" v-bind:value="area.id">{area.codigo} : {area.area}</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="especialidad">Especialidad:</label>
-                                            </div>
-                                            <div class="col-4 col-sm-4 col-xl-4">
-                                                <select v-model="newDesign.especialidad" class="form-control" name="especialidades" id="especialidad" required> 
-                                                    <option v-for="especialidad in especialidades" v-bind:value="especialidad.id" v-if="especialidad.area===newDesign.area">{especialidad.codigo} : {especialidad.especialidades}</option>
-                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -748,7 +748,7 @@
                                 </div>
                                 
                                 <div class="col-11 col-sm-11 col-xl-11">
-                                    <input v-model="detalleUnidad" class="form-control" type="text" name="unidadDetalles" id="unidadDetalles" placeholder="Detalle la unidad de aprendizaje" required>
+                                    <textarea v-model="detalleUnidad" class="form-control" rows="4" name="unidadDetalles" id="unidadDetalles" placeholder="Detalle la unidad de aprendizaje" required></textarea>
                                 </div>
                             </div>
                             <div class="row d-flex justify-content-center align-items-center">

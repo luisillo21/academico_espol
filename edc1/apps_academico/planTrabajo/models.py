@@ -112,6 +112,7 @@ class AnexoPlan(models.Model):
         TODO: add archivo adjunto
     """
     archivo = models.FileField(upload_to=upload_anexo, null=True)
+    nombre_archivo = models.TextField()
 
 class RecursoPlan(models.Model):
     """

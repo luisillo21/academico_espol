@@ -6,6 +6,7 @@
       <h6>
         Planes de Trabajo
       </h6>
+      <input type="text" id="filtro" onkeyup="filtro()" placeholder="Search">
     </div>
     <div class="card-body">
       <plan-content component_name="PlanTrabajo"></plan-content>
@@ -28,15 +29,17 @@
     template: `
   <div>
   <!-- START List Items -->
-  <table class="table table-sm table-borderless table-hover">
+  <table id="tabla" class="table table-sm table-borderless table-hover">
   <thead class="text-light darkgreen-bg">
-    <tr> <th> ID </th> <th> Evento </th> <th> Estado </th>  <th> Acciones </th>  </tr>
+    <tr> <th> ID </th> <th> Evento </th> <th> Fecha de creación</th><th> Estado </th> <th> Codigo de diseño</th> <th> Acciones </th>  </tr>
   </thead>
   <tbody>
     <tr v-for="(value,index) in items" v-if="isEnProgreso(value.estado)||isRechazado(value.estado)||isAprobado(value.estado)">
       <td>[[ value.id ]]</td>
       <td> [[ getEventoFromPlan(value.evento) ]] </td>
-      <td>[[ value.estado ]]</td>
+      <td> [[ value.fecha_de_modificacion]] </td>
+      <td> [[ value.estado ]]</td>
+      <td> [[getDisenoFromEvento(value.evento)]] </td>
       <td>
         <!--button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
         <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')">Edit</button>
@@ -198,6 +201,7 @@
         message: null,
         newItem: { estado: null, evento: null },
         eventos: [],
+        disenos: [],
         evento: { id: null },
         planToCopyId: null,
         planToApproveId: null,
@@ -224,8 +228,10 @@
       };
     },
     mounted: function() {
+      this.getDisenos();
       this.getEventos();
       this.getItems();
+      
     },
     methods: {
       getItems: function() {
@@ -358,6 +364,26 @@
         let evento = R.find(R.propEq("id", eventoId), this.eventos);
         return evento.nombre;
       },
+      getDisenos: function() {
+        axios
+          .get(`/api/disenoEvento/`)
+          .then(response => {
+            this.loading = true;
+            this.disenos = response.data;
+            this.loading = false;
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+          });
+      },
+      getDisenoFromEvento: function(eventoId) {
+        let evento = R.find(R.propEq("id", eventoId), this.eventos);
+        console.log(evento.id);
+        console.log(this.disenos);
+        let diseno = R.find(R.propEq("id", evento.id), this.disenos);
+        return diseno.codigo;
+      },
       sendToApprove: function(planToApproveId) {
         //Set planId of plan that will be sent to approve
         this.planToApproveId = planToApproveId;
@@ -391,5 +417,29 @@
     delimiters: ["[[", "]]"], //https://stackoverflow.com/questions/49948261/vuejs-data-wont-display
     el: "#app"
   });
+
+  function filtro() {
+        // Declare variables
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("filtro");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tabla");
+        tr = table.getElementsByTagName("tr");
+
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td");
+          for  (j=0; j< td.length-1; j++){
+              txtValue = td[j].textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                break; 
+              } else {
+                tr[i].style.display = "none";
+              }
+          }
+        }
+      } 
 </script>
 {% endblock%}
