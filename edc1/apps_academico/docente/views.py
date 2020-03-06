@@ -73,13 +73,14 @@ def docente_score(request,docente_pk):
 
 class DocentePorCriterio(View):
     style = getSampleStyleSheet()
+    
     def cabecera(self, pdf):
-        width, height = A4
+        
         archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
-        pdf.drawImage(archivo_imagen, 10, 500, 230,
+        pdf.drawImage(archivo_imagen, 15, 500, 230,
                       90, preserveAspectRatio=True)
         pdf.setFont("Helvetica-Bold", 12)
-        pdf.drawString(650, 550, b"Reporte de eventos por genero")
+        pdf.drawString(650, 550, b"Reporte de Docente")
         pdf.setFillColor(yellow)
         pdf.rect(760, 526, 67, 14, fill=True, stroke=False)
         pdf.setFillColor(black)
@@ -91,9 +92,8 @@ class DocentePorCriterio(View):
     def pie_pagina(self, pdf):
         pdf.setFont("Helvetica", 10)
         now = datetime.now()
-        pdf.drawString(
-            10, 45, 'CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588 ')
-        pdf.drawString(10, 30, u"Fecha impresión:"+str(now.day) +
+        pdf.drawString(10, 50, 'CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588 ')
+        pdf.drawString(10, 35, u"Fecha impresión:"+str(now.day) +
                        '/'+str(now.month)+'/'+str(now.year))
         page_num = pdf.getPageNumber()
         text = "Pág. %s|1" % page_num
@@ -101,7 +101,7 @@ class DocentePorCriterio(View):
         pdf.drawString(200, 30, u'Usuario: ')
         pdf.drawString(240, 30, u'Luis Eduardo Ardila Macias')
         pdf.setFillColor(HexColor('#3c5634'))
-        pdf.drawString(10, 60, "//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
+        pdf.drawString(10, 65, "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
 
     def contenido(self, pdf, y):
         width, height = A4
@@ -132,29 +132,37 @@ class DocentePorCriterio(View):
         styleC.fontSize = 9
         styleC.alignment = TA_LEFT
         #var_16 = Paragraph('<b>Zambrano Zambrano</b>', styleC)
-
+        valores=[(self.sty(i.id,8),
+        self.sty(i.numero_de_cedula,8),
+        '',
+        self.sty(i.apellidos,8),
+        self.sty(i.nombres,8),
+        '',
+        self.sty(i.correo_principal,6),
+        self.sty(i.telefono_convencional,8),
+        self.sty(i.telefono_movil,8),
+        self.sty(j.nombre_de_titulo,8)
         
-
-
-        encabezado1 = [
-            [var_1,var_2,var_3,var_4,var_5,var_6,var_7,var_8,var_9,var_10,var_11,var_12,var_13,var_14,var_15],
-            ['1', '', '','','', '','','','','','','','','',''],
-            ['2', '', '', '','', '','','','','','','','','',''],
-            ['3', '', '', '','', '','','','','','','','','',''],
-            ['4', '', '', '','', '','','','','','','','','','']
-        ]
-
-        t = Table(encabezado1, colWidths=[
-                  1*cm, 2*cm, 2*cm, 2*cm,2*cm, 2*cm,2*cm,2*cm,2*cm,2*cm,2*cm,2*cm,2*cm,2.5*cm,1.5*cm])
+        )for i in Docente.objects.all() for j in EducacionSuperior.objects.all()]
+        
+        encabezado1 =[var_1,var_2,var_3,var_4,var_5,var_6,var_7,var_8,var_9,var_10,var_11,var_12,var_13,var_14,var_15]
+       
+        t = Table([encabezado1]+valores,colWidths=[1*cm, 2*cm, 2*cm, 2*cm,2*cm, 2*cm,2*cm,2*cm,2*cm,2*cm,2*cm,2*cm,2*cm,2.5*cm,1.5*cm])
         t.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.20, colors.black),
             ('INNERGRID', (0, 0), (-1, -1), 0.10, colors.black),
+            ('LINEBELOW', (0, 0), (-1, 0), 2, colors.black),
 
         ]))
 
         t.wrapOn(pdf, width, height)
-        t.drawOn(pdf, 8, 360)
-        
+        t.drawOn(pdf, 8, 200)
+    def sty(self,val,size):
+        styles = getSampleStyleSheet()
+        sti = styles['BodyText']
+        sti.fontSize = size
+        valor = Paragraph('<b>{}</b>'.format(val),sti)
+        return valor
     def get(self, request, ):
         response = HttpResponse(content_type='application/pdf')
         buffer = BytesIO()
