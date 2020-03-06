@@ -7,6 +7,7 @@ from rest_framework import viewsets
 from .serializers import *
 import json
 from .models import Evento, Aula, Aliado, CalendarioEvento, Docente, Co, PubEvento
+from apps_academico.participante.models import Participante
 from apps_academico.diseñoEvento.models import DesignEvento, TipoEvento
 from django.views.generic import TemplateView,CreateView,ListView,UpdateView,DeleteView, DetailView, View
 from django.views.generic.edit import FormMixin
@@ -444,6 +445,10 @@ class Eventos_Ejecutados(View):
         pdf.setFillColor(HexColor('#3c5634'))
         pdf.drawString(10, 60, "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
 
+    def information_evento(self):
+        lst_evento = Evento.objects.filter()
+
+
     def contenido(self, pdf, y):
         width, height = A4
         styles = getSampleStyleSheet()
@@ -473,6 +478,7 @@ class Eventos_Ejecutados(View):
 
         t = Table(encabezado1, colWidths=[
                   0.9*cm,2*cm,2*cm,5*cm,2*cm,2.5*cm,2.2*cm,2.2*cm,2*cm,2.2*cm,2*cm,1.8*cm, 2*cm])
+
         t.setStyle(TableStyle([
             ('BOX', (0, 0), (-1, -1), 0.10, colors.black),
             ('INNERGRID', (0, 0), (-1, -1), 0.10, colors.black),
@@ -754,7 +760,7 @@ class AsistenciasDocentePDF(TemplateView):
     def get(self, request, *args, **kargs):
         response = HttpResponse(content_type='application/pdf')
         buffer = BytesIO()
-        pdf = canvas.Canvas(buffer, pagesize=A4)
+        pdf = canvas.Canvas(buffer,pagesize=A4)
         y = 590
         self.cabecera(pdf)
         self.pie_pagina(pdf)

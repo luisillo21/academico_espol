@@ -29,6 +29,7 @@ urlpatterns = [
     path('design/crear/',CrearDesign.as_view(),name='crearDesign'),
     #-----Seccion de reportes
     path('EventosPorGenero/',EventosPorGenero.as_view(),name='Evento_por_genero'),
-    path('EvetosPorGenero2/', EventosPorGenero2.as_view(), name='Evento_por_genero2'),
+    path('design/EvetosPorGenero2/', EventosPorGenero2.as_view(), name='Evento_por_genero2'),
+    path('design/Eventos_Ejecutados/', Eventos_Ejecutados.as_view(), name='Eventos_Ejecutados'),
 
 ]

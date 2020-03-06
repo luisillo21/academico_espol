@@ -60,6 +60,9 @@ class DesignEvento(models.Model):
         unidades = Unidad.objects.filter(design=self.id)
         return unidades
 
+    def cantidad_diseños(self):
+        pass
+
 
     def __str__(self):
         return "{}".format(self.nombre)

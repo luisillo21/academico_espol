@@ -30,6 +30,9 @@ from reportlab.platypus import (
     Spacer,
     TableStyle,
     Paragraph)
+from openpyxl import Workbook
+from openpyxl.styles import Alignment,Border,Font,PatternFill,Side,Color
+from apps_academico.docente.models import *
 #----------------------------------
 # Create your views here.
 
@@ -172,15 +175,10 @@ class ParticipantesReprobados(View):
 #---------------------------------------
 class Perfil_participante(View):
     def cabecera(self,pdf):
-        #Utilizamos el archivo logo_django.png que está guardado en la carpeta media/imagenes
         archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
-        #Definimos el tamaño de la imagen a cargar y las coordenadas correspondientes
         pdf.drawImage(archivo_imagen, 40, 740, 190, 90,preserveAspectRatio=True)
-        #Se dibuja una linea horizontal
         pdf.line(260,740,35,740)
-        # Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         pdf.setFont("Times-Roman", 10)
-        # Dibujamos una cadena en la ubicación X,Y especificada
         pdf.drawString(390, 790, b" PERFIL DE PARTICIPANTES")
         pdf.drawString(426, 774, u"CÓDIGO EVENTO ")
         pdf.drawString(466, 761, u"########")
@@ -203,7 +201,6 @@ class Perfil_participante(View):
         pdf.drawString(260, 35,u'Usuario')
 
     def tabla(self,pdf,y):
-        #Creamos una tupla de encabezados para neustra tabla
         styles = getSampleStyleSheet()
         styleN = styles["BodyText"]
         styleN.alignment = TA_LEFT
@@ -218,40 +215,26 @@ class Perfil_participante(View):
         hcargo = Paragraph('''<b>Cargo</b>''', styleBH)
         harea = Paragraph('''<b>Área</b>''', styleBH)
         encabezados = (hnum,hcedula,hnombre,htitulo3,htitulo4,hprofesion,hcargo,harea)
-        #Creamos una lista de tuplas que van a contener a las personas
         detalles = [('0')]
-        #Establecemos el tamaño de cada una de las columnas de la tabla
         detalle_orden = Table([encabezados] + detalles, colWidths=[0.9 * cm, 2 * cm, 2 * cm, 2.5 * cm,2.5*cm,2.5*cm,2*cm])
-        #Aplicamos estilos a las celdas de la tabla
         detalle_orden.setStyle(TableStyle(
             [
-                #La primera fila(encabezados) va a estar centrada
                 ('ALIGN',(0,0),(2,0),'CENTER'),
-                #Los bordes de todas las celdas serán de color negro y con un grosor de 1
                 ('GRID', (0, 0), (-1, -1), 0.5, colors.black), 
-                #('SPAN',(-1,-1),(-3-1)),
-                #El tamaño de las letras de cada una de las celdas será de 10
+                #('SPAN',(-1,-1),(-3-1))
                 ('FONTSIZE', (0, 0), (-1, -1), 10),
             ]
         ))
-        #Establecemos el tamaño de la hoja que ocupará la tabla 
         detalle_orden.wrapOn(pdf, 850, 650)
-        #Definimos la coordenada donde se dibujará la tabla
         detalle_orden.drawOn(pdf, 60,y)
     def get(self, request, ):
-            
-            #Indicamos el tipo de contenido a devolver, en este caso un pdf
             response = HttpResponse(content_type='application/pdf')
-            #La clase io.BytesIO permite tratar un array de bytes como un fichero binario, se utiliza como almacenamiento temporal
             buffer = BytesIO()
-            #Canvas nos permite hacer el reporte con coordenadas X y Y
             pdf = canvas.Canvas(buffer)
-            #Llamo al método donde están definidos los datos que aparecen en el reporte.
             y = 600
             self.cabecera(pdf)
             self.pie_pagina(pdf)
             self.tabla(pdf,y)
-            #Con show page hacemos un corte de página para pasar a la siguiente
             pdf.showPage()
             pdf.save()
             pdf = buffer.getvalue()
@@ -263,15 +246,10 @@ class Perfil_participante(View):
 #--------------------------------
 class Conctacto_participante(View):
     def cabecera(self,pdf):
-        #Utilizamos el archivo logo_django.png que está guardado en la carpeta media/imagenes
         archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
-        #Definimos el tamaño de la imagen a cargar y las coordenadas correspondientes
         pdf.drawImage(archivo_imagen, 40, 740, 190, 90,preserveAspectRatio=True)
-        #Se dibuja una linea horizontal
         pdf.line(260,740,35,740)
-        # Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         pdf.setFont("Times-Roman", 10)
-        # Dibujamos una cadena en la ubicación X,Y especificada
         pdf.drawString(365, 790, b"CONTACTO DE PARTICIPANTE")
         pdf.drawString(426, 774, u"CÓDIGO EVENTO ")
         pdf.drawString(466, 761, u"########")
@@ -294,7 +272,6 @@ class Conctacto_participante(View):
         pdf.drawString(260, 35,u'Usuario')
 
     def tabla(self,pdf,y):
-        #Creamos una tupla de encabezados para neustra tabla
         width, height = A4
         styles = getSampleStyleSheet()
         styleN = styles["BodyText"]
@@ -311,7 +288,6 @@ class Conctacto_participante(View):
         nombre= Paragraph('''Steen''',styleBH)
         #harea = Paragraph('''<b>Área</b>''', styleBH)
         encabezados = ('',hparticipante,hemail1,hemail2,hcelular,htelf_domicilio,htelf_trabajo,hdireccion)
-        #Creamos una lista de tuplas que van a contener a las personas
         detalles = [('1',nombre,'')]
         #Establecemos el tamaño de cada una de las columnas de la tabla
         detalle_orden = Table([encabezados] + detalles, colWidths=[0.5*cm,3.5 * cm, 2 * cm, 2 * cm, 2.5 * cm,2.5*cm,2.5*cm,2.5*cm])
@@ -353,3 +329,345 @@ class Conctacto_participante(View):
             buffer.close()
             response.write(pdf)
             return response
+
+def historico_participante(usuarios):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = 'Hoja' + str()
+    # ---------------------------------para darle diseño a mi titulo en la hoja-----------------------------------------
+
+
+    # ---------------------------------------cambiar caracteristicas de las celdas--------------------------------------
+    ws.column_dimensions['A'].width = 20
+    ws.column_dimensions['B'].width = 20
+    ws.column_dimensions['C'].width = 20
+    ws.column_dimensions['D'].width = 20
+    ws.column_dimensions['E'].width = 20
+    ws.column_dimensions['F'].width = 20
+    ws.column_dimensions['G'].width = 20
+    ws.column_dimensions['H'].width = 20
+    ws.column_dimensions['I'].width = 20
+    ws.column_dimensions['J'].width = 20
+    ws.column_dimensions['K'].width = 20
+    ws.column_dimensions['L'].width = 20
+    ws.column_dimensions['M'].width = 20
+    ws.column_dimensions['N'].width = 20
+    ws.column_dimensions['O'].width = 20
+    ws.column_dimensions['P'].width = 20
+    ws.column_dimensions['Q'].width = 20
+    ws.column_dimensions['R'].width = 20
+    ws.column_dimensions['S'].width = 20
+    ws.column_dimensions['U'].width = 20
+    ws.column_dimensions['V'].width = 20
+    ws.column_dimensions['W'].width = 20
+    ws.column_dimensions['X'].width = 20
+    ws.column_dimensions['Y'].width = 20
+    ws.column_dimensions['Z'].width = 20
+    ws.column_dimensions['AA'].width = 20
+    ws.column_dimensions['AB'].width = 25
+    #ws.column_dimensions['D'].width = 20
+    # ----------------------------------------------------darle diseño a mi cabecera------------------------------------
+    columnas = (
+                      'A3',
+                      'B3',
+                      'C3',
+                      'D3',
+                      'E3',
+                      'F3',
+                      'G3',
+                      'H3',
+                      'I3',
+                      'J3',
+                      'K3',
+                      'L3',
+                      'M3',
+                      'N3',
+                      'O3',
+                      'P3',
+                      'Q3',
+                      'R3',
+                      'S3',
+                      'T3',
+                      'U3',
+                      'V3',
+                      'W3',
+                      'X3',
+                      'Y3',
+                      'Z3',
+                      'AA3',
+                    )
+    valores_columnas = (
+                      'Secuencia',
+                      'Curso',
+                      'Tipo Capacitacion',
+                      'Evento programa',
+                      'Promoción',
+                      'Fecha inicio',
+                      'Fecha fin',
+                      'Horario',
+                      'Estado',
+                      'Costo',
+                      'Total horas',
+                      'Instructor',
+                      'Área',
+                      'Tipo certificado',
+                      'Asistencia',
+                      'Nota',
+                      'Certificado recibido',
+                      'Modalidad',
+                      'Codigo diseño',
+                      'Versión',
+                      'Tipo inscripción',
+                      'Empresa',
+                      'Aula',
+                      'Asesor responsable',
+                      'vendedor',
+                      'Coordinador responsable',
+                      'Fecha creacion evento',
+                      'Fecha registro',  
+                    )
+
+    limite_header = ''
+    limite = ''
+
+    data = {
+            'header':columnas,
+            'data':valores_columnas
+           }
+
+    
+    for col,val in zip(columnas,valores_columnas):
+        ws[col].alignment = Alignment(horizontal="center", vertical="center")
+        ws[col].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                                 top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+        ws[col].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+        ws[col].font = Font(name='Calibri', size=12, bold=True)
+        ws[col] = val
+        limite = col
+
+    pos_col = 0
+    
+    for indice in range(len(limite)):
+        if indice == 3:
+            limite = '{}{}1'.format(limite[0],limite[1])
+        else:
+            limite = '{}1'.format(limite[0])
+
+    ws.merge_cells('A1:{}'.format(limite))
+    ws.row_dimensions[1].height = 25
+    ws['A1'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['A1'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                             top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+
+    ws['A1'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['A1'].font = Font(name='Calibri', size=12, bold=True)
+    ws['A1'] = 'Historial del participante'
+
+
+
+    """
+    for head in valores_header:
+        ws[head].alignment = Alignment(horizontal="center", vertical="center")
+        ws[head].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                                 top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+        ws[head].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+        ws[head].font = Font(name='Calibri', size=12, bold=True)
+        ws[head] = 'Secuencia'
+
+    """
+    """
+    ws['A3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['A3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                             top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['A3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['A3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['A3'] = 'Secuencia'
+
+    ws['B3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['B3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                             top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['B3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['B3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['B3'] = 'Curso'
+
+    ws['C3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['C3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                             top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['C3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['C3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['C3'] = 'Tipo de capacitacion'
+
+    ws['D3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['D3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['D3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['D3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['D3'] = 'Evento programa'
+
+    ws['E3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['E3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['E3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['E3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['E3'] = 'Promoción'
+
+    ws['F3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['F3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['F3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['F3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['F3'] = 'Fecha de inicio'
+
+    ws['G3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['G3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['G3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['G3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['G3'] = 'Fecha fin'
+
+    ws['H3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['H3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['H3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['H3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['H3'] = 'Horario'
+
+    ws['I3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['I3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['I3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['I3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['I3'] = 'Horario'
+
+    ws['J3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['J3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['J3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['J3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['J3'] = 'Estado'
+
+    ws['K3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['K3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['K3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['K3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['K3'] = 'Costo'
+
+    ws['L3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['L3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                           top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['L3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['L3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['L3'] = 'Total horas'
+
+    ws['M3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['M3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                          top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['M3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['M3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['M3'] = 'Instructor'
+
+    ws['N3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['N3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                           top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['N3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['N3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['N3'] = 'Total horas'
+
+    ws['O3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['O3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                           top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['O3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['O3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['O3'] = 'Instructor'
+
+    ws['P3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['P3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['P3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['P3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['P3'] = 'Área'
+
+    ws['Q3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['Q3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['Q3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['Q3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['Q3'] = 'Tipo certificado'
+
+    ws['R3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['R3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['R3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['R3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['R3'] = 'Asistencia'
+
+    ws['S3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['S3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['S3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['S3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['S3'] = 'Nota'
+
+    ws['T3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['T3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                            top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['T3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['T3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['T3'] = 'Certificado recibido'
+
+    ws['U3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['U3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                           top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['U3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['U3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['U3'] = 'Certificado recibido'
+
+    ws['U3'].alignment = Alignment(horizontal="center", vertical="center")
+    ws['U3'].border = Border(left=Side(border_style="thin"), right=Side(border_style="thin"),
+                           top=Side(border_style="thin"), bottom=Side(border_style="thin"))
+    ws['U3'].fill = PatternFill(start_color='608652', end_color='608652', fill_type="solid")
+    ws['U3'].font = Font(name='Calibri', size=12, bold=True)
+    ws['U3'] = 'Certificado recibido'
+    """
+
+    # ---------------------------pintar datos en excel y EXPORTAR DATOS DE LA BD---------------------------------------------------------
+    
+    """
+    controlador = 4
+    for confusuario in usuarios:
+        ws.cell(row=controlador, column=1).alignment = Alignment(horizontal="center")
+        ws.cell(row=controlador, column=1).border = Border(left=Side(border_style="thin"),
+                                                           right=Side(border_style="thin"),
+                                                           top=Side(border_style="thin"),
+                                                           bottom=Side(border_style="thin"))
+        ws.cell(row=controlador, column=1).font = Font(name='Calibri', size=8)
+        ws.cell(row=controlador, column=1).value = confusuario.usuario
+
+        ws.cell(row=controlador, column=2).alignment = Alignment(horizontal="center")
+        ws.cell(row=controlador, column=2).border = Border(left=Side(border_style="thin"),
+                                                           right=Side(border_style="thin"),
+                                                           top=Side(border_style="thin"),
+                                                           bottom=Side(border_style="thin"))
+        ws.cell(row=controlador, column=2).font = Font(name='Calibri', size=8)
+        ws.cell(row=controlador,column=2).value = confusuario.id_persona.nombres + " " + confusuario.id_persona.apellidos
+
+        ws.cell(row=controlador, column=3).alignment = Alignment(horizontal="center")
+        ws.cell(row=controlador, column=3).border = Border(left=Side(border_style="thin"),
+                                                           right=Side(border_style="thin"),
+                                                           top=Side(border_style="thin"),
+                                                           bottom=Side(border_style="thin"))
+        ws.cell(row=controlador, column=3).font = Font(name='Calibri', size=8)
+        ws.cell(row=controlador, column=3).value = confusuario.id_genr_tipo_usuario.nombre
+        controlador += 1
+    # cont += 1
+    """
+
+    # establecer el nombre de mi archivo
+    nombre_archivo = "ReportePersonalizadoExcel.xlsx"
+    # Definir tipo de respuesta que va a dar
+    response = HttpResponse(content_type="application/ms-excel")
+    contenido = "attachment; filename = {0}".format(nombre_archivo)
+    response["Content-Disposition"] = contenido
+    wb.save(response)
+    return response

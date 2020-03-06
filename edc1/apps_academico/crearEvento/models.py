@@ -172,7 +172,7 @@ class Co(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} {}'.format(self.apellidos, self.nombres)
+        return '{} {}'.format(self.co_facilitador.apellidos, self.co_facilitador.nombres)
 
 
 class PubEvento(models.Model):

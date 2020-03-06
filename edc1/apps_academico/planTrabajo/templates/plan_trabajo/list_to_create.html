@@ -64,6 +64,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
         </div>
         <form v-on:submit.prevent="addItem()">
+          {% csrf_token %}
           <div class="modal-body">
           <div class="form-group" v-if="this.planToCopyId!=null">              
             <label>A partir del plan con ID : [[this.planToCopyId]]  </label>            
@@ -102,6 +103,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
         </div>
         <form v-on:submit.prevent="updateItem()">
+          {% csrf_token %}
           <div class="modal-body">
           <div class="form-group">
             <input type="text" class="form-control" v-model="currentItem.estado" placeholder="Estado" required>
