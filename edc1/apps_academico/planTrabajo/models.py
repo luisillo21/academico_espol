@@ -54,7 +54,9 @@ class PlanTrabajo(models.Model):
         ]
     """
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    fecha_de_modificacion = models.DateTimeField(auto_now=True)
+    fecha_de_creacion = models.DateField(auto_now_add=True)
+    fecha_de_modificacion = models.DateField(auto_now=True)
+    fecha_de_aprobacion = models.DateField(null=True)
     estado = models.TextField()
     instrumentos_de_evaluacion = JSONField(null=True)
     motivo_de_rechazo = models.TextField(null=True)

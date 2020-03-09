@@ -31,15 +31,17 @@
   <!-- START List Items -->
   <table id="tabla" class="table table-sm table-borderless table-hover">
   <thead class="text-light darkgreen-bg">
-    <tr> <th> ID </th> <th> Evento </th> <th> Fecha de creación</th><th> Estado </th> <th> Codigo de diseño</th> <th> Acciones </th>  </tr>
+    <tr> <th> ID </th> <th> Evento </th> <th> Fecha de creación</th> <th> Fecha de modificación</th> <th> Fecha de aprobación</th> <th> Estado </th> <th> Codigo de diseño</th> <th> Acciones </th>  </tr>
   </thead>
   <tbody>
     <tr v-for="(value,index) in items" v-if="isEnProgreso(value.estado)||isRechazado(value.estado)||isAprobado(value.estado)">
       <td>[[ value.id ]]</td>
       <td> [[ getEventoFromPlan(value.evento) ]] </td>
+      <td> [[ value.fecha_de_creacion]] </td>
       <td> [[ value.fecha_de_modificacion]] </td>
+      <td> [[ value.fecha_de_aprobacion]] </td>
       <td> [[ value.estado ]]</td>
-      <td> [[getDisenoFromEvento(value.evento)]] </td>
+      <td> [[ getDisenoFromEvento(value.evento)]] </td>
       <td>
         <!--button class="btn btn-info" v-on:click="getItem(value.id, 'view')">View</button>
         <button class="btn btn-info" v-on:click="getItem(value.id, 'edit')">Edit</button>
