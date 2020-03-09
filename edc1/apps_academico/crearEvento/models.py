@@ -26,7 +26,7 @@ class TipoConvenioAliado(models.Model):
 
 
 class Aliado(models.Model):
-    codigo_aliado = models.IntegerField(primary_key=True, max_length=3)
+    codigo_aliado = models.IntegerField(primary_key=True, validators=[MaxValueValidator(999)])
     origen = models.CharField(max_length=100)
     nombre = models.CharField(max_length=100)
     pais = models.CharField(max_length=100)
@@ -62,7 +62,7 @@ class EstadoAula(models.Model):
 
 
 class Aula(models.Model):
-    codigo_aula = models.IntegerField(primary_key=True, max_length=3)
+    codigo_aula = models.IntegerField(primary_key=True, validators=[MaxValueValidator(999)])
     unidad = models.ForeignKey(
         UnidadAula, null=False, blank=False, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
