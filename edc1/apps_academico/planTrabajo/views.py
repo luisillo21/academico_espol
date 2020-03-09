@@ -10,6 +10,12 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views import View
 from django.http import JsonResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template import Context
 
 
 # Create your views here.

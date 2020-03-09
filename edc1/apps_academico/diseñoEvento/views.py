@@ -30,6 +30,17 @@ from reportlab.platypus import (
     TableStyle,
     Paragraph,
     Image)
+
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template import Context
+from apps_academico.reporte_aca.utils import link_callback
+
 #----------------------------------
 # API
 class AreaViewSet(viewsets.ModelViewSet):
@@ -453,3 +464,23 @@ class Eventos_Ejecutados(View):
         buffer.close()
         response.write(pdf)
         return response
+
+
+
+def eventos_ejecutados(request):
+    template_path = 'reportes/eventos_ejecutados.html'
+    design = DesignEvento.objects.filter()
+    context = {'design':design}
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+    # create a pdf
+    pisaStatus = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    # if error then show some funy view
+    if pisaStatus.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

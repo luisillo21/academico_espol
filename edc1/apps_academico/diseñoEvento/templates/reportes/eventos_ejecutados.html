@@ -1,0 +1,135 @@
+{% load static %}
+<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+<html>
+    <head>
+        <link href="{% static 'bootstrap-4.3.1\css\bootstrap.min.css' %}" rel="stylesheet" />
+        <script src="{% static  'js\table.js' %}"></script>
+        <style >
+            @page {
+                size: A4;    
+                @frame footer{
+                    -pdf-frame-content: footerContent;
+                    bottom: 1cm;
+                    height: 0cm;
+                    }
+            }
+            .table {
+                        width: 500pt;
+                        margin-bottom: 500px;
+                        top: 500pt;
+                        background-color: #fff;
+                    }
+
+           .table thead th {
+                    vertical-align: bottom;
+                    border-bottom: 2px solid #000;
+        }
+
+            .table tbody + tbody {
+                border-top: 2px solid #000;
+        }
+            .h_contenido {
+                width: 500pt;
+                height: auto;
+                margin-left: 390pt;
+                bottom: 50pt;
+                border: 10px;
+                }
+
+            .logo{
+                width: 200pt;
+                height: auto;
+                margin-right: 390pt;
+                border: 10px;
+            }
+
+            .linea{
+                width: 100%;
+                height: auto;
+                margin-top: 300px;
+                margin-right: 390px;
+            }
+
+                  
+
+        </style>
+    </head>
+    <body>
+        <div class="logo">
+            <center><img src="static/image/logo.png" alt=""></center>
+        </div>
+ 
+
+        <div class="h_contenido">
+            <label><strong>Eventos ejecutados por diseño</strong></label>
+            <br>
+            <label style="background-color:yellow;"><strong>POEC0502 V7</strong></label>
+        </div>
+
+        <table class="table"  style="border:1px solid black;">
+            <thead>
+                <tr style="border:1px solid black; padding: 3px; margin-top: 2px;">
+                    <td> <strong><center> N.- </center></strong></td>
+                    <td> <strong><center> Codigo diseño </center> </strong></td>
+                    <td> <strong><center>Version</center></strong></td>
+                    <td> <strong><center> Nombre del evento</center></strong></td>
+                    <td> <strong><center> Area </center></strong></td>
+                    <td> <strong><center>Tipo evento</center></strong> </td>
+                    <td> <strong><center>Especialidad</center></strong> </td>
+                    <td> <strong><center>Modalidad</center></strong></td>
+                    <td width= 40><strong><center>Tipo certificado</center></strong></td>
+                    <td> <strong><center>  Horas presenciales </center></strong></td>
+                    <td> <strong><center> N° Horas autonomas</center></strong></td>
+                    <td> <strong><center> Total horas</center></strong></td>
+                    <td> <strong><center>Total horas</center></strong></td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for d in design %}
+                  <tr>
+                      <td  style="margin-top: 5px; width: 20pt;"> <center> {{d.pk}}</center></td>
+                      <td  style=" width: 33pt;"> <center>{{d.codigo}}</center> </td>
+                      <td  style=" width: 31pt;"> <center>{{d.version}}</center></td>
+                      <td  style="margin-top: 5px;"> <center>{{d.nombre}}</center></td>
+                      <td  style="margin-top: 5px;"> <center>{{d.area}}</center></td>
+                      <td  style="" > <center>{{d.tipo_evento}}</center></td>
+                      <td  style=" width: 60pt;"> {{d.especialidad}}</center></td>
+                      <td  style=""> <center>{{d.modalidad}}</center></td>
+                      <td  style=""> <center>{{d.tipo_certificado}}</center></td>
+                      <td  style=""> <center>{{d.horas_presenciales}}</center></td>
+                      <td  style=""><center>{{d.horas_autonomas}}</center>  </td>
+                      <td  style=""><center>{{d.horas_totales}}</center>  </td>
+                      <td  style=""><center>  {{d.fecha}}</center></td>  
+                  </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <tr>
+                <td style="margin-left: 10pt;">
+                     <label style="font-family: Arial, Helvetica, sans-serif; font-size: 14px;" >Total diseños:</label>
+                     <label >Σ total</label>
+                </td>
+            </tr>
+        </table>
+        
+        <div class="linea" style="position: absolute; left:80px; top:20px; color:#3c5634">
+            <label>  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// </label>
+        </div>
+
+        <div class="footer_descripcion" style="margin-left: 10pt;">
+             <label style="margin-right: 10pt;">   CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588</label>
+             <br>
+             <label> Fecha impresión: dd/mm/aaa</label>
+             <label style="margin-right: 50pt;">    Usuario: Nombre apellido</label>
+        </div>
+
+        <div id="footerContent">
+            <label for=""></label>
+            Pág: <pdf:pagenumber> | <pdf:pagecount>
+        </div>
+
+    </body>
+
+</html>
