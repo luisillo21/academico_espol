@@ -652,7 +652,7 @@ Vue.component('actividades-plan-content',{
           </div>
           <label>Descargar Archivo : </label>
           <div class="form-group">            
-            <a href="{{currentItem.archivo}}" download="a">[[currentItem.archivo]]</a>
+            <a v-bind:href="currentItem.archivo" download>[[currentItem.archivo]]</a>
           </div>
 
           </div>  

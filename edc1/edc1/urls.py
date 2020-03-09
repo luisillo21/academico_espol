@@ -28,7 +28,7 @@ from apps_academico.reporte_aca.excel import export_users_xls
 
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='academico/designListar/')),
+    path('', RedirectView.as_view(url='academico/design/listar/')),
     path('admin/', admin.site.urls),
     path('academico/', include('apps_academico.diseñoEvento.urls')),
     path('academico/', include('apps_academico.crearEvento.urls')),
