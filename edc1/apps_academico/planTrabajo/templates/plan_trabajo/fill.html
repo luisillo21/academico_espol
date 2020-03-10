@@ -416,17 +416,17 @@ Vue.component('instrumentos-de-evaluacion-content',{
     },
     defaultData: function(){
       dd = [
-        { nombre : 'Prueba Diagnóstica'              , diagnostico : false                                        , porcentajeAsignado : 0    },
-        { nombre : 'Exámenes'                                              , formativo : false , sumativo : false , porcentajeAsignado : 40   },
-        { nombre : 'Proyectos'                                             , formativo : false , sumativo : false , porcentajeAsignado : null },
-        { nombre : 'Casos de estudio'                , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : null },
-        { nombre : 'Lección'                                               , formativo : false , sumativo : false , porcentajeAsignado : null },
-        { nombre : 'Tareas'                                                , formativo : false , sumativo : false , porcentajeAsignado : null },
-        { nombre : 'Laboratorio / Experimental'      , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : null },
-        { nombre : 'Visita Técnica'                                        , formativo : false , sumativo : false , porcentajeAsignado : null },
-        { nombre : 'Foros'                           , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : null },
-        { nombre : 'Participación en clases'         , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : null },
-        { nombre : 'Otras actividades de evaluación' , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : null },
+        { id:1, nombre : 'Prueba Diagnóstica'              , diagnostico : false                                        , porcentajeAsignado : 0 },
+        { id:2, nombre : 'Exámenes'                                              , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:3, nombre : 'Proyectos'                                             , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:4, nombre : 'Casos de estudio'                , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:5, nombre : 'Lección'                                               , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:6, nombre : 'Tareas'                                                , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:7, nombre : 'Laboratorio / Experimental'      , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:8, nombre : 'Visita Técnica'                                        , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:9, nombre : 'Foros'                           , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:10, nombre : 'Participación en clases'         , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : 0 },
+        { id:11, nombre : 'Otras actividades de evaluación' , diagnostico : false , formativo : false , sumativo : false , porcentajeAsignado : 0 },
       ];
       return dd;
     },
@@ -466,7 +466,7 @@ Vue.component('criterios-de-evaluacion-content',{
         <td>[[ item.nombre ]]</td>
         <td>
         <div class="form-group row">
-        <input v-model="item.porcentajeAsignado" v-on:input="computePorcentajeTotal" :disabled="isDisabled(item)||read_only" class="form-control col-8" type="number">
+        <input v-model="item.porcentajeAsignado" v-on:input="computePorcentajeTotal" :disabled="read_only||onlyDiagnostico(item)" min=0 max=100 class="form-control col-8" type="number">
         <label class="col-4 col-form-label">%</label>
         </div>
         </td>
@@ -477,7 +477,7 @@ Vue.component('criterios-de-evaluacion-content',{
       <td>Total</td>
       <td>
         <div class="form-group row">
-          <input class="form-control col-8" type="number" value=0 min=0 max=100 v-model="porcentajeTotal" >
+          <input v-model="porcentajeTotal" class="form-control col-8" type="number" disabled>
           <label class="col-4 col-form-label">%</label>
         </div>
       </td>
@@ -520,20 +520,24 @@ Vue.component('criterios-de-evaluacion-content',{
       })
     },
     save : function(){
-      axios.patch(`${this.url}${PLANTRABAJO_ID}/`,{
-        'instrumentos_de_evaluacion' : this.instrumentos
-      }).then((response) => {
-        this.loading = true;
-        console.log('Criterios de evaluacion saved!');  
-        this.loading = false;
-      })
-      .catch((err) => {
-        this.loading = false;
-        console.log(err);       
-      })
+      if(this.porcentajeTotal==100){
+        axios.patch(`${this.url}${PLANTRABAJO_ID}/`,{
+          'instrumentos_de_evaluacion' : this.instrumentos
+        }).then((response) => {
+          this.loading = true;
+          console.log('Criterios de evaluacion saved!');  
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);       
+        })
+      } else{
+        window.alert("Porcentaje total debe ser 100%");
+      }
     },
-    isDisabled : (x) => x.nombre == "Exámenes" || x.nombre == "Prueba Diagnóstica" ,
     isSelected : (x) => x.diagnostico || x.formativo || x.sumativo ,
+    onlyDiagnostico : (x) => x.diagnostico && !(x.formativo) && !(x.sumativo),
     computePorcentajeTotal : function() {
       this.porcentajeTotal = R.sum(R.map( R.prop('porcentajeAsignado') , this.instrumentos));
     }
@@ -588,10 +592,19 @@ Vue.component('actividades-plan-content',{
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="newItem.descripcion" rows="3" required></textarea>
           </div>
-          <label>Adjuntar archivo : </label>
-          <div class="form-group">            
-            <input type="file" id="archivo" class="form-control" v-on:change="selectFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+          <div class="form-group"> 
+          <label>Tipo de actividad : </label>           
+          <v-select 
+            :options="activos"
+            label="nombre"
+            v-model="tipo"
+          >
+          </v-select>
+          Selected = [[ tipo.id ]]
           </div>
+          <div class="form-group">  
+          <label>Adjuntar archivo : </label>           
+            <input type="file" id="archivo" class="form-control" v-on:change="selectFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
         </form>
@@ -621,7 +634,7 @@ Vue.component('actividades-plan-content',{
           </div>
           <label>Adjuntar archivo : </label>
           <div class="form-group">            
-            <input type="file" v-model="newItem.archivo" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+            <input type="file" id="archivoedit" v-model="newItem.archivo" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
           </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
@@ -670,6 +683,9 @@ Vue.component('actividades-plan-content',{
       url : '/api/actividadPlan/',
       items: [],
       loading: false,
+      instrumentos: [],
+      activos: [],
+      tipo: {id:null},
       currentItem: {},
       message: null,
       newItem: { 'nombre': null, 'descripcion': null , 'archivo': null, 'plan_trabajo' : null , 'nombre_archivo': null},
@@ -688,9 +704,34 @@ Vue.component('actividades-plan-content',{
   },  
   mounted: function() {
     this.getItems();
+    this.getInstrumentos();
     this.disableFormInViewModal();
   },
   methods: {
+    getInstrumentos: function(){
+      this.loading = true;
+      axios.get(`/api/planTrabajo/${PLANTRABAJO_ID}`)
+      .then((response) => {
+        this.instrumentos = response.data.instrumentos_de_evaluacion;
+        this.getActivos();
+        this.loading = false;
+      })
+      .catch((err) => {
+       this.loading = false;
+       console.log(err);
+      })
+    },
+    getActivos: function(){
+      this.loading = true;
+      console.log(this.instrumentos);
+      for (let i in this.instrumentos){
+        if(this.instrumentos[i].sumativo || this.instrumentos[i].formativo || this.instrumentos[i].diagnostico){
+          this.activos.push(this.instrumentos[i]);
+        }
+      }
+      this.loading = false;
+      console.log(this.activos);
+    },
     getItems : function(){
       this.loading = true;
       axios.get(`${this.url}?planTrabajo_id=${PLANTRABAJO_ID}`)
@@ -771,7 +812,7 @@ Vue.component('actividades-plan-content',{
       })
       .catch((err) => {
         this.loading = false;
-        console.log(err);
+        console.log(err.response);
       })
     },
     deleteItem: function(id) {

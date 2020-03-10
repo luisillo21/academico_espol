@@ -4,13 +4,13 @@ const app=new Vue({
     data:{
         areas:[],
         especialidades:[],
-        tipoEvento:[],
         objEspecificos:[],
         unidades:[],
         subUnidades:[],
         recursos:[],
         referencias:[],
         lecturas:[],
+        tipoEvento:[{id:1,nombre:"Diplomado"},{id:2,nombre:"Programa"},{id:3,nombre:"Curso"},{id:4,nombre:"Taller"},{id:5,nombre:"Conferencia"},{id:6,nombre:"Seminario"},{id:7,nombre:"Webinario"},{id:8,nombre:"Charla"}],
         tiposRecursos:["Equipos","Materiales Didácticos","Software","Hardware","Aula/Laboratorio"],
         modalidades:["Presencial","Semi-Presencial","Virtual"],
         tipoCertificado:["Aprobación","Participación"],
@@ -134,7 +134,7 @@ const app=new Vue({
     mounted: function() {
         this.getAreas();
         this.getEspecialidades();
-        this.getTipoEvento();
+        //this.getTipoEvento();             POR AHORA FUNCIONARA CON VALORES QUEMADOS, DE LO CONTRARIO: DESCOMENTAR Y VACIAR LA LISTA TIPO EVENTO PARA USAR LA API
     },
 
     methods:{

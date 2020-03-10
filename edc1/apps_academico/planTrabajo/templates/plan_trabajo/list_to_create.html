@@ -48,7 +48,7 @@
         <button class="btn btn-danger" v-on:click="deleteItem(value.id)">Delete</button-->
         <button class="btn btn-primary" v-on:click="fillPlan(value.id)">Llenar</button>        
         <button class="btn btn-primary" v-on:click="copyItem(value.id)">Copiar</button>
-        <button class="btn btn-primary" v-on:click="sendToApprove(value.id)">Enviar a aprobación</button>
+        <button class="btn btn-primary" v-on:click="sendToApprove(value.id)" v-if="value.fecha_de_aprobacion==null">Enviar a aprobación</button>
         <button class="btn btn-primary" v-on:click="getItem(value.id,'ver_motivo_rechazo')" v-if="value.motivo_de_rechazo!=null">Ver Motivo</button>
       </td>              
     </tr>
@@ -356,7 +356,6 @@
           .then(response => {
             this.loading = true;
             this.eventos = response.data;
-            console.log(typeof this.eventos);
             this.loading = false;
           })
           .catch(err => {
@@ -383,8 +382,6 @@
       },
       getDisenoFromEvento: function(eventoId) {
         let evento = R.find(R.propEq("id", eventoId), this.eventos);
-        console.log(evento.id);
-        console.log(this.disenos);
         let diseno = R.find(R.propEq("id", evento.id), this.disenos);
         return diseno.codigo;
       },
