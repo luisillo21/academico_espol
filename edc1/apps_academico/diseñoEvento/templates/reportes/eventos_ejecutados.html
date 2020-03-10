@@ -4,20 +4,12 @@
 <head>
 <style>
 @page {
-size: a4 portrait;
-@frame header_frame { /* Static Frame */
+size: landscape;
+@frame header_frame { 
+/* Cabecera estilos  */  
 -pdf-frame-content: header_content;
-left: 10pt; width: 580pt; top: 10pt; height:100pt;
--pdf-frame-border = 1;
-}
-@frame content_frame { /* Content Frame */
-left: 10pt; width: 580pt; top: 120pt; height: 660pt;
--pdf-frame-border = 1;
-}
-@frame footer_frame { /* Another static Frame */
--pdf-frame-content: footer_content;
-left: 10pt; width: 580pt; top: 795pt; height: 40pt;
--pdf-frame-border = 1;
+left: 10pt; width: 820pt; top: 10pt; height:100pt;
+/*-pdf-frame-border = 1;*/
 }
 
 @frame imagen {
@@ -28,33 +20,59 @@ left: 10pt; width: 580pt; top: 795pt; height: 40pt;
 
 @frame contenido_head {
     -pdf-frame-content: content_head;
-    left: 420pt; width: 200pt; top: 30pt; height: 50pt;
+    left: 668pt; width: 200pt; top: 30pt; height: 50pt;
     font-size: 14px;
     /* -pdf-frame-border = 1;*/
 }
 
-@frame tabla1 {
-    -pdf-frame-content: tabla_1;
-    left: 5pt; width: 600pt; top: 150pt; height: 400pt;
-    font-size: 14px;
-    /* -pdf-frame-border = 1;*/
-}
 
 @frame codigo {
     -pdf-frame-content: content_codigo;
-    left: 500pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
+    left: 750pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
     font-size: 14px;
     /*-pdf-frame-border = 1;*/
 }
 
+
+/* Contenido estilos */
+
+@frame content_frame { 
+left: 10pt; width: 820pt; top: 120pt; height: 370pt;
+ /*-pdf-frame-border = 1;*/
+}
+
+
+@frame tabla1 {
+    -pdf-frame-content: tabla_1;
+    left: 5pt; width:830pt; top: 110pt; height: 400pt;
+    font-size: 14px;
+    /* -pdf-frame-border = 1;*/
+}
+
+@frame detalle_eventos {
+    -pdf-frame-content: detalle_eventos;
+    left: 5pt; width:830pt; top: 410pt; height: 100pt;
+    /* -pdf-frame-border = 1;*/
+}
+
+
+
+/* Pie de  Pagina */
+
+@frame footer_frame { /* Another static Frame */
+-pdf-frame-content: footer_content;
+left: 10pt; width: 820pt; top: 530pt; height: 40pt;
+/*-pdf-frame-border = 1;*/
+}
+
 @frame contador { /* Another static Frame */
 -pdf-frame-content: contador;
-left: 545pt; width: 50pt; top: 810pt; height: 20pt;
+left: 790pt; width: 50pt; top: 550pt; height: 20pt;
 }
 
 @frame contenido_del_footer { /* Another static Frame */
 -pdf-frame-content: contenido_del_footer;
-left: 10pt; width: 500pt; top: 810pt; height: 50pt;
+left: 10pt; width: 500pt; top: 550pt; height: 50pt;
 }
 
 }
@@ -73,23 +91,23 @@ left: 10pt; width: 500pt; top: 810pt; height: 50pt;
       <label style="background-color:yellow; margin-left: 5px; font-size: 15px"><strong>POEC0502 V7</strong></label>
   </div>
 
-<div id="tabla_1">
-    <table class="table"  style="border:1px solid black;">
+  <div id="tabla_1">
+    <table class="table"  style="border:0.5px solid black; font-size 11px;">
             <thead>
-                <tr style="margin-top: 1px;">
-                    <td style="margin-top: 5px; width: 20pt;"> <strong><center>N.- </center></strong></td>
-                    <td style="margin-top: 5px; width: 25pt;"> <strong><center>Codigo</center> </strong></td>
-                    <td> <strong><center>Version</center></strong></td>
-                    <td style="margin-top:5pt"> <strong><center>Nombre evento</center></strong></td>
-                    <td> <strong><center>Area</center></strong></td>
-                    <td> <strong> &nbsp Tipo Evento </strong> </td>
-                    <td> <strong><center>Especialidad</center></strong> </td>
-                    <td> <strong><center>Modalidad</center></strong></td>
-                    <td width= 40><strong><center>Tipo <br> certificado</center></strong></td>
-                    <td> <strong><center>Horas presenciales </center></strong></td>
-                    <td> <strong><center>N° Horas autonomas</center></strong></td>
-                    <td> <strong><center> Total horas</center></strong></td>
-                    <td> <strong><center>Total horas</center></strong></td>
+                <tr >
+                    <td style="width: 20pt;"> <strong><center>N.- </center></strong></td>
+                    <td style="width: 120px"> <strong><center>Codigo</center> </strong></td>
+                    <td style="width: 90px"> <strong><center>Version</center></strong></td>
+                    <td style="width:120px"> <strong><center>Nombre evento</center></strong></td>
+                    <td style="width: 80px"> <strong><center>Area</center></strong></td>
+                    <td style="width: 120px"> <strong><center>Especialidad</center></strong> </td>
+                    <td style="width: 110px"> <strong> <center> Tipo Evento</center></strong> </td>
+                    <td style="width: 90px"> <strong><center>Modalidad</center></strong></td>
+                    <td style="width: 115px"><strong><center>Tipo certificado</center></strong></td>
+                    <td style="width:90px"> <strong><center>Horas presenciales </center></strong></td>
+                    <td style="width: 90px"> <strong><center>N° Horas autonomas</center></strong></td>
+                    <td style="width: 50px; height:40px"> <strong><center> Total horas</center></strong></td>
+                    <td style="width: 70px; height:40px"> <strong><center>Fecha <br> creación</center></strong></td>
                 </tr>
             </thead>
             <tbody>
@@ -112,24 +130,40 @@ left: 10pt; width: 500pt; top: 810pt; height: 50pt;
             {% endfor %}
             </tbody>
         </table>
+  </div>
+    <div id="detalle_eventos">
+        <table id="table_estilos" style="font-size: 16px;">
+            <tr style="height: 50px">
+                  <td style="width:250px; font-family:Arial"><strong>Total diseños:</strong></td>
+                  <td style="width:300px;">Σ total</td>
+                  <td style="width:250px;"><strong>Modalidad por hora:</strong></td>
+                  <td style="width:300px;">Σ total</td>
+            </tr>
+            <tr>
+                  <td style="width:250px; font-family:Arial"><strong>Total Diseño por area:</strong></td>
+                  <td style="width:300px;">Σ total</td>
+                  <td style="width:250px;"><strong>Total tipo certificado</strong></td>
+                  <td style="width:300px;">Σ total</td>
+            </tr>
 
+            <tr style="height:50px">
+                  <td style="width:250px; font-family:Arial"><strong>Total tipo de evento</strong></td>
+                  <td style="width:300px;">Σ total</td>
+            </tr>
 
-</div>
-
-
-
-</div>
+        </table>
+    </div>
 <div id="footer_content">
-  <label style="color: #3c5634">//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</label>
+  <label style="color: #3c5634">//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</label>
   <br>
   <div id="contador">
       <label style="font-size: 13px">Pág <pdf:pagenumber> | <pdf:pagecount></label>
   </div>
-  <div id="contenido_del_footer" style="font-size: 13px">
+  <div id="contenido_del_footer" style="font-size: 15px">
       <label>CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588</label>
       <br>
       <!-- ESTO: &nbsp sirve para hacer espacioos en tre textos pero si quieres haz un frame aparte y lo mueves q es mas ordenado xD-->
-      <label>Fecha impresión: dd/mm/aaa &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Usuario: Nombre apellido</label>
+      <label>Fecha impresión: dd/mm/aaa &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Usuario: Nombre apellido</label>
   </div>
 </div>
 <!-- HTML Content -->
