@@ -1,85 +1,93 @@
 {% load static %}
 <meta http-equiv="content-type" content="text/html; charset=utf-8"> 
 <html>
-    <head>
-        <link href="{% static 'bootstrap-4.3.1\css\bootstrap.min.css' %}" rel="stylesheet" />
-        <script src="{% static  'js\table.js' %}"></script>
-        <style >
-            @page {
-                size: A4;    
-                @frame footer{
-                    -pdf-frame-content: footerContent;
-                    bottom: 1cm;
-                    height: 0cm;
-                    }
-            }
-            .table {
-                        width: 500pt;
-                        margin-bottom: 500px;
-                        top: 500pt;
-                        background-color: #fff;
-                    }
+<head>
+<style>
+@page {
+size: a4 portrait;
+@frame header_frame { /* Static Frame */
+-pdf-frame-content: header_content;
+left: 10pt; width: 580pt; top: 10pt; height:100pt;
+-pdf-frame-border = 1;
+}
+@frame content_frame { /* Content Frame */
+left: 10pt; width: 580pt; top: 120pt; height: 660pt;
+-pdf-frame-border = 1;
+}
+@frame footer_frame { /* Another static Frame */
+-pdf-frame-content: footer_content;
+left: 10pt; width: 580pt; top: 795pt; height: 40pt;
+-pdf-frame-border = 1;
+}
 
-           .table thead th {
-                    vertical-align: bottom;
-                    border-bottom: 2px solid #000;
-        }
+@frame imagen {
+    -pdf-frame-content: imagen;
+    left: 10pt; width:290pt; top: 5pt; height: 165pt;
+    /*-pdf-frame-border = 1;*/
+}
 
-            .table tbody + tbody {
-                border-top: 2px solid #000;
-        }
-            .h_contenido {
-                width: 500pt;
-                height: auto;
-                margin-left: 390pt;
-                bottom: 50pt;
-                border: 10px;
-                }
+@frame contenido_head {
+    -pdf-frame-content: content_head;
+    left: 420pt; width: 200pt; top: 30pt; height: 50pt;
+    font-size: 14px;
+    /* -pdf-frame-border = 1;*/
+}
 
-            .logo{
-                width: 200pt;
-                height: auto;
-                margin-right: 390pt;
-                border: 10px;
-            }
+@frame tabla1 {
+    -pdf-frame-content: tabla_1;
+    left: 5pt; width: 600pt; top: 150pt; height: 400pt;
+    font-size: 14px;
+    /* -pdf-frame-border = 1;*/
+}
 
-            .linea{
-                width: 100%;
-                height: auto;
-                margin-top: 300px;
-                margin-right: 390px;
-            }
+@frame codigo {
+    -pdf-frame-content: content_codigo;
+    left: 500pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
+    font-size: 14px;
+    /*-pdf-frame-border = 1;*/
+}
 
-                  
+@frame contador { /* Another static Frame */
+-pdf-frame-content: contador;
+left: 545pt; width: 50pt; top: 810pt; height: 20pt;
+}
 
-        </style>
-    </head>
-    <body>
-        <div class="logo">
-            <center><img src="static/image/logo.png" alt=""></center>
-        </div>
- 
+@frame contenido_del_footer { /* Another static Frame */
+-pdf-frame-content: contenido_del_footer;
+left: 10pt; width: 500pt; top: 810pt; height: 50pt;
+}
 
-        <div class="h_contenido">
-            <label><strong>Eventos ejecutados por diseño</strong></label>
+}
+</style>
+</head>
+<body>
+<!-- Content for Static Frame 'header_frame' -->
+<div id="header_content">
+    <img src="static/image/logo.png" id="imagen" alt="">
+    <div id="content_head">
+            <label style="font-size: 15px"><strong>Eventos ejecutados por diseño</strong></label>
             <br>
-            <label style="background-color:yellow;"><strong>POEC0502 V7</strong></label>
-        </div>
+    </div>
+</div>
+  <div id="content_codigo">
+      <label style="background-color:yellow; margin-left: 5px; font-size: 15px"><strong>POEC0502 V7</strong></label>
+  </div>
 
-        <table class="table"  style="border:1px solid black;">
+<div id="tabla_1">
+    <table class="table"  style="border:1px solid black;">
             <thead>
-                <tr style="border:1px solid black; padding: 3px; margin-top: 2px;">
-                    <td> <strong><center> N.- </center></strong></td>
-                    <td> <strong><center> Codigo diseño </center> </strong></td>
+                <tr style="margin-top: 1px;">
+                    <td style="margin-top: 5px; width: 20pt;"> <strong><center>N.- </center></strong></td>
+                    <td style="margin-top: 5px; width: 25pt;"> <strong><center>Codigo</center> </strong></td>
                     <td> <strong><center>Version</center></strong></td>
-                    <td> <strong><center> Nombre del evento</center></strong></td>
-                    <td> <strong><center> Area </center></strong></td>
-                    <td> <strong><center>Tipo evento</center></strong> </td>
+                    <td style="margin-top:5pt"> <strong><center>Nombre evento</center></strong></td>
+                    <td> <strong><center>Area</center></strong></td>
+                    <td> <strong> &nbsp Tipo Evento </strong> </td>
                     <td> <strong><center>Especialidad</center></strong> </td>
                     <td> <strong><center>Modalidad</center></strong></td>
-                    <td width= 40><strong><center>Tipo certificado</center></strong></td>
-                    <td> <strong><center>  Horas presenciales </center></strong></td>
-                    <td> <strong><center> N° Horas autonomas</center></strong></td>
+                    <td width= 40><strong><center>Tipo <br> certificado</center></strong></td>
+                    <td> <strong><center>Horas presenciales </center></strong></td>
+                    <td> <strong><center>N° Horas autonomas</center></strong></td>
                     <td> <strong><center> Total horas</center></strong></td>
                     <td> <strong><center>Total horas</center></strong></td>
                 </tr>
@@ -104,6 +112,34 @@
             {% endfor %}
             </tbody>
         </table>
+
+
+</div>
+
+
+
+</div>
+<div id="footer_content">
+  <label style="color: #3c5634">//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</label>
+  <br>
+  <div id="contador">
+      <label style="font-size: 13px">Pág <pdf:pagenumber> | <pdf:pagecount></label>
+  </div>
+  <div id="contenido_del_footer" style="font-size: 13px">
+      <label>CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588</label>
+      <br>
+      <!-- ESTO: &nbsp sirve para hacer espacioos en tre textos pero si quieres haz un frame aparte y lo mueves q es mas ordenado xD-->
+      <label>Fecha impresión: dd/mm/aaa &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Usuario: Nombre apellido</label>
+  </div>
+</div>
+<!-- HTML Content -->
+
+
+</body>
+</html>
+<!--
+
+        
 
         <table>
             <tr>
@@ -133,3 +169,4 @@
     </body>
 
 </html>
+-->
