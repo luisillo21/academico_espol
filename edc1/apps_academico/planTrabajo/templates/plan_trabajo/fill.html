@@ -232,7 +232,7 @@
 </div>
 
 <div class="d-flex justify-content-center"> 
-    <a href={% url 'plan_trabajo_list_to_create' %} class="btn btn-primary mx-2 my-2">Terminar</a>
+    <a href={% url 'plan_trabajo_list_to_create' %} class="btn btn-primary mx-2 my-2" id="terminar">Terminar</a>
 </div>
 
   <div id="PLANTRABAJO_ID" hidden>{{ planTrabajo_id }}</div>
@@ -592,19 +592,19 @@ Vue.component('actividades-plan-content',{
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="newItem.descripcion" rows="3" required></textarea>
           </div>
-          <div class="form-group"> 
-          <label>Tipo de actividad : </label>           
-          <v-select 
-            :options="activos"
-            label="nombre"
-            v-model="tipo"
-          >
-          </v-select>
-          Selected = [[ tipo.id ]]
+          <div class="form-group">    
+          <label>Tipo de actividad : </label>
+          <select class="d-block form-control" v-model="newItem.tipo" required>
+              <option v-for="activo in activos" :value="activo.nombre">
+                [[ activo.nombre ]]
+              </option>
+          </select>
+          <!--Selected = [[ newItem.tipo ]]-->
           </div>
           <div class="form-group">  
           <label>Adjuntar archivo : </label>           
-            <input type="file" id="archivo" class="form-control" v-on:change="selectFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+            <input type="file" id="archivo" class="form-control" v-on:change="selectFile" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf" required>
+          </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
         </form>
@@ -632,9 +632,18 @@ Vue.component('actividades-plan-content',{
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required></textarea>
           </div>
+          <div class="form-group">    
+          <label>Tipo de actividad : </label>
+          <select class="d-block form-control" v-model="currentItem.tipo" required>
+              <option v-for="activo in activos" :value="activo.nombre">
+                [[ activo.nombre ]]
+              </option>
+          </select>
+          <!--Selected = [[ currentItem.tipo ]]-->
+          </div>
           <label>Adjuntar archivo : </label>
           <div class="form-group">            
-            <input type="file" id="archivoedit" v-model="newItem.archivo" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+            <input type="file" id="archivoedit" v-on:change="updateFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf required">
           </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
@@ -663,6 +672,9 @@ Vue.component('actividades-plan-content',{
           <div class="form-group">            
             <textarea class="form-control" placeholder="Descripción" v-model="currentItem.descripcion" rows="3" required disabled></textarea>
           </div>
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="currentItem.tipo" placeholder="Tipo" required disabled>
+          </div>
           <label>Descargar Archivo : </label>
           <div class="form-group">            
             <a v-bind:href="currentItem.archivo" download>[[currentItem.archivo]]</a>
@@ -688,7 +700,7 @@ Vue.component('actividades-plan-content',{
       tipo: {id:null},
       currentItem: {},
       message: null,
-      newItem: { 'nombre': null, 'descripcion': null , 'archivo': null, 'plan_trabajo' : null , 'nombre_archivo': null},
+      newItem: { 'nombre': null, 'descripcion': null , 'archivo': null, 'plan_trabajo' : null , 'tipo': null, 'nombre_archivo': null},
       modals : {
         view : {
           id: 'viewItemModal_' + this.component_name,
@@ -762,8 +774,8 @@ Vue.component('actividades-plan-content',{
         console.log(err);
       })
     },
-    selectFile: function() {
-      this.newItem.archivo = this.$refs.file.files[0];
+    selectFile: function(event) {
+      this.newItem.archivo = event.target.files[0];
     },
     updateFile: function() {
       this.currentItem.archivo = this.$refs.file.files[0];
@@ -776,6 +788,7 @@ Vue.component('actividades-plan-content',{
       formData.append("nombre", this.newItem.nombre);
       formData.append("descripcion", this.newItem.descripcion);
       formData.append("plan_trabajo", this.newItem.plan_trabajo);
+      formData.append("tipo", this.newItem.tipo);
       formData.append("archivo", this.newItem.archivo);
       let nombre = document.getElementById('archivo');
       let filename = nombre.value.replace(/.*[\/\\]/, '');
@@ -798,6 +811,7 @@ Vue.component('actividades-plan-content',{
       formData2.append("nombre", this.currentItem.nombre);
       formData2.append("descripcion", this.currentItem.descripcion);
       formData2.append("plan_trabajo", this.currentItem.plan_trabajo);
+      formData2.append("tipo", this.currentItem.tipo);
       formData2.append("archivo", this.currentItem.archivo);
       let nombre = document.getElementById('archivoedit');
       let filename = nombre.value.replace(/.*[\/\\]/, '');
@@ -2377,7 +2391,7 @@ Vue.component('anexos-plan-content',{
           </div>
           <label>Adjuntar archivo : </label>
           <div class="form-group">            
-            <input type="file" id="anexo" class="form-control" v-on:change="selectFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+            <input type="file" id="anexo" class="form-control" v-on:change="selectFile" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf" required>
           </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
@@ -2407,7 +2421,7 @@ Vue.component('anexos-plan-content',{
           </div>
           <label>Adjuntar archivo : </label>
           <div class="form-group">            
-            <input type="file" v-model="newItem.archivo" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf">
+            <input type="file" id="anexoedit" v-on:change="updateFile()" ref="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,.pdf required">
           </div>
           </div>
           <div class="modal-footer"> <button type="submit" class="btn btn-primary">Guardar</button> </div>
@@ -2437,7 +2451,7 @@ Vue.component('anexos-plan-content',{
           </div>
           <label>Descargar Archivo : </label>
           <div class="form-group">            
-            <a href="{{currentItem.archivo}}" download="a">[[currentItem.archivo]]</a>
+            <a v-bind:href="currentItem.archivo" download>[[currentItem.archivo]]</a>
           </div>
 
           </div>  
@@ -2505,8 +2519,8 @@ Vue.component('anexos-plan-content',{
         console.log(err);
       })
     },
-    selectFile: function() {
-      this.newItem.archivo = this.$refs.file.files[0];
+    selectFile: function(event) {
+      this.newItem.archivo = event.target.files[0];
     },
     updateFile: function() {
       this.currentItem.archivo = this.$refs.file.files[0];
@@ -2542,7 +2556,7 @@ Vue.component('anexos-plan-content',{
       formData2.append("descripcion", this.currentItem.descripcion);
       formData2.append("plan_trabajo", this.currentItem.plan_trabajo);
       formData2.append("archivo", this.currentItem.archivo);
-      let nombre = document.getElementById('archivoedit');
+      let nombre = document.getElementById('anexoedit');
       let filename = nombre.value.replace(/.*[\/\\]/, '');
       formData2.append("nombre_archivo", filename);
 
@@ -2612,5 +2626,34 @@ var app = new Vue({
   }
 });
 
+
+// funcion para actualizar la fecha de modificacion del plan de trabajo al dar click en boton terminar
+$(document).ready(function() {
+            $('#terminar').click(  function () {
+                console.log("click");
+                var d = new Date();
+                var año = d.getFullYear();
+                var mes = d.getMonth()+1;
+                var dia = d.getDate();
+                if(mes<10){ mes="0"+mes;}
+                if(dia<10){ dia="0"+dia;}
+                var fecha = año+"-"+mes+"-"+dia;
+                console.log(fecha);
+
+                $.ajax({
+                    url: '/api/planTrabajo/'+PLANTRABAJO_ID+'/',    //Your api url
+                    type: 'PUT',   //type is any HTTP method
+                    data: {
+                        fecha_de_modificacion: fecha,
+                        evento: EVENTO_ID
+                    },      //Data as js object
+                    success: function () {
+                      console.log("SI");
+                    }
+                })
+                ;
+
+            });
+        });
 </script>
 {% endblock%}

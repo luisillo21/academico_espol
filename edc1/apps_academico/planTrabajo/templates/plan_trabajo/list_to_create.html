@@ -55,7 +55,7 @@
   </tbody>
   </table>
   <div class="d-flex justify-content-end">
-    <button class="btn darkgreen-bg text-light" data-toggle="modal" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
+    <button class="btn darkgreen-bg text-light" data-toggle="modal" v-on:click="noCopy()" :data-target="'#'+this.modals.add.id"><span>&#43;</span></button>
   </div>
   <div class="loading" v-if="loading===true">Loading&#8230;</div>
   <!-- END List Items -->
@@ -65,7 +65,8 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title"> Agregar Plan </h5>
+          <h5 class="modal-title" v-if="this.planToCopyId==null"> Agregar Plan </h5>
+          <h5 class="modal-title" v-if="this.planToCopyId!=null"> Copiar Plan </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
         </div>
         <form v-on:submit.prevent="addItem()">
@@ -238,6 +239,10 @@
       
     },
     methods: {
+      noCopy: function() {
+        this.planToCopyId = null;
+        console.log(this.planToCopyId);
+      },
       getItems: function() {
         this.loading = true;
         axios
