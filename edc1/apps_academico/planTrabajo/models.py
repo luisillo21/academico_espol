@@ -57,7 +57,7 @@ class PlanTrabajo(models.Model):
     fecha_de_creacion = models.DateField(auto_now_add=True)
     fecha_de_modificacion = models.DateField(auto_now=True)
     fecha_de_aprobacion = models.DateField(null=True)
-    estado = models.TextField()
+    estado = models.TextField(null=True)
     instrumentos_de_evaluacion = JSONField(null=True)
     motivo_de_rechazo = models.TextField(null=True)
     

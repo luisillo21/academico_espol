@@ -232,7 +232,7 @@
 </div>
 
 <div class="d-flex justify-content-center"> 
-    <a href={% url 'plan_trabajo_list_to_create' %} class="btn btn-primary mx-2 my-2">Terminar</a>
+    <a href={% url 'plan_trabajo_list_to_create' %} class="btn btn-primary mx-2 my-2" id="terminar">Terminar</a>
 </div>
 
   <div id="PLANTRABAJO_ID" hidden>{{ planTrabajo_id }}</div>
@@ -2626,5 +2626,34 @@ var app = new Vue({
   }
 });
 
+
+// funcion para actualizar la fecha de modificacion del plan de trabajo al dar click en boton terminar
+$(document).ready(function() {
+            $('#terminar').click(  function () {
+                console.log("click");
+                var d = new Date();
+                var año = d.getFullYear();
+                var mes = d.getMonth()+1;
+                var dia = d.getDate();
+                if(mes<10){ mes="0"+mes;}
+                if(dia<10){ dia="0"+dia;}
+                var fecha = año+"-"+mes+"-"+dia;
+                console.log(fecha);
+
+                $.ajax({
+                    url: '/api/planTrabajo/'+PLANTRABAJO_ID+'/',    //Your api url
+                    type: 'PUT',   //type is any HTTP method
+                    data: {
+                        fecha_de_modificacion: fecha,
+                        evento: EVENTO_ID
+                    },      //Data as js object
+                    success: function () {
+                      console.log("SI");
+                    }
+                })
+                ;
+
+            });
+        });
 </script>
 {% endblock%}
