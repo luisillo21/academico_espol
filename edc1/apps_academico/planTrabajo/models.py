@@ -65,7 +65,7 @@ class PlanTrabajo(models.Model):
         return '{}'.format(self.id)
 
 def upload_actividad(instance, filename):
-    return "PlanTrabajo/%s/Actividades/%s" %(instance.plan_trabajo, filename)
+    return "PlanTrabajo/%s/Actividades/%s/%s" %(instance.plan_trabajo, instance.nombre, filename)
 
 class ActividadPlan(models.Model):
     plan_trabajo = models.ForeignKey(PlanTrabajo, on_delete=models.CASCADE)
@@ -84,6 +84,7 @@ class ActividadPlan(models.Model):
     """
     archivo = models.FileField(upload_to=upload_actividad, null=True)
     nombre_archivo = models.TextField()
+    tipo = models.TextField()
 
 
 class SesionItem(models.Model):
@@ -104,7 +105,7 @@ class RecursoSesion(models.Model):
     descripcion = models.TextField()
 
 def upload_anexo(instance, filename):
-    return "PlanTrabajo/%s/Anexos/%s" %(instance.plan_trabajo, filename)
+    return "PlanTrabajo/%s/Anexos/%s/%s" %(instance.plan_trabajo, instance.nombre, filename)
 
 class AnexoPlan(models.Model):
     plan_trabajo = models.ForeignKey(PlanTrabajo, on_delete=models.CASCADE)
