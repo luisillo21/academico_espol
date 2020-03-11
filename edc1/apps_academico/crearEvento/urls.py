@@ -51,7 +51,7 @@ urlpatterns = [
     path('getNameE/', loadEventoName),
     #--------Seccion de reportes------------
     path('EventoCriterio/', EventoPorCriterio.as_view(), name='EventoCriterio'),
-    
+    path('EventosPorGenero/',eventos_ejecutados,name='EventosPorGenero'),
     path('Registro_asistencia_evento/',Registro_asistencia_evento.as_view(),name='Registro_asistencia_evento'),
-    path('<int:pk>/AsistenciaDocentes/',AsistenciasDocentePDF.as_view()),
+    
 ]

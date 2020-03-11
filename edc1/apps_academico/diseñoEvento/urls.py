@@ -28,8 +28,6 @@ urlpatterns = [
     path('design/listar/',ListarDesign.as_view(),name='listarDesign'),
     path('design/crear/',CrearDesign.as_view(),name='crearDesign'),
     #-----Seccion de reportes
-    path('EventosPorGenero/',EventosPorGenero.as_view(),name='Evento_por_genero'),
-    path('design/EvetosPorGenero2/', EventosPorGenero2.as_view(), name='Evento_por_genero2'),
     path('design/Eventos_Ejecutados/', eventos_ejecutados, name='Eventos_Ejecutados'),
 
 ]

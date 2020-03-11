@@ -33,6 +33,18 @@ from reportlab.platypus import (
     Spacer,
     TableStyle,
     Paragraph)
+
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template import Context
+from apps_academico.reporte_aca.utils import link_callback
+
+
 #----------------------------------
 # Create your views here.
 
@@ -633,141 +645,17 @@ class Registro_asistencia_evento(View):
             return response
 
 
-class AsistenciasDocentePDF(TemplateView):
-    model = Evento
-    styles = getSampleStyleSheet()
-    styleN = styles["BodyText"]
-    styleN.alignment = TA_CENTER
+def eventos_ejecutados(request):
+    template_path = 'reportes/eventosPorGenero.html'
+    design = DesignEvento.objects.filter()
+    context = {'design':design}
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    template = get_template(template_path)
+    html = template.render(context)
+    pisaStatus = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    if pisaStatus.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        design_id = self.kwargs['pk']
-        print(design_id)
-        context['design_id'] = design_id
-        return context
-
-    style = getSampleStyleSheet()
-
-    
-
-    def cabecera(self, pdf):
-        width, height = A4
-        var_nombre = '' 
-        evento = self.docente_asistencias()[0]
-        #valores a mostrar
-        nombre_evento = evento.nombre
-        promo = evento.promocion
-        mod = evento.modalidad
-        docente = evento.docente.docente
-
-        archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
-        pdf.drawImage(archivo_imagen, 10, 760, 230,
-                      90, preserveAspectRatio=True)
-        pdf.setFont("Helvetica-Bold", 10)
-        pdf.drawString(373,810, b"REGISTRO DE ASISTENCIAS DEL DOCENTE")
-        pdf.setFillColor(yellow)
-        pdf.rect(520,791, 67, 12, fill=True, stroke=False)
-        pdf.setFillColor(black)
-        pdf.setFont("Helvetica", 10)
-        pdf.drawString(520,793, u"POEC0502 V7")
-        pdf.setFont("Helvetica-Bold", 10)
-        pdf.drawString(10, 740, u"Evento: ")
-        pdf.drawString(260,740,u"Aula:")
-        pdf.drawString(430,740,u"Horario:")
-        pdf.drawString(10, 720, u"Promoción:")
-        pdf.drawString(260,720,u"Fecha de Inicio: ")
-        pdf.drawString(10, 700, u"Módulo: ")
-        pdf.drawString(260,700,u"Fecha Fin: ")
-        pdf.drawString(10, 680, u"Docente: ")
-        pdf.drawString(70, 680, "")
-        pdf.drawString(260,680,u"Duración: ")
-
-    def pie_pagina(self, pdf):
-        pdf.setFont("Helvetica", 10)
-        now = datetime.now()
-        pdf.drawString(10,45,'CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588 ')
-        pdf.drawString(10, 30, u"Fecha impresión:"+str(now.day) +
-                       '/'+str(now.month)+'/'+str(now.year))
-        page_num = pdf.getPageNumber()
-        text = "Pág. %s|1" % page_num
-        pdf.drawString(500, 30, text)
-        pdf.drawString(200, 30, u'Usuario: ')
-        pdf.drawString(240, 30, u'Luis Eduardo Ardila Macias')
-        
-        pdf.setFillColor(HexColor('#3c5634'))
-        pdf.drawString(10, 60,"//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
-       
-
-
-
-    def contenido(self, pdf, y):
-        width, height = A4
-        Numero= Paragraph('<b>N.-</b>',self.styleN)
-        Sesion =Paragraph('<b>Sesión</b>', self.styleN)
-        Fecha  =Paragraph('<b>Fecha</b>', self.styleN)
-        Firma = Paragraph('<b>Firma</b>', self.styleN)
-        Hora_de_entrada_planificada=Paragraph('<b>H.Entrada</b>', self.styleN)
-        Hora_de_salida_planificada =Paragraph('<b>H.Salida</b>', self.styleN)
-        Hora_de_entrada_ejecutada = Paragraph('<b>H.Entrada</b>', self.styleN)
-        Hora_de_salida_ejecutada =  Paragraph('<b>H.Entrada</b>', self.styleN)
-        Planificada = Paragraph('<b>Planificada</b>', self.styleN)
-        Ejecutada =   Paragraph('<b>Ejecutada</b>', self.styleN)
-        
-        encabezado1 = [
-                        ['','','','',Planificada,'',Ejecutada,''],
-                        [Numero,Sesion,Fecha,Firma,Hora_de_entrada_planificada,Hora_de_salida_planificada,Hora_de_entrada_ejecutada,Hora_de_salida_ejecutada],
-                        ['1','','','','','','',''],
-                        ['2','','','','','','',''],
-                        ['3','','','','','','',''],
-                        ['4','','','','','','','']
-                      ]
-        #encabezado2 = [[Numero,Sesion,Fecha,Firma,Hora_de_entrada_planificada,Hora_de_salida_planificada,Hora_de_entrada_ejecutada,Hora_de_salida_ejecutada]]
-        t = Table(encabezado1, colWidths=[1*cm,2*cm,3*cm,5*cm,2.3*cm,2.3*cm,2.3*cm,2.3*cm])
-        t.setStyle(TableStyle([
-            ('BOX', (4, 0), (-1,0), 0.30, colors.black),
-            ('INNERGRID', (4, 0), (-1, 0),0.10,colors.black),
-            ('BOX', (0, 1), (-1,-1), 0.20, colors.black),
-            ('INNERGRID', (0, 1), (-1, -1),0.10,colors.black),
-            ('ALIGN',(0,0),(-1,-1),'CENTER'),
-            ('SPAN',(4,0),(5,0)),
-            ('SPAN',(6,0),(7,0)),
-            ('BOTTOMPADDING',(0,0),(-1,-1),3),
-        ]))
-        t.wrapOn(pdf,width,height)
-        t.drawOn(pdf,10,550)
-
-
-    def docente_asistencias(self):
-        data = []
-        aula = None
-        diseño = None 
-        try:
-            design = self.model.objects.get(pk=self.kwargs['pk'])
-            calendario = CalendarioEvento.objects.all()
-            #aula = CalendarioEvento.objects.all()
-            #print(aula)
-            if design:  
-               data.append(design)
-               print(data)
-               return data
-            if calendario:
-               data.append(calendario) 
-               return data
-        except Exception as e:
-            print(e)
-        return data
-
-    def get(self, request, *args, **kargs):
-        response = HttpResponse(content_type='application/pdf')
-        buffer = BytesIO()
-        pdf = canvas.Canvas(buffer,pagesize=A4)
-        y = 590
-        self.cabecera(pdf)
-        self.pie_pagina(pdf)
-        self.contenido(pdf,y)
-        pdf.showPage()
-        pdf.save()
-        pdf = buffer.getvalue()
-        buffer.close()
-        response.write(pdf)
-        return response
