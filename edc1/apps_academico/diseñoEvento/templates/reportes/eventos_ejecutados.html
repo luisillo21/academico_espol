@@ -14,13 +14,13 @@ left: 10pt; width: 820pt; top: 10pt; height:100pt;
 
 @frame imagen {
     -pdf-frame-content: imagen;
-    left: 10pt; width:290pt; top: 5pt; height: 165pt;
+    left: 45pt; width:230pt; top: 15    pt; height: 165pt;
     /*-pdf-frame-border = 1;*/
 }
 
 @frame contenido_head {
     -pdf-frame-content: content_head;
-    left: 668pt; width: 200pt; top: 30pt; height: 50pt;
+    left: 640pt; width: 200pt; top: 30pt; height: 50pt;
     font-size: 14px;
     /* -pdf-frame-border = 1;*/
 }
@@ -28,7 +28,7 @@ left: 10pt; width: 820pt; top: 10pt; height:100pt;
 
 @frame codigo {
     -pdf-frame-content: content_codigo;
-    left: 750pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
+    left: 720pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
     font-size: 14px;
     /*-pdf-frame-border = 1;*/
 }
@@ -40,12 +40,11 @@ left: 10pt; width: 820pt; top: 10pt; height:100pt;
 left: 10pt; width: 820pt; top: 120pt; height: 370pt;
  /*-pdf-frame-border = 1;*/
 }
-
-
 @frame tabla1 {
     -pdf-frame-content: tabla_1;
-    left: 5pt; width:830pt; top: 110pt; height: 400pt;
+    left: 45pt; width:830pt; top: 110pt; height: 400pt;
     font-size: 14px;
+
     /* -pdf-frame-border = 1;*/
 }
 
@@ -54,14 +53,17 @@ left: 10pt; width: 820pt; top: 120pt; height: 370pt;
     left: 5pt; width:830pt; top: 410pt; height: 100pt;
     /* -pdf-frame-border = 1;*/
 }
-
+.celda{
+    height: auto;
+    width: 200px;
+}
 
 
 /* Pie de  Pagina */
 
 @frame footer_frame { /* Another static Frame */
 -pdf-frame-content: footer_content;
-left: 10pt; width: 820pt; top: 530pt; height: 40pt;
+left: 40pt; width: 820pt; top: 530pt; height: 40pt;
 /*-pdf-frame-border = 1;*/
 }
 
@@ -72,7 +74,7 @@ left: 790pt; width: 50pt; top: 550pt; height: 20pt;
 
 @frame contenido_del_footer { /* Another static Frame */
 -pdf-frame-content: contenido_del_footer;
-left: 10pt; width: 500pt; top: 550pt; height: 50pt;
+left: 40pt; width: 500pt; top: 550pt; height: 50pt;
 }
 
 }
@@ -92,40 +94,40 @@ left: 10pt; width: 500pt; top: 550pt; height: 50pt;
   </div>
 
   <div id="tabla_1">
-    <table class="table"  style="border:0.5px solid black; font-size 11px;">
-            <thead>
+    <table class="table"  style="border:0.5px solid black; font-size 12px;">
+            <thead >
                 <tr >
-                    <td style="width: 20pt;"> <strong><center>N.- </center></strong></td>
-                    <td style="width: 120px"> <strong><center>Codigo</center> </strong></td>
-                    <td style="width: 90px"> <strong><center>Version</center></strong></td>
-                    <td style="width:120px"> <strong><center>Nombre evento</center></strong></td>
-                    <td style="width: 80px"> <strong><center>Area</center></strong></td>
-                    <td style="width: 120px"> <strong><center>Especialidad</center></strong> </td>
-                    <td style="width: 110px"> <strong> <center> Tipo Evento</center></strong> </td>
-                    <td style="width: 90px"> <strong><center>Modalidad</center></strong></td>
-                    <td style="width: 115px"><strong><center>Tipo certificado</center></strong></td>
-                    <td style="width:90px"> <strong><center>Horas presenciales </center></strong></td>
-                    <td style="width: 90px"> <strong><center>N° Horas autonomas</center></strong></td>
-                    <td style="width: 50px; height:40px"> <strong><center> Total horas</center></strong></td>
-                    <td style="width: 70px; height:40px"> <strong><center>Fecha <br> creación</center></strong></td>
+                    <td clase='celda' style="width: 20pt;"> <strong><center> N.- </center></strong></td>
+                    <td clase='celda' style="width: 130px"> <strong><center> Codigo </center> </strong></td>
+                    <td clase='celda' style="width: 100px"> <strong><center> Version </center></strong></td>
+                    <td clase='celda' style="width:120px"> <strong><center> Nombre evento </center></strong></td>
+                    <td clase='celda' style="width: 80px"> <strong><center> Area </center></strong></td>
+                    <td clase='celda' style="width: 120px"> <strong><center> Especialidad </center></strong> </td>
+                    <td clase='celda' style="width: 110px"> <strong> <center> Tipo Evento </center></strong> </td>
+                    <td clase='celda' style="width: 90px"> <strong><center> Modalidad </center></strong></td>
+                    <td clase='celda' style="width: 115px"><strong><center> Tipo certificado </center></strong></td>
+                    <td clase='celda' style="width:90px"> <strong><center> Horas presenciales </center></strong></td>
+                    <td clase='celda' style="width: 90px"> <strong><center> N° Horas autonomas </center></strong></td>
+                    <td clase='celda' style="width: 50px; height:40px"> <strong><center> Total horas </center></strong></td>
+                    <td clase='celda' style="width: 70px; height:40px"> <strong><center>Fecha <br> creación</center></strong></td>
                 </tr>
             </thead>
             <tbody>
             {% for d in design %}
                   <tr>
-                      <td  style="margin-top: 5px; width: 20pt;"> <center> {{d.pk}}</center></td>
-                      <td  style=" width: 33pt;"> <center>{{d.codigo}}</center> </td>
-                      <td  style=" width: 31pt;"> <center>{{d.version}}</center></td>
-                      <td  style="margin-top: 5px;"> <center>{{d.nombre}}</center></td>
-                      <td  style="margin-top: 5px;"> <center>{{d.area}}</center></td>
-                      <td  style="" > <center>{{d.tipo_evento}}</center></td>
-                      <td  style=" width: 60pt;"> {{d.especialidad}}</center></td>
-                      <td  style=""> <center>{{d.modalidad}}</center></td>
-                      <td  style=""> <center>{{d.tipo_certificado}}</center></td>
-                      <td  style=""> <center>{{d.horas_presenciales}}</center></td>
-                      <td  style=""><center>{{d.horas_autonomas}}</center>  </td>
-                      <td  style=""><center>{{d.horas_totales}}</center>  </td>
-                      <td  style=""><center>  {{d.fecha}}</center></td>  
+                      <td  clase='celda' style="margin-top: 5px; width: 20pt;"> <center> {{d.pk}}</center></td>
+                      <td  clase='celda' style=" width: 33pt;"> <center>{{d.codigo}}</center> </td>
+                      <td  clase='celda' style=" width: 31pt;"> <center>{{d.version}}</center></td>
+                      <td  clase='celda' style="margin-top: 5px;"> <center>{{d.nombre}}</center></td>
+                      <td  clase='celda' style="margin-top: 5px;"> <center>{{d.area}}</center></td>
+                      <td  clase='celda' style="" > <center>{{d.tipo_evento}}</center></td>
+                      <td  clase='celda' style=" width: 60pt;"> {{d.especialidad}}</center></td>
+                      <td  clase='celda' style=""> <center>{{d.modalidad}}</center></td>
+                      <td  clase='celda' style=""> <center>{{d.tipo_certificado}}</center></td>
+                      <td  clase='celda' style=""> <center>{{d.horas_presenciales}}</center></td>
+                      <td  clase='celda' style=""><center>{{d.horas_autonomas}}</center>  </td>
+                      <td  clase='celda' style=""><center>{{d.horas_totales}}</center>  </td>
+                      <td  clase='celda' style=""><center>  {{d.fecha}}</center></td>  
                   </tr>
             {% endfor %}
             </tbody>
