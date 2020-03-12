@@ -105,7 +105,7 @@
                                                 <label class="font-weight-bold" for="tipo_evento">Tipo de Evento:</label>
                                             </div>
                                             <div class="col-2 col-sm-2 col-xl-2">
-                                                <select v-model="newDesign.tipo_evento" class="form-control" name="tipo_eventos" id="tipo_evento" required> 
+                                                <select v-model="newDesign.tipo_evento" v-on:change="guardar(newDesign.tipo_evento)" class="form-control" name="tipo_eventos" id="tipo_evento" required> 
                                                     <option v-for="tipo in tipoEvento" v-bind:value="tipo.id">{tipo.nombre}</option>
                                                 </select>
                                             </div>
@@ -176,6 +176,38 @@
                     </div>
 
                 </div>
+                        <div v-if="padre" class="card">
+                            <div class="card-header" id="headingOptional">
+                                <h2 class="mb-0 d-flex justify-content-between">
+                                    <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseOptional" aria-expanded="false" aria-controls="collapseOptional">
+                                        ELECCIÓN DE MÓDULOS
+                                    </button>
+        
+                                    <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <span class="fas fa-chevron-down fa-2x"></span>
+                                    </button>
+                                </h2>
+                            </div>
+        
+                            <div id="collapseOptional" class="collapse" aria-labelledby="headingOptional" data-parent="#accordionDesign">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-xl-12">
+                                            <div class="form-group">
+                                                <div class="row d-flex align-items-center">
+                                                    <div class="col-12 col-sm-12 col-xl-12">
+                                                        <label class="text-justify" for="hijos">A continuación debe hacer la búsqueda de los módulos a partir del código, y proceder a seleccionarlos.</label>
+                                                    </div>
+                                                    <div class="col-12 col-sm-12 col-xl-12">
+                                                        <textarea v-model="newDesign.justificacion" class="form-control" name="editor2" id="hijos" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                 <div class="card">
                     <div class="card-header" id="headingTwo">
@@ -1147,7 +1179,7 @@
 
 {% endblock %}
 {% block specific_scripts %}
-<script src="{% static 'js\vue_Design.js' %}"></script>
+<script src="{% static 'js\vue_Design1.js' %}"></script>
 {% endblock %}
 
 

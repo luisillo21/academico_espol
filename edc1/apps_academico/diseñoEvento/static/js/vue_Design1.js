@@ -2,6 +2,7 @@ const app=new Vue({
     el:'#app',
     delimiters:["{","}"],
     data:{
+        padre: null,
         areas:[],
         especialidades:[],
         objEspecificos:[],
@@ -10,7 +11,7 @@ const app=new Vue({
         recursos:[],
         referencias:[],
         lecturas:[],
-        tipoEvento:[{id:1,nombre:"Diplomado"},{id:2,nombre:"Programa"},{id:3,nombre:"Curso"},{id:4,nombre:"Taller"},{id:5,nombre:"Conferencia"},{id:6,nombre:"Seminario"},{id:7,nombre:"Webinario"},{id:8,nombre:"Charla"}],
+        tipoEvento:[{id:1,nombre:"Diplomado"},{id:2,nombre:"Programa"},{id:3,nombre:"Curso"},{id:4,nombre:"Taller"},{id:5,nombre:"Conferencia"},{id:6,nombre:"Seminario"},{id:7,nombre:"Webinario"},{id:8,nombre:"Charla"},{id:9,nombre:"Módulo"}],
         tiposRecursos:["Equipos","Materiales Didácticos","Software","Hardware","Aula/Laboratorio"],
         modalidades:["Presencial","Semi-Presencial","Virtual"],
         tipoCertificado:["Aprobación","Participación"],
@@ -138,6 +139,19 @@ const app=new Vue({
     },
 
     methods:{
+        guardar: function(tipo){
+            console.log("Funcion trabaja");
+            console.log(tipo);
+            if (tipo==1 || tipo==2){
+                console.log("Padre");
+                this.padre = true;
+                console.log(this.padre);
+            }
+            else{
+                this.padre = false;
+                console.log(this.padre);
+            }
+        },
         sumarHorasTotales: function(){
             this.newDesign.horas_totales=this.newDesign.horas_presenciales + this.newDesign.horas_autonomas
         },
