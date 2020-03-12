@@ -14,4 +14,5 @@ urlpatterns = [
     path('historico_participante/', historico_participante, name='historico_participante'),
     #--------
     path('contacto_participante',contacto_participante,name='contacto_participante'),
+    path('registro_asistencia_evento/',registro_asistencia_evento,name='registro_asistencia_evento'),
 ]

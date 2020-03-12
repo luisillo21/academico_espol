@@ -350,6 +350,20 @@ def contacto_participante(request):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+def registro_asistencia_evento(request):
+    template_path = 'reporte/registro_asistencia_evento.html'
+    #design = DesignEvento.objects.filter()
+    #context = {'design':design}
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    template = get_template(template_path)
+    html = template.render()
+    pisaStatus = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    if pisaStatus.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
 def historico_participante(usuarios):
     wb = Workbook()
     ws = wb.active
