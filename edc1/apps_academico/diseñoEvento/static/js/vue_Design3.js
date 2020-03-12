@@ -3,6 +3,8 @@ const app=new Vue({
     delimiters:["{","}"],
     data:{
         padre: null,
+        eventosHijos:[],
+        eventosHijosAgregados:[],
         areas:[],
         especialidades:[],
         objEspecificos:[],
@@ -135,21 +137,32 @@ const app=new Vue({
     mounted: function() {
         this.getAreas();
         this.getEspecialidades();
+        this.getEventosHijos();
         //this.getTipoEvento();             POR AHORA FUNCIONARA CON VALORES QUEMADOS, DE LO CONTRARIO: DESCOMENTAR Y VACIAR LA LISTA TIPO EVENTO PARA USAR LA API
     },
 
     methods:{
+        getEventosHijos: function(){
+            axios.get('/api/eventohijo/').then((response)=>{
+                this.eventosHijos=response.data;
+            }).catch((err)=>{
+                console.log(err)
+            })
+        },
+        agregarHijo: function(index){
+            this.eventosHijosAgregados.push(this.eventosHijos[index]);
+            this.eventosHijos.splice(index, 1);
+        },
+        removerHijo: function(index){
+            this.eventosHijos.push(this.eventosHijosAgregados[index]);
+            this.eventosHijosAgregados.splice(index,1);
+        },
         guardar: function(tipo){
-            console.log("Funcion trabaja");
-            console.log(tipo);
             if (tipo==1 || tipo==2){
-                console.log("Padre");
                 this.padre = true;
-                console.log(this.padre);
             }
             else{
                 this.padre = false;
-                console.log(this.padre);
             }
         },
         sumarHorasTotales: function(){
