@@ -426,125 +426,6 @@ class EventoPorCriterio(View):
         return response
 
 
-class Eventos_Ejecutados(View):
-    style = getSampleStyleSheet()
-
-    def cabecera(self, pdf):
-        width, height = A4
-        archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
-        pdf.drawImage(archivo_imagen, 10, 500, 230,
-                      90, preserveAspectRatio=True)
-        pdf.setFont("Helvetica-Bold", 12)
-        pdf.drawString(640, 565,"Eventos ejecutados por diseño")
-        pdf.setFillColor(yellow)
-        pdf.rect(750, 548, 67, 13, fill=True, stroke=False)
-        pdf.setFillColor(black)
-        pdf.setFont("Helvetica", 10)
-        pdf.drawString(750, 550, u"POEC0502 V7")
-
-    def pie_pagina(self, pdf):
-        pdf.setFont("Helvetica", 10)
-        now = datetime.now()
-        pdf.drawString(
-            10, 45, 'CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588 ')
-        pdf.drawString(10, 30, u"Fecha impresión:"+str(now.day) +
-                       '/'+str(now.month)+'/'+str(now.year))
-        page_num = pdf.getPageNumber()
-        text = "Pág. %s|1" % page_num
-        pdf.drawString(790, 30, text)
-        pdf.drawString(200, 30, u'Usuario: ')
-        pdf.drawString(240, 30, u'Luis Eduardo Ardila Macias')
-        pdf.setFillColor(HexColor('#3c5634'))
-        pdf.drawString(10, 60, "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
-
-    def information_evento(self):
-        lst_evento = Evento.objects.filter()
-
-
-    def contenido(self, pdf, y):
-        width, height = A4
-        styles = getSampleStyleSheet()
-        styleN = styles["BodyText"]
-        styleN.alignment = TA_CENTER
-        styleN.fontSize = 8
-        col_1 = Paragraph('<b>N.-</b>', styleN)
-        col_2 = Paragraph('<b>Codigo diseño</b>', styleN)
-        col_3 = Paragraph('<b>Version</b>', styleN)
-        col_4 = Paragraph('<b>Nombre del Evento</b>', styleN)
-        col_5 = Paragraph('<b>Area</b>', styleN)
-        col_6 = Paragraph('<b>Especialidad</b>', styleN)
-        col_7 = Paragraph('<b>Tipo Evento</b>',styleN)
-        col_8 = Paragraph('<b>Modalidad</b>',styleN)
-        col_9 = Paragraph('<b>Tipo certificado</b>',styleN)
-        col_10= Paragraph('<b>Horas presenciales</b>',styleN)
-        col_11 = Paragraph('<b>Nº Horas autonomas</b>',styleN)
-        col_12 = Paragraph('<b>Total horas</b>',styleN)
-        col_13 = Paragraph('<b>Fecha Creacion</b>',styleN)
-        encabezado1 = [
-            [col_1,col_2,col_3,col_4,col_5,col_6,col_7,col_8,col_9,col_10,col_11,col_12,col_13],
-            ['1','','','','','','','','','','','',''],
-            ['2','','','','','','','','','','','',''],
-            ['3','','','','','','','','','','','',''],
-            ['4','','','','','','','','','','','','']
-        ]
-
-        t = Table(encabezado1, colWidths=[
-                  0.9*cm,2*cm,2*cm,5*cm,2*cm,2.5*cm,2.2*cm,2.2*cm,2*cm,2.2*cm,2*cm,1.8*cm, 2*cm])
-
-        t.setStyle(TableStyle([
-            ('BOX', (0, 0), (-1, -1), 0.10, colors.black),
-            ('INNERGRID', (0, 0), (-1, -1), 0.10, colors.black),
-            ('BOTTOMPADDING', (2, 0), (2, 0), 9),
-            ('BOTTOMPADDING', (3, 0), (3, 0), 9),
-            ('BOTTOMPADDING', (4, 0), (4, 0), 9),
-            ('BOTTOMPADDING', (5, 0), (5, 0), 9),
-            ('BOTTOMPADDING', (6, 0), (6, 0), 9),
-            ('BOTTOMPADDING', (7, 0), (7, 0), 9),
-        ]))
-
-        t.wrapOn(pdf,width,height)
-        t.drawOn(pdf, 8, 380)
-        #Formulario Inferior
-        styleB = styles["BodyText"]
-        styleB.alignment = TA_LEFT
-        styleB.fontSize = 10
-        var_1 = Paragraph('<b>Total diseños</b>', styleB)
-        var_2 = Paragraph('<b>Total por modalidad</b>', styleB)
-        var_3 = Paragraph('<b>Total Diseño por área</b>', styleB)
-        var_4 = Paragraph('<b>Total tipo certificado</b>', styleB)
-        var_5 = Paragraph('<b>Total tipo evento</b>', styleB)
-        form_inferior = [
-            [var_1, 'Σ total', '', var_2, 'Σ total'],
-            [var_3, 'Σ total', '', var_4, 'Σ total'],
-            [var_5, '', '', '', '']
-        ]
-        t_form = Table(form_inferior, colWidths=[
-            5*cm, 2*cm, 4.5*cm, 4*cm, 4*cm])
-        t_form.setStyle(TableStyle([
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
-            #('BOX', (0, 0), (-1, -1), 0.10, colors.black),
-            #('INNERGRID', (0, 0), (-1, -1), 0.10, colors.black),
-        ]))
-
-        t_form.wrapOn(pdf, width, height)
-        t_form.drawOn(pdf, 8, 90)
-
-    def get(self, request, ):
-        response = HttpResponse(content_type='application/pdf')
-        buffer = BytesIO()
-        pdf = canvas.Canvas(buffer, pagesize=A4)
-        pdf.setPageSize(landscape(A4))
-        y = 590
-        self.cabecera(pdf)
-        self.pie_pagina(pdf)
-        self.contenido(pdf, y)
-        pdf.showPage()
-        pdf.save()
-        pdf = buffer.getvalue()
-        buffer.close()
-        response.write(pdf)
-        return response
-
 class Registro_asistencia_evento(View):
     def cabecera(self,pdf):
         #Utilizamos el archivo logo_django.png que está guardado en la carpeta media/imagenes
@@ -645,7 +526,7 @@ class Registro_asistencia_evento(View):
             return response
 
 
-def eventos_ejecutados(request):
+def  eventos_ejecutados(request):
     template_path = 'reportes/eventosPorGenero.html'
     design = DesignEvento.objects.filter()
     context = {'design':design}

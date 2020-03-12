@@ -7,9 +7,9 @@
 @page {
 size: {% block hoja %}A4{% endblock hoja %};
 
-{% block detalle_medida %}
+{% block extra_contenido %}
     
-{% endblock detalle_medida %}
+{% endblock extra_contenido %}
 
 {% block header_content %}
 @frame header_frame { 
@@ -108,6 +108,9 @@ left: 10pt; width: 500pt; top: 800pt; height: 50pt;
 </style>
 </head>
 <body>
+
+{% block contenido %}
+{% endblock contenido %}
 <!-- Content for Static Frame 'header_frame' -->
 <div id="header_content">
     <img src="static/image/logo.png" id="imagen" alt="">

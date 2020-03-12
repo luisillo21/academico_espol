@@ -3,26 +3,34 @@
 {% block hoja %}landscape{% endblock hoja %}
 
 
+  
 {% block tabla_estilos %}
     @frame tabla1 {
         -pdf-frame-content: tabla_1;
-        left: 5pt; width:800pt; top: 90pt; height: 400pt;
+        left: 5pt; width:800pt; top: 130pt; height: 400pt;
         /*-pdf-frame-border = 1;*/
     }
 {% endblock tabla_estilos %}
 
 
-{% block detalle_medida %}
+{% block extra_contenido %}
     margin: 2cm;
     /*-pdf-frame-border = 1;*/
-{% endblock detalle_medida %}
+
+    @frame periodo {
+    -pdf-frame-content: periodo;
+    left: 5pt; width: 600pt; top: 90pt; height: 30pt;
+    /* -pdf-frame-border = 1; */
+}
+
+{% endblock extra_contenido %}
 
 {% block standar %}   {% endblock standar %}
 
 {% block content_head %}
 @frame contenido_head {
     -pdf-frame-content: content_head;
-    left: 570pt; width: 300pt; top: 20pt; height: 50pt;
+    left: 665pt; width: 300pt; top: 20pt; height: 50pt;
     /* -pdf-frame-border = 1;*/
 }
 {% endblock content_head %}
@@ -47,7 +55,7 @@
 }
 {% endblock ubicacion_codigo %}
 
-{% block titulo_right %}<label style="font-size:15px"><strong>REGISTRO DE ASISTENCIAS DEL DOCENTE</strong></label>{% endblock titulo_right %}
+{% block titulo_right %}<label style="font-size:18px"><strong>Reporte transparencia</strong></label>{% endblock titulo_right %}
 
 {% block footer_frame %}
     @frame footer_frame { 
@@ -74,6 +82,20 @@ left: 10pt; width: 500pt; top: 555pt; height: 50pt;
 
 
 
+{% block contenido %}
+    <div id="periodo">
+    <table>
+        <tr>
+            <td style="font-size:16px; width:100px;"><strong>Periodo:</strong></td>
+            <td style="font-size:16px; width:280px"><strong>F.Inicio ____________________</strong></td>
+            <td style="font-size:16px;"><strong>F.Final ___________________</strong></td>
+        </tr>
+    </table>
+</div>
+
+{% endblock contenido %}
+
+
   <!-- Tabla principal -->
 
   <div id="tabla_1">
@@ -85,7 +107,7 @@ left: 10pt; width: 500pt; top: 555pt; height: 50pt;
                     <td style="width: 90px"> <strong><center>Código</center> </strong></td>
                     <td style="width: 280px"> <strong><center>Nombre del evento</center></strong></td>
                     <td style="width: 150px"> <strong><center>Publico</center></strong></td>
-                    <td style="width: 150px"> <strong><center>Tipo</center></strong></td>
+                    <td style="width: 150px"> <strong><center>Tipo de capacitaciòn</center></strong></td>
                     <td style="width: 110px"> <strong><center>Precio</center></strong></td>
                     <td style="width: 150px"> <strong><center>Participantes</center></strong></td>
                 <td style="width: 200px; font-size: 11px;"> <strong><center>Porcentaje de <br> satisfaccion sobre el <br> uso del servicio</center></strong> </td>

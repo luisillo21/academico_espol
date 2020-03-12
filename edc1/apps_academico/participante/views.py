@@ -691,3 +691,18 @@ def historico_participante(usuarios):
     response["Content-Disposition"] = contenido
     wb.save(response)
     return response
+
+
+def part_reprobados(request):
+    template_path = 'reportes/reprobados_por_evento.html'
+    #design = DesignEvento.objects.filter()
+    context = {'design':'#'}
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    template = get_template(template_path)
+    html = template.render(context)
+    pisaStatus = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    if pisaStatus.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

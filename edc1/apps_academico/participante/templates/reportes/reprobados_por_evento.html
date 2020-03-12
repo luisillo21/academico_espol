@@ -1,0 +1,204 @@
+{% load static %}
+<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+<html>
+<head>
+<style>
+@page {
+size: A4;
+@frame header_frame { 
+/* Cabecera estilos  */  
+-pdf-frame-content: header_content;
+left: 10pt; width: 820pt; top: 10pt; height:100pt;
+/*-pdf-frame-border = 1;*/
+}
+
+@frame imagen {
+    -pdf-frame-content: imagen;
+    left: 10pt; width:230pt; top: 10pt; height: 155pt;
+    /*-pdf-frame-border = 1;*/
+}
+
+@frame contenido_head {
+    -pdf-frame-content: content_head;
+    left: 390pt; width: 200pt; top: 30pt; height: 50pt;
+    font-size: 14px;
+    /* -pdf-frame-border = 1;*/
+}
+
+
+@frame codigo {
+    -pdf-frame-content: content_codigo;
+    left: 495pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
+    font-size: 14px;
+    /*-pdf-frame-border = 1;*/
+}
+
+
+/* Contenido estilos */
+
+@frame content_frame { 
+left: 10pt; width: 820pt; top: 120pt; height: 370pt;
+ /*-pdf-frame-border = 1;*/
+}
+@frame tabla1 {
+    -pdf-frame-content: tabla_1;
+    left: 10pt; width:580pt; top: 220pt; height: 460pt;
+
+     -pdf-frame-border = 1;
+}
+
+@frame detalle_eventos {
+    -pdf-frame-content: detalle_eventos;
+    left: 5pt; width:800pt; top: 690pt; height: 100pt;
+     /*-pdf-frame-border = 1;*/
+}
+
+@frame standar {
+    -pdf-frame-content: standar;
+    left: 15pt; width:300pt; top: 90pt; height: 150pt;
+}
+
+/* Pie de  Pagina */
+
+@frame footer_frame { /* Another static Frame */
+-pdf-frame-content: footer_content;
+left: 10pt; width: 800pt; top: 790pt; height: 40pt;
+/*-pdf-frame-border = 1;*/
+}
+
+@frame contador { /* Another static Frame */
+-pdf-frame-content: contador;
+left: 510pt; width: 50pt; top: 820pt; height: 20pt;
+}
+
+@frame contenido_del_footer { /* Another static Frame */
+-pdf-frame-content: contenido_del_footer;
+left: 10pt; width: 500pt; top: 810pt; height: 50pt;
+}
+
+}
+</style>
+</head>
+<body>
+<!-- Content for Static Frame 'header_frame' -->
+<div id="header_content">
+    <img src="static/image/logo.png" id="imagen" alt="">
+    <div id="content_head">
+            <label style="font-size: 17px"><strong>Reporte de eventos por género</strong></label>
+            <br>
+    </div>
+</div>
+  <div id="content_codigo">
+      <label style="background-color:yellow; margin-left: 5px; font-size: 15px"><strong>POEC0502 V7</strong></label>
+  </div>
+ 
+    <div id="standar">
+       <table>
+            <tr >
+                <td style=" height: 30px; font-size: 14px;"><Strong>Programa:</Strong> {% block evento %}{% endblock evento %}</td>
+                <td style=" height: 30px; font-size: 14px;"><strong>Empresa:</strong> {% block empresa%} {% endblock empresa %}</td>
+            </tr>
+            <tr style="height: 30px;font-size: 14px;">
+                <td><strong>Evento:</strong>{% block promocion2 %} {% endblock promocion2    %}</td>
+                <td style="width: 150px;"><strong>Aula:</strong> {% block fecha_inicio %}{% endblock fecha_inicio%}</td>
+            </tr>
+
+            <tr style="height: 30px; font-size: 14px;">
+                <td><strong>Promoción:</strong> {% block promocion%}{% endblock promocion %}</td>
+                <td style="width: 150px;"><strong>Fecha inicio:</strong>{% block fecha_fin2 %}{% endblock fecha_fin2%}</td>
+            </tr>
+            
+            <tr style="height: 30px; font-size: 14px;">
+                <td style=""><strong>Tipo de capacitación:</strong>{% block docente %}Curso Django{% endblock docente %}</td>
+                <td style=""><strong>Fecha Final:</strong>{% block duracion%} {% endblock duracion %}</td>
+            </tr>
+
+            <tr style=" height: 30px; font-size: 14px;">
+                <td style=" width: 400px;"><strong>Publico:</strong>{% block publico %}{% endblock publico %}</td>
+                <td style=" "><strong>Duracion:</strong>{% block fecha_fin %}{% endblock fecha_fin%}</td>
+            </tr>
+
+       </table> 
+  </div>
+	
+
+
+  <div id="tabla_1">
+    <table class="table"  style="border:0.5px solid black; font-size 13px;">
+            <thead style="height: 40px;"> 
+                <tr style="margin-top: 50px;">
+                    <td style="width: 80px;"> <strong ><center> N.- </center></strong></td>
+                    <td style="width: 80px"> <strong><center> Codigo </center> </strong></td>
+                    <td style="width: 250px"> <strong><center> Nombre del evento </center></strong></td>
+                    <td style="width: 210px;"> <strong><center> Cédula </center></strong></td>
+                    <td style="width: 250px;"> <strong><center> Nombre participante </center></strong> </td>
+                    <td style="width: 150px;"> <strong> <center> Asistencia </center></strong> </td>
+                    <td style="width: 120px;"> <strong style="margin-top: 50px;"><center> Nota <br> final </center></strong></td>
+                </tr>
+            </thead>
+            <tbody style="height: 50px;">
+                  <tr>
+                      <td  clase='celda'><center>1</center></td>
+                      <td  clase='celda'><center>0547b4</center> </td>
+                      <td  clase='celda'><center>Diseño grafico</center></td>
+                      <td  clase='celda'><center>0950596353</center></td>
+                      <td  clase='celda'><center>Luis Eduardo Ardila Macias</center></td>
+                      <td  clase='celda'><center>63%</center></td>
+                      <td  clase='celda'><center>80</center></td>
+                  </tr>
+
+                    <tr>
+                      <td  clase='celda'><center>1</center></td>
+                      <td  clase='celda'><center>0547b4</center> </td>
+                      <td  clase='celda'><center>Diseño grafico</center></td>
+                      <td  clase='celda'><center>0950596353</center></td>
+                      <td  clase='celda'><center>Maria Rivadeneira de los angeles</center></td>
+                      <td  clase='celda'><center>63%</center></td>
+                      <td  clase='celda'><center>80</center></td>
+                  </tr>
+            </tbody>
+        </table>
+  </div>
+    <div id="detalle_eventos">
+        <table id="table_estilos" style="font-size: 14px; font-family:Arial;">
+            <tr style="height: 50px">
+                  <td style="width:250px;"><strong>Total reprobados por asistencia:</strong></td>
+                  <td style="width:100px;">Σ total</td>
+                  <td style="width:250px;"><strong>Modalidad por hora:</strong></td>
+                  <td style="width:100px;">Σ total</td>
+            </tr>
+            <tr>
+                  <td style="width:250px; font-family:Arial "><strong>Total reprobados por calificación: </strong></td>
+                  <td style="width:100px;">Σ total</td>
+                  <td style="width:250px;"><strong>Total tipo certificado</strong></td>
+                  <td style="width:100px;">Σ total</td>
+            </tr>
+
+            <tr style="height: 50px">
+            	  <td style="width:250px; font-family:Arial "></td>
+                  <td style="width:150px;"></td>
+                  <td style="width:200px;"><strong>Total inscritos auspiciados</strong></td>
+                  <td style="width:100px;">Σ total</td>
+            </tr>
+
+        </table>
+    </div>
+
+{% block footer %}
+<div id="footer_content">
+  <label style="color: #3c5634">////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</label>
+  <br>
+  <div id="contador">
+      <label style="font-size: 13px">Pág <pdf:pagenumber> | <pdf:pagecount></label>
+  </div>
+  <div id="contenido_del_footer" style="font-size: 13px">
+      <label>CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588</label>
+      <br>
+      <!-- ESTO: &nbsp sirve para hacer espacioos en tre textos pero si quieres haz un frame aparte y lo mueves q es mas ordenado xD-->
+      <label>Fecha impresión: dd/mm/aaa &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Usuario: Nombre apellido</label>
+  </div>
+</div>
+{% endblock footer %}
+<!-- HTML Content -->
+</body>
+</html>
