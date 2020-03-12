@@ -23,6 +23,7 @@ from apps_academico.participante.viewsets import *
 
 plan_trabajo_router = routers.DefaultRouter()
 plan_trabajo_router.register(r'evento', EventoViewSet)
+plan_trabajo_router.register(r'eventohijo', EventoHijoViewSet)
 plan_trabajo_router.register(r'disenoEvento', DisenoEventoViewSet)
 plan_trabajo_router.register(r'unidad', UnidadViewSet)
 plan_trabajo_router.register(r'subUnidad', SubUnidadViewSet)

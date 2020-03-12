@@ -3,371 +3,329 @@
 {% block content %}
 <div id="app">
     <form v-on:submit.prevent="createDesign">
-    <div class="row">
-        <div class="col-9 col-sm-9 col-xl-9">
-            <h3>DISEÑO DEL <span class="darkgreen-text">EVENTO</span></h3>
+        <div class="row">
+            <div class="col-9 col-sm-9 col-xl-9">
+                <h3>DISEÑO DEL <span class="darkgreen-text">EVENTO</span></h3>
+            </div>
+            <div class="col-3 col-sm-3 col-xl-3">
+                <label class="font-weight-bold">Estado: </label><span v-model="newDesign.estado">
+                    {newDesign.estado}</span>
+            </div>
         </div>
-        <div class="col-3 col-sm-3 col-xl-3">
-            <label class="font-weight-bold">Estado: </label><span v-model="newDesign.estado"> {newDesign.estado}</span>
-        </div>
-    </div>
-    <div class="row d-flex justify-content-center align-items-center">
-        <div class="col-12 col-sm-12 col-xl-12">
-            <div class="accordion" id="accordionDesign">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                DATOS GENERALES
-                            </button>
-                           
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
-                    </div>
-                      
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionDesign">
-                        <div class="card-body">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-12 col-sm-12 col-xl-12">
+                <div class="accordion" id="accordionDesign">
 
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <label class="font-weight-bold" for="nombre">Nombre:</label>
-                                            </div>
-                                            <div class="col-11 col-sm-11 col-xl-11">
-                                                <input v-model="newDesign.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre del evento" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                    DATOS GENERALES
+                                </button>
 
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="area">Área de Capacitación:</label>
-                                            </div>
-                                            <div class="col-4 col-sm-4 col-xl-4">
-                                                <select  v-model="newDesign.area" class="form-control" name="areas" id="area" required> 
-                                                    <option v-for="area in areas" v-bind:value="area.id">{area.codigo} : {area.area}</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="especialidad">Especialidad:</label>
-                                            </div>
-                                            <div class="col-4 col-sm-4 col-xl-4">
-                                                <select v-model="newDesign.especialidad" class="form-control" name="especialidades" id="especialidad" required> 
-                                                    <option v-for="especialidad in especialidades" v-bind:value="especialidad.id" v-if="especialidad.area===newDesign.area">{especialidad.codigo} : {especialidad.especialidades}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <label class="font-weight-bold" for="codigo">Código:</label>
-                                            </div>
-                                            <div class="col-3 col-sm-3 col-xl-3">
-                                                <input v-model="newDesign.codigo" type="text" class="form-control" id="codigo" placeholder="Código Diseño" required>
-                                            </div>
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <label class="font-weight-bold" for="version">Versión:</label>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <input v-model="newDesign.version" type="number" class="form-control" id="version" placeholder="Versión Diseño" required>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="cod_programa">Cód. Programa:</label>
-                                            </div>
-                                            <div class="col-3 col-sm-3 col-xl-3">
-                                                <input v-model="newDesign.cod_programa" type="text" class="form-control" id="cod_programa" placeholder="Código Programa" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="tipo_evento">Tipo de Evento:</label>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <select v-model="newDesign.tipo_evento" class="form-control" name="tipo_eventos" id="tipo_evento" required> 
-                                                    <option v-for="tipo in tipoEvento" v-bind:value="tipo.id">{tipo.nombre}</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="modalidad">Modalidad:</label>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <select v-model="newDesign.modalidad" class="form-control" name="modalidades" id="modalidad" required> 
-                                                    <option v-for="modalidad in modalidades" v-bind:value="modalidad">{modalidad}</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="tipo_certificado">Tipo de Certificado:</label>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <select v-model="newDesign.tipo_certificado" class="form-control" name="tipo_certificados" id="tipo_certificado" required> 
-                                                    <option v-for="certificado in tipoCertificado" v-bind:value="certificado">{certificado}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="horas_presenciales">Horas Presenciales:</label>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <input v-model.number="newDesign.horas_presenciales" v-on:input="sumarHorasTotales" type="number" class="form-control" id="horas_presenciales" placeholder="Horas Presenciales" required>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="horas_autonomas">Horas autónomas:</label>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <input v-model.number="newDesign.horas_autonomas" v-on:input="sumarHorasTotales" type="number" class="form-control" id="horas_autonomas" placeholder="Horas Autónomas" required>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <label class="font-weight-bold" for="horas_totales">Horas Totales:</label>
-                                            </div>
-                                            <div class="col-2 col-sm-2 col-xl-2">
-                                                <input v-model.number="newDesign.horas_totales" type="number" class="form-control" id="horas_totales" disabled required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <label class="font-weight-bold" for="requisitos_facilitador">Requisitos para el Facilitador:</label>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <textarea v-model="newDesign.requisitos_facilitador" class="form-control" name="editor1" id="requisitos_facilitador" required></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
                         </div>
-                    </div>
 
-                </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
 
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                JUSTIFICACIÓN DEL EVENTO
-                            </button>
-
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
-                    </div>
-
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <label class="text-justify" for="justificacion">Detalle la relevancia de este curso o programa, la innovación que ofrecen los temas que se proponen y la aplicabilidad de los mismos en la vida laboral o profesional de los participantes.</label>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <textarea v-model="newDesign.justificacion" class="form-control" name="editor2" id="justificacion" required></textarea>
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <label class="font-weight-bold" for="nombre">Nombre:</label>
+                                                </div>
+                                                <div class="col-11 col-sm-11 col-xl-11">
+                                                    <input v-model="newDesign.nombre" type="text" class="form-control"
+                                                        id="nombre" placeholder="Nombre del evento" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                OBJETIVO GENERAL
-                            </button>
-
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
-                    </div>
-
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <label class="text-justify" for="objetivo">
-                                                        Describir el objetivo de aprendizaje en función de lo que los educandos aprenderán en términos de conocimientos, habilidades y/o destrezas al final del curso o programa de capacitación. <br>
-                                                        Describir QUÉ (habilidad) espera lograr en los participantes, CÓMO (conocimiento) y PARA QUÉ (aplicabilidad). <br>
-                                                        <span class="font-weight-bold">Al finalizar el curso el participante estará en condiciones de:</span><br>
-                                                </label>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <textarea v-model="newDesign.objetivo" class="form-control" name="editor3" id="objetivo" required></textarea>
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold" for="area">Área de
+                                                        Capacitación:</label>
+                                                </div>
+                                                <div class="col-4 col-sm-4 col-xl-4">
+                                                    <select v-model="newDesign.area" class="form-control" name="areas"
+                                                        id="area" required>
+                                                        <option v-for="area in areas" v-bind:value="area.id">
+                                                            {area.codigo} : {area.area}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold"
+                                                        for="especialidad">Especialidad:</label>
+                                                </div>
+                                                <div class="col-4 col-sm-4 col-xl-4">
+                                                    <select v-model="newDesign.especialidad" class="form-control"
+                                                        name="especialidades" id="especialidad" required>
+                                                        <option v-for="especialidad in especialidades"
+                                                            v-bind:value="especialidad.id"
+                                                            v-if="especialidad.area===newDesign.area">
+                                                            {especialidad.codigo} : {especialidad.especialidades}
+                                                        </option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <label class="font-weight-bold" for="codigo">Código:</label>
+                                                </div>
+                                                <div class="col-3 col-sm-3 col-xl-3">
+                                                    <input v-model="newDesign.codigo" type="text" class="form-control"
+                                                        id="codigo" placeholder="Código Diseño" required>
+                                                </div>
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <label class="font-weight-bold" for="version">Versión:</label>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <input v-model="newDesign.version" type="number"
+                                                        class="form-control" id="version" placeholder="Versión Diseño"
+                                                        required>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold" for="cod_programa">Cód.
+                                                        Programa:</label>
+                                                </div>
+                                                <div class="col-3 col-sm-3 col-xl-3">
+                                                    <input v-model="newDesign.cod_programa" type="text"
+                                                        class="form-control" id="cod_programa"
+                                                        placeholder="Código Programa" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold" for="tipo_evento">Tipo de
+                                                        Evento:</label>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <select v-model="newDesign.tipo_evento"
+                                                        v-on:change="guardar(newDesign.tipo_evento)"
+                                                        class="form-control" name="tipo_eventos" id="tipo_evento"
+                                                        required>
+                                                        <option v-for="tipo in tipoEvento" v-bind:value="tipo.id">
+                                                            {tipo.nombre}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold" for="modalidad">Modalidad:</label>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <select v-model="newDesign.modalidad" class="form-control"
+                                                        name="modalidades" id="modalidad" required>
+                                                        <option v-for="modalidad in modalidades"
+                                                            v-bind:value="modalidad">{modalidad}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold" for="tipo_certificado">Tipo de
+                                                        Certificado:</label>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <select v-model="newDesign.tipo_certificado" class="form-control"
+                                                        name="tipo_certificados" id="tipo_certificado" required>
+                                                        <option v-for="certificado in tipoCertificado"
+                                                            v-bind:value="certificado">{certificado}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold" for="horas_presenciales">Horas
+                                                        Presenciales:</label>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <input v-model.number="newDesign.horas_presenciales"
+                                                        v-on:input="sumarHorasTotales" type="number"
+                                                        class="form-control" id="horas_presenciales"
+                                                        placeholder="Horas Presenciales" required>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold" for="horas_autonomas">Horas
+                                                        autónomas:</label>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <input v-model.number="newDesign.horas_autonomas"
+                                                        v-on:input="sumarHorasTotales" type="number"
+                                                        class="form-control" id="horas_autonomas"
+                                                        placeholder="Horas Autónomas" required>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <label class="font-weight-bold" for="horas_totales">Horas
+                                                        Totales:</label>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-xl-2">
+                                                    <input v-model.number="newDesign.horas_totales" type="number"
+                                                        class="form-control" id="horas_totales" disabled required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <label class="font-weight-bold"
+                                                        for="requisitos_facilitador">Requisitos para el
+                                                        Facilitador:</label>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <textarea v-model="newDesign.requisitos_facilitador"
+                                                        class="form-control" name="editor1" id="requisitos_facilitador"
+                                                        required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header" id="headingFour">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                OBJETIVOS ESPECÍFICOS
-                            </button>
-
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
                     </div>
-    
-                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <label class="text-justify">Detalle las micro competencias o habilidades intermedias que permitirán el logro del objetivo general y que a su vez generan y justifican el desarrollo de las unidades de aprendizaje y sus contenidos;
-                                        por lo que se recomienda redactar un objetivo específico para cada unidad didáctica que tendrá su curso. Referenciar a la Taxonomía de Bloom</label>    
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    
-                                    <div class="from-group">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr class="text-left">
-                                                <th>#</th>
-                                                <th>Objetivos especifico de aprendizaje</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(especifico,index) in objEspecificos">
-                                                <td>{index + 1}</td>
-                                                <td>
-                                                    <span v-if="formActualizarObj && indexUpdateObj === index">
-                                                        <input v-model="newObjEspecifico" type="text" class="form-control">
-                                                    </span>
-                                                    <span v-else>
-                                                        {especifico.descripcion}
-                                                    </span>
-                                                </td>
-                                                <td class="text-center">
-                                                    <span v-if="formActualizarObj && indexUpdateObj === index">
-                                                        <a @click="guardarUpdateObj(index)"><span class="fas fa-check-circle text-success"></span></a>
-                                                    </span>
-                                                    <span v-else>
-                                                        <a @click="verUpdateObj(index)"><span class="fas fa-edit text-primary"></span></a>
-                                                        <a @click="borrarObj(index)"><span class="fas fa-trash-alt text-danger"></span></a>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                   <input @keyup.enter="createObjEspecifico" class="form-control" v-model="crearObjEspecifico" type="text" name="nuevoObj" id="nuevoObj" placeholder="Escriba su objetivo"> 
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                    
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="d-flex justify-content-end">
-                                        <button @click="createObjEspecifico" type="button" class="btn btn-success"><span class="fas fa-plus-circle"></span> Agregar</button>
-                                    </div>
-                                </div>
-                    
-                            </div>
+
+                    <div v-if="padre" class="card">
+                        <div class="card-header" id="headingOptional">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseOptional" aria-expanded="false"
+                                    aria-controls="collapseOptional">
+                                    ELECCIÓN DE MÓDULOS
+                                </button>
+
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                    aria-controls="collapseTwo">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
                         </div>
-                    </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header" id="headingFive">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                PERFIL DEL PARTICIPANTE
-                            </button>
+                        <div id="collapseOptional" class="collapse" aria-labelledby="headingOptional"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <label class="text-justify" for="hijos">A continuación debe hacer la
+                                                        búsqueda de los módulos, y proceder a
+                                                        seleccionarlos.</label>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <div class="from-group">
+                                                        <table class="table table-sm">
+                                                            <thead>
+                                                                <tr class="text-left">
+                                                                    <th>Eventos agregados</th>
+                                                                    <th>Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-for="(evento,index) in eventosHijosAgregados">
+                                                                    <td class="text-center">{evento.tipo_evento} {evento.nombre} : {evento.id}</td>
+                                                                    <td class="text-center">
+                                                                        <a @click="removerHijo(index)"><span
+                                                                                class="fas fa-trash-alt text-danger"></span></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="from-group">
+                                                        <table id="tablaHijos" class="table table-sm">
+                                                            <thead>
+                                                                <tr class="text-left">
+                                                                    <th>Código</th>
+                                                                    <th>Evento</th>
+                                                                    <th>Tipo</th>
+                                                                    <th>Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-for="(evento,index) in eventosHijos">
+                                                                    <td class="text-center">{evento.id}</td>
+                                                                    <td>
+                                                                        <span
+                                                                            v-if="formActualizarObj && indexUpdateObj === index">
+                                                                            <input v-model="newObjEspecifico"
+                                                                                type="text" class="form-control">
+                                                                        </span>
+                                                                        <span class="text-center" v-else>
+                                                                            {evento.nombre}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            v-if="formActualizarObj && indexUpdateObj === index">
+                                                                            <input v-model="newObjEspecifico"
+                                                                                type="text" class="form-control">
+                                                                        </span>
+                                                                        <span class="text-center" v-else>
+                                                                            {evento.tipo_evento}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <a @click="agregarHijo(index)"><span
+                                                                                class="fas fa-plus-circle"></span></a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td>
+                                                                        <input @keyup="filtro()" class="form-control"
+                                                                            v-model="crearObjEspecifico" type="text"
+                                                                            name="filtro" id="filtro"
+                                                                            placeholder="Buscar">
+                                                                    </td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
-                    </div>
-        
-                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <label class="text-justify" for="dirigido_participante">
-                                                    <span class="font-weight-bold">Dirigido a</span><br>
-                                                    Definir el perfil del aspirante o el público objetivo al que va dirigido el evento. Comenzar con los de más alto nivel.
-                                                </label>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <textarea v-model="newDesign.dirigido_participante" class="form-control" name="editor4" id="dirigido_participante" required></textarea>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-xl-12 p-3">
-                                                <label class="text-justify" for="indispensable_participante">
-                                                    <span class="font-weight-bold">Requisitos Indispensables</span><br>
-                                                    Ingrese aquí los <u>requisitos indispensables</u> detallan las circunstancias o características de los participantes <u>que son vitales</u> para el desarrollo de un curso.
-                                                </label>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <textarea v-model="newDesign.indispensable_participante" class="form-control" name="editor5" id="indispensable_participante" required></textarea>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-xl-12 p-3">
-                                                <label class="text-justify" for="recomendables_participante">
-                                                    <span class="font-weight-bold">Requisitos Recomendables</span><br>
-                                                    Ingrese aquí los <u>requisitos recomendables</u> detallan las circunstancias o características de los participantes <u>que son deseables</u> para un mejor desarrollo del curso pero que no son imprescindibles
-                                                </label>
-                                            </div>
-                                            <div class="col-12 col-sm-12 col-xl-12">
-                                                <textarea v-model="newDesign.recomendables_participante" class="form-control" name="editor6" id="recomendables_participante" required></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -375,780 +333,1259 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header" id="headingSix">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                METODOLOGÍA DE TRABAJO
-                            </button>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                    aria-controls="collapseTwo">
+                                    JUSTIFICACIÓN DEL EVENTO
+                                </button>
 
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                    aria-controls="collapseTwo">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <label class="text-justify" for="justificacion">Detalle la
+                                                        relevancia de este curso o programa, la innovación que ofrecen
+                                                        los temas que se proponen y la aplicabilidad de los mismos en la
+                                                        vida laboral o profesional de los participantes.</label>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <textarea v-model="newDesign.justificacion" class="form-control"
+                                                        name="editor2" id="justificacion" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-            
-                    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <div class="form-group">
 
-                                        <div class="row d-flex justify-content-center align-items-center p-2">
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <input v-model="newDesign.metodologia1" type="checkbox" name="metodologia1" id="metodologia1">
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-xl-5">
-                                                <label class="text-justify" for="metodologia1">Exploración de los conocimientos previos.</label>
-                                            </div>
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <input v-model="newDesign.metodologia2" type="checkbox" name="metodologia2" id="metodologia2">
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-xl-5">
-                                                <label class="text-justify" for="metodologia2">Aprendizaje a través de casos o talleres prácticos aplicables en el ámbito laboral.</label>
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+                                    aria-controls="collapseThree">
+                                    OBJETIVO GENERAL
+                                </button>
+
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+                                    aria-controls="collapseThree">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <label class="text-justify" for="objetivo">
+                                                        Describir el objetivo de aprendizaje en función de lo que los
+                                                        educandos aprenderán en términos de conocimientos, habilidades
+                                                        y/o destrezas al final del curso o programa de capacitación.
+                                                        <br>
+                                                        Describir QUÉ (habilidad) espera lograr en los participantes,
+                                                        CÓMO (conocimiento) y PARA QUÉ (aplicabilidad). <br>
+                                                        <span class="font-weight-bold">Al finalizar el curso el
+                                                            participante estará en condiciones de:</span><br>
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <textarea v-model="newDesign.objetivo" class="form-control"
+                                                        name="editor3" id="objetivo" required></textarea>
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                        <div class="row d-flex justify-content-center align-items-center p-2">
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <input v-model="newDesign.metodologia3" type="checkbox" name="metodologia3" id="metodologia3">
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-xl-5">
-                                                <label class="text-justify" for="metodologia3">Fomento del aprendizaje autónomo.</label>
-                                            </div>
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <input v-model="newDesign.metodologia4" type="checkbox" name="metodologia4" id="metodologia4">
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-xl-5">
-                                                <label class="text-justify" for="metodologia4">Aprendizaje experiencial en entornos online a través una plataforma tecnológica.</label>
-                                            </div>
-                                        </div>
+                    <div class="card">
+                        <div class="card-header" id="headingFour">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+                                    aria-controls="collapseFour">
+                                    OBJETIVOS ESPECÍFICOS
+                                </button>
 
-                                        <div class="row d-flex justify-content-center align-items-center p-2">
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <input v-model="newDesign.metodologia5" type="checkbox" name="metodologia5" id="metodologia5">
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-xl-5">
-                                                <label class="text-justify" for="metodologia5">Fomento del aprendizaje basado en actitudes y valores.</label>
-                                            </div>
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <input v-model="newDesign.metodologia6" type="checkbox" name="metodologia6" id="metodologia6">
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-xl-5">
-                                                <label class="text-justify" for="metodologia6">Aplicación de estrategias y herramientas didácticas activas y participativas.</label>
-                                            </div>
-                                        </div>
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+                                    aria-controls="collapseFour">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
 
-                                        <div class="row d-flex justify-content-center align-items-center p-2">
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <input v-model="newDesign.metodologia7" type="checkbox" name="metodologia7" id="metodologia7">
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-xl-5">
-                                                <label class="text-justify" for="metodologia7">Acompañamiento de un facilitador experto en la temática.</label>
-                                            </div>
-                                            <div class="col-1 col-sm-1 col-xl-1">
-                                                <input v-model="newDesign.metodologia8" type="checkbox" name="metodologia8" id="metodologia8">
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-xl-5">
-                                                <label class="text-justify" for="metodologia8">Aprendizaje colaborativo: Trabajos en grupo, proyectos, talleres.</label>
-                                            </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <label class="text-justify">Detalle las micro competencias o habilidades
+                                            intermedias que permitirán el logro del objetivo general y que a su vez
+                                            generan y justifican el desarrollo de las unidades de aprendizaje y sus
+                                            contenidos;
+                                            por lo que se recomienda redactar un objetivo específico para cada unidad
+                                            didáctica que tendrá su curso. Referenciar a la Taxonomía de Bloom</label>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xl-12">
+
+                                        <div class="from-group">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr class="text-left">
+                                                        <th>#</th>
+                                                        <th>Objetivos especifico de aprendizaje</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(especifico,index) in objEspecificos">
+                                                        <td>{index + 1}</td>
+                                                        <td>
+                                                            <span v-if="formActualizarObj && indexUpdateObj === index">
+                                                                <input v-model="newObjEspecifico" type="text"
+                                                                    class="form-control">
+                                                            </span>
+                                                            <span v-else>
+                                                                {especifico.descripcion}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span v-if="formActualizarObj && indexUpdateObj === index">
+                                                                <a @click="guardarUpdateObj(index)"><span
+                                                                        class="fas fa-check-circle text-success"></span></a>
+                                                            </span>
+                                                            <span v-else>
+                                                                <a @click="verUpdateObj(index)"><span
+                                                                        class="fas fa-edit text-primary"></span></a>
+                                                                <a @click="borrarObj(index)"><span
+                                                                        class="fas fa-trash-alt text-danger"></span></a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <input @keyup.enter="createObjEspecifico"
+                                                                class="form-control" v-model="crearObjEspecifico"
+                                                                type="text" name="nuevoObj" id="nuevoObj"
+                                                                placeholder="Escriba su objetivo">
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
 
                                     </div>
-                                </div>
-                            </div>     
-                        </div>
-                    </div>
-                </div>
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="d-flex justify-content-end">
+                                            <button @click="createObjEspecifico" type="button"
+                                                class="btn btn-success"><span class="fas fa-plus-circle"></span>
+                                                Agregar</button>
+                                        </div>
+                                    </div>
 
-                <div class="card">
-                    <div class="card-header" id="headingSeven">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                CONTENIDO GENERAL
-                            </button>
-
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
-                    </div>
-                
-                    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12 d-flex justify-content-end">
-                                    <button @click="vaciarCamposUnidades" type="button" class="btn btn-success" data-toggle="modal" data-target=".bd-unidad-modal-lg"><span class="fas fa-plus-circle"></span> Agregar Unidad</button>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 p-3">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>N° Unidad</th>
-                                                <th>Unidad de Aprendizaje</th>
-                                                <th>Horas presenciales</th>
-                                                <th>Horas autónomas</th>
-                                                <th>Horas Totales</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(unidad,index) in unidades">
-                                                <td>{index+1}</td>
-                                                <td>{unidad.nombre_unidad}</td>
-                                                <td>{unidad.horas_presenciales_unidad}</td>
-                                                <td>{unidad.horas_autonomas_unidad}</td>
-                                                <td>{unidad.horas_totales}</td>
-                                                <td>
-                                                    <a @click="verUpdateUnidad(index)"><span class="fas fa-edit text-primary"></span></a>
-                                                    <a @click="borrarUnidad(index)"><span class="fas fa-trash-alt text-danger"></span></a>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header" id="headingEight">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-                                RECURSOS
-                            </button>
 
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
-                    </div>
-                
-                    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-xl-12 p-3">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>Tipo de Recurso</th>
-                                                <th>Descripción</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(recurso,index) in recursos">
-                                                <td>{recurso.tipo}</td>
-                                                <td>{recurso.descripcion}</td>
-                                                <td class="text-center">
-                                                    <a @click="verUpdateRecurso(index)"><span class="fas fa-edit text-primary"></span></a>
-                                                    <a @click="borrarRecurso(index)"><span class="fas fa-trash-alt text-danger"></span></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#staticBackdropRecurso"><span class="fas fa-plus-circle"></span> Agregar Recursos</button>
+                    <div class="card">
+                        <div class="card-header" id="headingFive">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseFive" aria-expanded="false"
+                                    aria-controls="collapseFive">
+                                    PERFIL DEL PARTICIPANTE
+                                </button>
+
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseFive" aria-expanded="false"
+                                    aria-controls="collapseFive">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <label class="text-justify" for="dirigido_participante">
+                                                        <span class="font-weight-bold">Dirigido a</span><br>
+                                                        Definir el perfil del aspirante o el público objetivo al que va
+                                                        dirigido el evento. Comenzar con los de más alto nivel.
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <textarea v-model="newDesign.dirigido_participante"
+                                                        class="form-control" name="editor4" id="dirigido_participante"
+                                                        required></textarea>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12 p-3">
+                                                    <label class="text-justify" for="indispensable_participante">
+                                                        <span class="font-weight-bold">Requisitos
+                                                            Indispensables</span><br>
+                                                        Ingrese aquí los <u>requisitos indispensables</u> detallan las
+                                                        circunstancias o características de los participantes <u>que son
+                                                            vitales</u> para el desarrollo de un curso.
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <textarea v-model="newDesign.indispensable_participante"
+                                                        class="form-control" name="editor5"
+                                                        id="indispensable_participante" required></textarea>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12 p-3">
+                                                    <label class="text-justify" for="recomendables_participante">
+                                                        <span class="font-weight-bold">Requisitos
+                                                            Recomendables</span><br>
+                                                        Ingrese aquí los <u>requisitos recomendables</u> detallan las
+                                                        circunstancias o características de los participantes <u>que son
+                                                            deseables</u> para un mejor desarrollo del curso pero que no
+                                                        son imprescindibles
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-sm-12 col-xl-12">
+                                                    <textarea v-model="newDesign.recomendables_participante"
+                                                        class="form-control" name="editor6"
+                                                        id="recomendables_participante" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header" id="headingNine">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-                                REFERENCIAS BIBLIOGRÁFICAS
-                            </button>
+                    <div class="card">
+                        <div class="card-header" id="headingSix">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseSix" aria-expanded="false"
+                                    aria-controls="collapseSix">
+                                    METODOLOGÍA DE TRABAJO
+                                </button>
 
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseSix" aria-expanded="false"
+                                    aria-controls="collapseSix">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseSix" class="collapse" aria-labelledby="headingSix"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12">
+                                        <div class="form-group">
+
+                                            <div class="row d-flex justify-content-center align-items-center p-2">
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <input v-model="newDesign.metodologia1" type="checkbox"
+                                                        name="metodologia1" id="metodologia1">
+                                                </div>
+                                                <div class="col-5 col-sm-5 col-xl-5">
+                                                    <label class="text-justify" for="metodologia1">Exploración de los
+                                                        conocimientos previos.</label>
+                                                </div>
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <input v-model="newDesign.metodologia2" type="checkbox"
+                                                        name="metodologia2" id="metodologia2">
+                                                </div>
+                                                <div class="col-5 col-sm-5 col-xl-5">
+                                                    <label class="text-justify" for="metodologia2">Aprendizaje a través
+                                                        de casos o talleres prácticos aplicables en el ámbito
+                                                        laboral.</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row d-flex justify-content-center align-items-center p-2">
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <input v-model="newDesign.metodologia3" type="checkbox"
+                                                        name="metodologia3" id="metodologia3">
+                                                </div>
+                                                <div class="col-5 col-sm-5 col-xl-5">
+                                                    <label class="text-justify" for="metodologia3">Fomento del
+                                                        aprendizaje autónomo.</label>
+                                                </div>
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <input v-model="newDesign.metodologia4" type="checkbox"
+                                                        name="metodologia4" id="metodologia4">
+                                                </div>
+                                                <div class="col-5 col-sm-5 col-xl-5">
+                                                    <label class="text-justify" for="metodologia4">Aprendizaje
+                                                        experiencial en entornos online a través una plataforma
+                                                        tecnológica.</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row d-flex justify-content-center align-items-center p-2">
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <input v-model="newDesign.metodologia5" type="checkbox"
+                                                        name="metodologia5" id="metodologia5">
+                                                </div>
+                                                <div class="col-5 col-sm-5 col-xl-5">
+                                                    <label class="text-justify" for="metodologia5">Fomento del
+                                                        aprendizaje basado en actitudes y valores.</label>
+                                                </div>
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <input v-model="newDesign.metodologia6" type="checkbox"
+                                                        name="metodologia6" id="metodologia6">
+                                                </div>
+                                                <div class="col-5 col-sm-5 col-xl-5">
+                                                    <label class="text-justify" for="metodologia6">Aplicación de
+                                                        estrategias y herramientas didácticas activas y
+                                                        participativas.</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row d-flex justify-content-center align-items-center p-2">
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <input v-model="newDesign.metodologia7" type="checkbox"
+                                                        name="metodologia7" id="metodologia7">
+                                                </div>
+                                                <div class="col-5 col-sm-5 col-xl-5">
+                                                    <label class="text-justify" for="metodologia7">Acompañamiento de un
+                                                        facilitador experto en la temática.</label>
+                                                </div>
+                                                <div class="col-1 col-sm-1 col-xl-1">
+                                                    <input v-model="newDesign.metodologia8" type="checkbox"
+                                                        name="metodologia8" id="metodologia8">
+                                                </div>
+                                                <div class="col-5 col-sm-5 col-xl-5">
+                                                    <label class="text-justify" for="metodologia8">Aprendizaje
+                                                        colaborativo: Trabajos en grupo, proyectos, talleres.</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                
-                                <div class="col-12 col-sm-12 col-xl-12 p-3">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>Tipo</th>
-                                                <th>Titulo</th>
-                                                <th>Autor(es)</th>
-                                                <th>Descripción</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(referencia,index) in referencias">
-                                                <td>{referencia.tipo}</td>
-                                                <td>{referencia.titulo}</td>
-                                                <td>{referencia.autor}</td>
-                                                <td>{referencia.descripcion}</td>
-                                                <td>
-                                                    <a @click="verUpdateReferencia(index)"><span class="fas fa-edit text-primary"></span></a>
-                                                    <a @click="borrarReferencia(index)"><span class="fas fa-trash-alt text-danger"></span></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+
+                    <div class="card">
+                        <div class="card-header" id="headingSeven">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false"
+                                    aria-controls="collapseSeven">
+                                    CONTENIDO GENERAL
+                                </button>
+
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false"
+                                    aria-controls="collapseSeven">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12 d-flex justify-content-end">
+                                        <button @click="vaciarCamposUnidades" type="button" class="btn btn-success"
+                                            data-toggle="modal" data-target=".bd-unidad-modal-lg"><span
+                                                class="fas fa-plus-circle"></span> Agregar Unidad</button>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xl-12 p-3">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>N° Unidad</th>
+                                                    <th>Unidad de Aprendizaje</th>
+                                                    <th>Horas presenciales</th>
+                                                    <th>Horas autónomas</th>
+                                                    <th>Horas Totales</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(unidad,index) in unidades">
+                                                    <td>{index+1}</td>
+                                                    <td>{unidad.nombre_unidad}</td>
+                                                    <td>{unidad.horas_presenciales_unidad}</td>
+                                                    <td>{unidad.horas_autonomas_unidad}</td>
+                                                    <td>{unidad.horas_totales}</td>
+                                                    <td>
+                                                        <a @click="verUpdateUnidad(index)"><span
+                                                                class="fas fa-edit text-primary"></span></a>
+                                                        <a @click="borrarUnidad(index)"><span
+                                                                class="fas fa-trash-alt text-danger"></span></a>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingEight">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseEight" aria-expanded="false"
+                                    aria-controls="collapseEight">
+                                    RECURSOS
+                                </button>
+
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseEight" aria-expanded="false"
+                                    aria-controls="collapseEight">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseEight" class="collapse" aria-labelledby="headingEight"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xl-12 p-3">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo de Recurso</th>
+                                                    <th>Descripción</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(recurso,index) in recursos">
+                                                    <td>{recurso.tipo}</td>
+                                                    <td>{recurso.descripcion}</td>
+                                                    <td class="text-center">
+                                                        <a @click="verUpdateRecurso(index)"><span
+                                                                class="fas fa-edit text-primary"></span></a>
+                                                        <a @click="borrarRecurso(index)"><span
+                                                                class="fas fa-trash-alt text-danger"></span></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xl-12 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#staticBackdropRecurso"><span
+                                                class="fas fa-plus-circle"></span> Agregar Recursos</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingNine">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseNine" aria-expanded="false"
+                                    aria-controls="collapseNine">
+                                    REFERENCIAS BIBLIOGRÁFICAS
+                                </button>
+
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseNine" aria-expanded="false"
+                                    aria-controls="collapseNine">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseNine" class="collapse" aria-labelledby="headingNine"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-12 col-sm-12 col-xl-12 p-3">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo</th>
+                                                    <th>Titulo</th>
+                                                    <th>Autor(es)</th>
+                                                    <th>Descripción</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(referencia,index) in referencias">
+                                                    <td>{referencia.tipo}</td>
+                                                    <td>{referencia.titulo}</td>
+                                                    <td>{referencia.autor}</td>
+                                                    <td>{referencia.descripcion}</td>
+                                                    <td>
+                                                        <a @click="verUpdateReferencia(index)"><span
+                                                                class="fas fa-edit text-primary"></span></a>
+                                                        <a @click="borrarReferencia(index)"><span
+                                                                class="fas fa-trash-alt text-danger"></span></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="col-12 col-sm-12 col-xl-12 d-flex justify-content-between">
+                                            <select v-model="tipoReferencia" name="tipo_referencia" id="tipo_referencia"
+                                                required>
+                                                <option>Libro</option>
+                                                <option>Sitio/Documento web</option>
+                                            </select>
+                                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#staticBackdropReferencias"><span
+                                                    class="fas fa-plus-circle"></span> Agregar Referencia</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" id="headingTen">
+                            <h2 class="mb-0 d-flex justify-content-between">
+                                <button class="btn btn-link collapsed text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseTen" aria-expanded="false"
+                                    aria-controls="collapseTen">
+                                    LECTURAS RECOMENDADAS
+                                </button>
+
+                                <button class="btn btn-link text-dark font-weight-bold" type="button"
+                                    data-toggle="collapse" data-target="#collapseTen" aria-expanded="false"
+                                    aria-controls="collapseTen">
+                                    <span class="fas fa-chevron-down fa-2x"></span>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseTen" class="collapse" aria-labelledby="headingTen"
+                            data-parent="#accordionDesign">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-12 col-sm-12 col-xl-12 p-3">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo</th>
+                                                    <th>Titulo</th>
+                                                    <th>Autor(es)</th>
+                                                    <th>Descripción</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(lectura,index) in lecturas">
+                                                    <td>{lectura.tipo}</td>
+                                                    <td>{lectura.titulo}</td>
+                                                    <td>{lectura.autor}</td>
+                                                    <td>{lectura.descripcion}</td>
+                                                    <td>
+                                                        <a @click="verUpdateLectura(index)"><span
+                                                                class="fas fa-edit text-primary"></span></a>
+                                                        <a @click="borrarLectura(index)"><span
+                                                                class="fas fa-trash-alt text-danger"></span></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <div class="col-12 col-sm-12 col-xl-12 d-flex justify-content-between">
-                                        <select v-model="tipoReferencia" name="tipo_referencia" id="tipo_referencia" required>
+                                        <select v-model="tipoLectura" name="tipo_lectura" id="tipo_lectura" required>
                                             <option>Libro</option>
                                             <option>Sitio/Documento web</option>
                                         </select>
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#staticBackdropReferencias"><span class="fas fa-plus-circle"></span> Agregar Referencia</button>
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#staticBackdropLecturas"><span
+                                                class="fas fa-plus-circle"></span> Agregar Lectura</button>
                                     </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header" id="headingTen">
-                        <h2 class="mb-0 d-flex justify-content-between">
-                            <button class="btn btn-link collapsed text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
-                                LECTURAS RECOMENDADAS
-                            </button>
-
-                            <button class="btn btn-link text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
-                                <span class="fas fa-chevron-down fa-2x"></span>
-                            </button>
-                        </h2>
-                    </div>
-                    
-                    <div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="#accordionDesign">
-                        <div class="card-body">
-                            <div class="row">
-                                
-                                <div class="col-12 col-sm-12 col-xl-12 p-3">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>Tipo</th>
-                                                <th>Titulo</th>
-                                                <th>Autor(es)</th>
-                                                <th>Descripción</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(lectura,index) in lecturas">
-                                                <td>{lectura.tipo}</td>
-                                                <td>{lectura.titulo}</td>
-                                                <td>{lectura.autor}</td>
-                                                <td>{lectura.descripcion}</td>
-                                                <td>
-                                                    <a @click="verUpdateLectura(index)"><span class="fas fa-edit text-primary"></span></a>
-                                                    <a @click="borrarLectura(index)"><span class="fas fa-trash-alt text-danger"></span></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
-                                <div class="col-12 col-sm-12 col-xl-12 d-flex justify-content-between">
-                                    <select v-model="tipoLectura" name="tipo_lectura" id="tipo_lectura" required>
-                                        <option>Libro</option>
-                                        <option>Sitio/Documento web</option>
-                                    </select>
-                                    <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#staticBackdropLecturas"><span class="fas fa-plus-circle"></span> Agregar Lectura</button>
-                                </div>
-
                             </div>
                         </div>
                     </div>
-                </div>
 
 
-            </div>
-        </div>
-    </div>
-    <div class="row p-3">
-        <div class="col-12 col-sm-12 col-xl-12">
-            <div class="d-flex justify-content-center">
-                <a class="btn btn-secondary m-1" href="{% url 'listarDesign' %}">Cancelar</a>
-                <button class="btn btn-success m-1" type="submit">Agregar</button>
-            </div>
-        </div>
-    </div>
-</form>
-<!--Modal de unidades y subunidades-->
-<div class="modal fade bd-unidad-modal-lg" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="actualizarUnidad">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="unidadModalLabel">{newDesign.nombre}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-xl-12">
-                        <form v-on:submit.prevent="createUnidad">
-                        <div class="form-group" v-if="formActualizarUni">
-                            <div class="row d-flex justify-content-center align-content-center">
-                                <div class="col-1 col-sm-1 col-xl-1">
-                                    <label class="font-weight-bold">Unidad:</label>
-                                </div>
-                                <div class="col-11 col-sm-11 col-xl-11">
-                                    <input v-model="newdetalleUnidad" class="form-control" type="text" name="unidadDetalles" id="unidadDetalles" placeholder="Detalle la unidad de aprendizaje">
-                                </div>
-                            </div>
-                            <div class="row d-flex justify-content-center align-items-center">
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <label class="font-weight-bold" for="horas_presenciales_unidad">Horas Presenciales:</label>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <input v-model.number="newhorasPresencialesUni" type="number" class="form-control" id="horas_presenciales_unidad" placeholder="Horas Presenciales" v-on:input="sumarUpdateUni" required>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <label class="font-weight-bold" for="horas_autonomas_unidad">Horas autónomas:</label>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <input v-model.number="newhorasAutonomasUni" type="number" class="form-control" id="horas_autonomas_unidad" placeholder="Horas Autónomas" v-on:input="sumarUpdateUni" required>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <label class="font-weight-bold" for="horas_totales_unidad">Horas Totales:</label>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <input v-model.number="newhorasTotalUni" type="number" class="form-control" id="horas_totales_unidad" disabled required>
-                                </div>
-                            </div>
-                            <div class="row d-flex justify-content-center align-items-center">
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <label class="font-weight-bold">Objetivo:</label>
-                                </div>
-                                <div class="col-10 col-sm-10 col-xl-10">
-                                    <select v-model="newobjetivoUni" class="form-control" name="objetivo_unidades" id="objetivo_unidades" required>
-                                        <option v-for="esp in objEspecificos" v-bind:value="esp.descripcion">{esp.descripcion}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="form-group" v-else>
-                            <div class="row d-flex justify-content-center align-content-center">
-                                <div class="col-1 col-sm-1 col-xl-1">
-                                    <label class="font-weight-bold">Unidad:</label>
-                                </div>
-                                
-                                <div class="col-11 col-sm-11 col-xl-11">
-                                    <textarea v-model="detalleUnidad" class="form-control" rows="4" name="unidadDetalles" id="unidadDetalles" placeholder="Detalle la unidad de aprendizaje" required></textarea>
-                                </div>
-                            </div>
-                            <div class="row d-flex justify-content-center align-items-center">
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <label class="font-weight-bold" for="horas_presenciales_unidad">Horas Presenciales:</label>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <input v-model.number="horasPresencialesUni" type="number" class="form-control" id="horas_presenciales_unidad" placeholder="Horas Presenciales" v-on:input="sumarUnidad" required>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <label class="font-weight-bold" for="horas_autonomas_unidad">Horas autónomas:</label>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <input v-model.number="horasAutonomasUni" type="number" class="form-control" id="horas_autonomas_unidad" placeholder="Horas Autónomas" v-on:input="sumarUnidad" required>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <label class="font-weight-bold" for="horas_totales_unidad">Horas Totales:</label>
-                                </div>
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <input v-model.number="horasTotalUni" type="number" class="form-control" id="horas_totales_unidad" disabled required>
-                                </div>
-                            </div>
-                            <div class="row d-flex justify-content-center align-items-center">
-                                <div class="col-2 col-sm-2 col-xl-2">
-                                    <label class="font-weight-bold">Objetivo:</label>
-                                </div>
-                                <div class="col-10 col-sm-10 col-xl-10">
-                                    <select v-model="objetivoUni" class="form-control" name="objetivo_unidades" id="objetivo_unidades" required>
-                                        <option v-for="esp in objEspecificos" v-bind:value="esp.descripcion">{esp.descripcion}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="d-flex justify-content-end" v-if="formActualizarUni">
-                            <button @click="guardarUpdateUnidad" class="btn btn-primary"><span class="fas fa-edit"></span> Actualizar</button>  
-                        </div>
-                        <div class="d-flex justify-content-end" v-else>
-                            <button type="submit" class="btn btn-success"><span class="fas fa-archive"></span> Guardar</button>  
-                        </div>
-                        </form>
-                        <div class="row d-flex justify-content-center align-items-center">
-                            <div class="form-group">
-                            <div class="col-12 col-sm-12 col-xl-12">
-                                <form  v-on:submit.prevent ="createUnidadSub">
-                                <div class="p-2">
-                                    <label class="font-weight-bold">Sub-Unidades</label>
-                                </div>
-                                
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr class="text-center">
-                                            <th>Detalle</th>
-                                            <th>Horas presenciales</th>
-                                            <th>Horas autónomas</th>
-                                            <th>Horas totales</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(subuni,index) in subUnidades" v-if="subuni.unidad === detalleUnidad || subuni.unidad === newdetalleUnidad ">
-                                            <td>
-                                                <span v-if="formActualizarSubUni && indexSubUnidad === index">
-                                                    <input v-model="newdetalleSubUnidad" type="text" class="form-control" required>
-                                                </span>
-                                                <span v-else>
-                                                    {subuni.nombre_sub}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span v-if="formActualizarSubUni && indexSubUnidad === index">
-                                                    <input v-model.number="newhorasPresencialesSubUni" type="number" class="form-control" v-on:input="sumarUpdateSub" required>
-                                                </span>
-                                                <span v-else>
-                                                    {subuni.horas_presenciales_sub}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span v-if="formActualizarSubUni && indexSubUnidad === index">
-                                                    <input v-model.number="newhorasAutonomasSubUni" type="number" class="form-control" v-on:input="sumarUpdateSub" required>
-                                                </span>
-                                                <span v-else>
-                                                    {subuni.horas_autonomas_sub}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span v-if="formActualizarSubUni && indexSubUnidad === index">
-                                                    <input v-model.number="newhorasTotalSubUni" type="number" class="form-control" disabled>
-                                                </span>
-                                                <span v-else>
-                                                    {subuni.horas_totales_sub}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span v-if="formActualizarSubUni && indexSubUnidad === index">
-                                                    <a @click="guardarUpdateSubUnidad(index)"><span class="fas fa-check-circle text-success"></span></a>
-                                                </span>
-                                                <span v-else>
-                                                    <a @click="verUpdateSubUnidad(index)"><span class="fas fa-edit text-primary m-1"></span>
-                                                    <a @click="borrarSubUnidad(index)"><span class="fas fa-trash-alt text-danger"></span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input v-model="detalleSubUnidad" class="form-control" type="text" name="detalleSubUnidad" id="detalleSubUnidad" required>
-                                            </td>
-                                            <td>
-                                                <input v-model.number="horasPresencialesSubUni" class="form-control" type="number" name="horasPresencialesSubUni" id="horasPresencialesSubUni" v-on:input="sumarSubUnidad" required>
-                                            </td>
-                                            <td>
-                                                <input v-model.number="horasAutonomasSubUni" class="form-control" type="number" name="horasAutonomasSubUni" id="horasAutonomasSubUni" v-on:input="sumarSubUnidad" required>
-                                            </td>
-                                            <td>
-                                                <input v-model.number="horasTotalSubUni" class="form-control" type="number" name="horasTotalSubUni" id="horasTotalSubUni" disabled>
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-success"><span class="fas fa-plus-circle"></span> Agregar</button>
-                                </div>
-                                </form>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div class="modal-footer d-flex justify-content-end">
-                <button @click="vaciarCamposUnidades" type="button" class="btn btn-secondary m-2">Cerrar</button>
+        </div>
+        <div class="row p-3">
+            <div class="col-12 col-sm-12 col-xl-12">
+                <div class="d-flex justify-content-center">
+                    <a class="btn btn-secondary m-1" href="{% url 'listarDesign' %}">Cancelar</a>
+                    <button class="btn btn-success m-1" type="submit">Agregar</button>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<!--Modal Recursos-->
-<div class="modal fade" id="staticBackdropRecurso" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel"> Nuevo recurso pedagógico</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-xl-12">
-      
-                        <form v-on:submit.prevent="guardarUpdateRecurso" v-if="formActualizarRecurso">
-                            <div class="form-group">
-                                <div class="row d-flex justify-content-center align-content-center">
-                                    <div class="col-12 col-sm-12 col-xl-12">
-                                        <label for="tipo_recurso">Tipo:</label>
-                                        <select v-model="newtipoRecurso" class="form-control" name="tipo_recurso" id="tipo_recurso" required>
-                                            <option v-for="recurso in tiposRecursos" v-bind:value="recurso">{recurso}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                        <label for="descripcion_recurso">Descripcición:</label>
-                                        <textarea v-model="newdescripcionRecurso" class="form-control" name="descripcion_recurso" id="descripcion_recurso" rows="5" placeholder="Descripción" required></textarea>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                        <div class="d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary"><span class="fas fa-edit"></span> Actualizar</button>
+    </form>
+
+    <!--Modal de unidades y subunidades-->
+    <div class="modal fade bd-unidad-modal-lg" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true" id="actualizarUnidad">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="unidadModalLabel">{newDesign.nombre}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-xl-12">
+                            <form v-on:submit.prevent="createUnidad">
+                                <div class="form-group" v-if="formActualizarUni">
+                                    <div class="row d-flex justify-content-center align-content-center">
+                                        <div class="col-1 col-sm-1 col-xl-1">
+                                            <label class="font-weight-bold">Unidad:</label>
+                                        </div>
+                                        <div class="col-11 col-sm-11 col-xl-11">
+                                            <input v-model="newdetalleUnidad" class="form-control" type="text"
+                                                name="unidadDetalles" id="unidadDetalles"
+                                                placeholder="Detalle la unidad de aprendizaje">
                                         </div>
                                     </div>
-                                </div>    
-                            </div>
-                        </form>
+                                    <div class="row d-flex justify-content-center align-items-center">
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <label class="font-weight-bold" for="horas_presenciales_unidad">Horas
+                                                Presenciales:</label>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <input v-model.number="newhorasPresencialesUni" type="number"
+                                                class="form-control" id="horas_presenciales_unidad"
+                                                placeholder="Horas Presenciales" v-on:input="sumarUpdateUni" required>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <label class="font-weight-bold" for="horas_autonomas_unidad">Horas
+                                                autónomas:</label>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <input v-model.number="newhorasAutonomasUni" type="number"
+                                                class="form-control" id="horas_autonomas_unidad"
+                                                placeholder="Horas Autónomas" v-on:input="sumarUpdateUni" required>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <label class="font-weight-bold" for="horas_totales_unidad">Horas
+                                                Totales:</label>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <input v-model.number="newhorasTotalUni" type="number" class="form-control"
+                                                id="horas_totales_unidad" disabled required>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex justify-content-center align-items-center">
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <label class="font-weight-bold">Objetivo:</label>
+                                        </div>
+                                        <div class="col-10 col-sm-10 col-xl-10">
+                                            <select v-model="newobjetivoUni" class="form-control"
+                                                name="objetivo_unidades" id="objetivo_unidades" required>
+                                                <option v-for="esp in objEspecificos" v-bind:value="esp.descripcion">
+                                                    {esp.descripcion}</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                        <form v-on:submit.prevent="createRecurso" v-else>
-                            <div class="form-group">
-                                <div class="row d-flex justify-content-center align-content-center">
+                                </div>
+                                <div class="form-group" v-else>
+                                    <div class="row d-flex justify-content-center align-content-center">
+                                        <div class="col-1 col-sm-1 col-xl-1">
+                                            <label class="font-weight-bold">Unidad:</label>
+                                        </div>
+
+                                        <div class="col-11 col-sm-11 col-xl-11">
+                                            <textarea v-model="detalleUnidad" class="form-control" rows="4"
+                                                name="unidadDetalles" id="unidadDetalles"
+                                                placeholder="Detalle la unidad de aprendizaje" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex justify-content-center align-items-center">
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <label class="font-weight-bold" for="horas_presenciales_unidad">Horas
+                                                Presenciales:</label>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <input v-model.number="horasPresencialesUni" type="number"
+                                                class="form-control" id="horas_presenciales_unidad"
+                                                placeholder="Horas Presenciales" v-on:input="sumarUnidad" required>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <label class="font-weight-bold" for="horas_autonomas_unidad">Horas
+                                                autónomas:</label>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <input v-model.number="horasAutonomasUni" type="number" class="form-control"
+                                                id="horas_autonomas_unidad" placeholder="Horas Autónomas"
+                                                v-on:input="sumarUnidad" required>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <label class="font-weight-bold" for="horas_totales_unidad">Horas
+                                                Totales:</label>
+                                        </div>
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <input v-model.number="horasTotalUni" type="number" class="form-control"
+                                                id="horas_totales_unidad" disabled required>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex justify-content-center align-items-center">
+                                        <div class="col-2 col-sm-2 col-xl-2">
+                                            <label class="font-weight-bold">Objetivo:</label>
+                                        </div>
+                                        <div class="col-10 col-sm-10 col-xl-10">
+                                            <select v-model="objetivoUni" class="form-control" name="objetivo_unidades"
+                                                id="objetivo_unidades" required>
+                                                <option v-for="esp in objEspecificos" v-bind:value="esp.descripcion">
+                                                    {esp.descripcion}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="d-flex justify-content-end" v-if="formActualizarUni">
+                                    <button @click="guardarUpdateUnidad" class="btn btn-primary"><span
+                                            class="fas fa-edit"></span> Actualizar</button>
+                                </div>
+                                <div class="d-flex justify-content-end" v-else>
+                                    <button type="submit" class="btn btn-success"><span class="fas fa-archive"></span>
+                                        Guardar</button>
+                                </div>
+                            </form>
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="form-group">
                                     <div class="col-12 col-sm-12 col-xl-12">
+                                        <form v-on:submit.prevent="createUnidadSub">
+                                            <div class="p-2">
+                                                <label class="font-weight-bold">Sub-Unidades</label>
+                                            </div>
 
-                                        <label for="tipo_recurso">Tipo:</label>
-                                        <select v-model="tipoRecurso" class="form-control" name="tipo_recurso" id="tipo_recurso" required>
-                                            <option v-for="recurso in tiposRecursos" v-bind:value="recurso">{recurso}</option>
-                                        </select>
-                                        
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th>Detalle</th>
+                                                        <th>Horas presenciales</th>
+                                                        <th>Horas autónomas</th>
+                                                        <th>Horas totales</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(subuni,index) in subUnidades"
+                                                        v-if="subuni.unidad === detalleUnidad || subuni.unidad === newdetalleUnidad ">
+                                                        <td>
+                                                            <span
+                                                                v-if="formActualizarSubUni && indexSubUnidad === index">
+                                                                <input v-model="newdetalleSubUnidad" type="text"
+                                                                    class="form-control" required>
+                                                            </span>
+                                                            <span v-else>
+                                                                {subuni.nombre_sub}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span
+                                                                v-if="formActualizarSubUni && indexSubUnidad === index">
+                                                                <input v-model.number="newhorasPresencialesSubUni"
+                                                                    type="number" class="form-control"
+                                                                    v-on:input="sumarUpdateSub" required>
+                                                            </span>
+                                                            <span v-else>
+                                                                {subuni.horas_presenciales_sub}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span
+                                                                v-if="formActualizarSubUni && indexSubUnidad === index">
+                                                                <input v-model.number="newhorasAutonomasSubUni"
+                                                                    type="number" class="form-control"
+                                                                    v-on:input="sumarUpdateSub" required>
+                                                            </span>
+                                                            <span v-else>
+                                                                {subuni.horas_autonomas_sub}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span
+                                                                v-if="formActualizarSubUni && indexSubUnidad === index">
+                                                                <input v-model.number="newhorasTotalSubUni"
+                                                                    type="number" class="form-control" disabled>
+                                                            </span>
+                                                            <span v-else>
+                                                                {subuni.horas_totales_sub}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span
+                                                                v-if="formActualizarSubUni && indexSubUnidad === index">
+                                                                <a @click="guardarUpdateSubUnidad(index)"><span
+                                                                        class="fas fa-check-circle text-success"></span></a>
+                                                            </span>
+                                                            <span v-else>
+                                                                <a @click="verUpdateSubUnidad(index)"><span
+                                                                        class="fas fa-edit text-primary m-1"></span>
+                                                                    <a @click="borrarSubUnidad(index)"><span
+                                                                            class="fas fa-trash-alt text-danger"></span>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input v-model="detalleSubUnidad" class="form-control"
+                                                                type="text" name="detalleSubUnidad"
+                                                                id="detalleSubUnidad" required>
+                                                        </td>
+                                                        <td>
+                                                            <input v-model.number="horasPresencialesSubUni"
+                                                                class="form-control" type="number"
+                                                                name="horasPresencialesSubUni"
+                                                                id="horasPresencialesSubUni" v-on:input="sumarSubUnidad"
+                                                                required>
+                                                        </td>
+                                                        <td>
+                                                            <input v-model.number="horasAutonomasSubUni"
+                                                                class="form-control" type="number"
+                                                                name="horasAutonomasSubUni" id="horasAutonomasSubUni"
+                                                                v-on:input="sumarSubUnidad" required>
+                                                        </td>
+                                                        <td>
+                                                            <input v-model.number="horasTotalSubUni"
+                                                                class="form-control" type="number"
+                                                                name="horasTotalSubUni" id="horasTotalSubUni" disabled>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-success"><span
+                                                        class="fas fa-plus-circle"></span> Agregar</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                        <label for="descripcion_recurso">Descripcición:</label>
-                                        <textarea v-model="descripcionRecurso" class="form-control" name="descripcion_recurso" id="descripcion_recurso" rows="5" placeholder="Descripción" required></textarea>
-                                        
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                        <div class="d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-success"><span class="fas fa-archive"></span> Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-end">
+                    <button @click="vaciarCamposUnidades" type="button" class="btn btn-secondary m-2">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal Recursos-->
+    <div class="modal fade" id="staticBackdropRecurso" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"> Nuevo recurso pedagógico</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-xl-12">
+
+                            <form v-on:submit.prevent="guardarUpdateRecurso" v-if="formActualizarRecurso">
+                                <div class="form-group">
+                                    <div class="row d-flex justify-content-center align-content-center">
+                                        <div class="col-12 col-sm-12 col-xl-12">
+                                            <label for="tipo_recurso">Tipo:</label>
+                                            <select v-model="newtipoRecurso" class="form-control" name="tipo_recurso"
+                                                id="tipo_recurso" required>
+                                                <option v-for="recurso in tiposRecursos" v-bind:value="recurso">
+                                                    {recurso}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <label for="descripcion_recurso">Descripcición:</label>
+                                            <textarea v-model="newdescripcionRecurso" class="form-control"
+                                                name="descripcion_recurso" id="descripcion_recurso" rows="5"
+                                                placeholder="Descripción" required></textarea>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <div class="d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-primary"><span
+                                                        class="fas fa-edit"></span> Actualizar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+
+                            <form v-on:submit.prevent="createRecurso" v-else>
+                                <div class="form-group">
+                                    <div class="row d-flex justify-content-center align-content-center">
+                                        <div class="col-12 col-sm-12 col-xl-12">
+
+                                            <label for="tipo_recurso">Tipo:</label>
+                                            <select v-model="tipoRecurso" class="form-control" name="tipo_recurso"
+                                                id="tipo_recurso" required>
+                                                <option v-for="recurso in tiposRecursos" v-bind:value="recurso">
+                                                    {recurso}</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <label for="descripcion_recurso">Descripcición:</label>
+                                            <textarea v-model="descripcionRecurso" class="form-control"
+                                                name="descripcion_recurso" id="descripcion_recurso" rows="5"
+                                                placeholder="Descripción" required></textarea>
+
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <div class="d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-success"><span
+                                                        class="fas fa-archive"></span> Guardar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!--Modal Referencias-->
-<div class="modal fade" id="staticBackdropReferencias" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Nueva referencia bibliográfica</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-xl-12">
-                    <form v-on:submit.prevent="guardarUpdateReferencia" v-if="formActualizarReferencia">
-                        <div class="form-group ">
-                            <div class="row d-flex justify-content-center align-content-center">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <select v-model="newtipoReferencia" class="form-control" name="tipo_Referencia11" id="tipo_Referencia11" disabled>
-                                        <option>{newtipoReferencia}</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <input v-model="newtituloReferencia" class="form-control" type="text" name="titulo_libro_Referencia" id="titulo_libro_Referencia" placeholder="Titulo" required>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <input v-model="newautorReferencia" class="form-control" type="text" name="autores_Referencia" id="autores_Referencia" placeholder="Autor(es)" required>
-                                </div>
-                                <span class="col-12 col-sm-12 col-xl-12" v-if="newtipoReferencia === 'Libro'">
+    <!--Modal Referencias-->
+    <div class="modal fade" id="staticBackdropReferencias" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Nueva referencia bibliográfica</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-xl-12">
+                            <form v-on:submit.prevent="guardarUpdateReferencia" v-if="formActualizarReferencia">
+                                <div class="form-group ">
+                                    <div class="row d-flex justify-content-center align-content-center">
+                                        <div class="col-12 col-sm-12 col-xl-12">
+                                            <select v-model="newtipoReferencia" class="form-control"
+                                                name="tipo_Referencia11" id="tipo_Referencia11" disabled>
+                                                <option>{newtipoReferencia}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <input v-model="newtituloReferencia" class="form-control" type="text"
+                                                name="titulo_libro_Referencia" id="titulo_libro_Referencia"
+                                                placeholder="Titulo" required>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <input v-model="newautorReferencia" class="form-control" type="text"
+                                                name="autores_Referencia" id="autores_Referencia"
+                                                placeholder="Autor(es)" required>
+                                        </div>
+                                        <span class="col-12 col-sm-12 col-xl-12" v-if="newtipoReferencia === 'Libro'">
 
-                                    <input v-model="newpublicacionReferencia" class="form-control m-1" type="number" name="year_publicacion_Referencia" id="year_publicacion_Referencia" placeholder="Año de publicación" required>
-                                    <input v-model="neweditorialReferencia" class="form-control m-1" type="text" name="editorial_Referencia" id="editorial_Referencia" placeholder="Editorial" required>
-                                    <input v-model="newpaisReferencia" class="form-control m-1" type="text" name="pais_Referencia" id="pais_Referencia" placeholder="País" required>
-                                    <input v-model="newconsultaReferencia" class="form-control m-1" type="date" name="fechaReferencia" id="fechaReferencia" required>
-                                </span>
-                                <span class="col-12 col-sm-12 col-xl-12" v-else>
-            
-                                    <input v-model="newsitioReferencia" class="form-control m-1" type="text" name="nombre_sitioReferencia" id="nombre_sitioReferencia" placeholder="Nombre del sitio" required>
-                                    <input v-model="newenlaceReferencia" class="form-control m-1" type="text" name="link_sitioReferencia" id="link_sitioReferencia" placeholder="Link" required>
-                                
-                                </span>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <textarea v-model="newdescripcionReferencia" class="form-control" name="descripcion_Referencia" id="descripcion_Referencia" rows="5" placeholder="Descripción" required></textarea>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary"><span class="fas fa-edit"></span> Actualizar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <form v-on:submit.prevent="createReferencia" v-else>
-                        <div class="form-group ">
-                            <div class="row d-flex justify-content-center align-content-center">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <select v-model="tipoReferencia" class="form-control" name="tipo_Referencia1" id="tipo_Referencia1" disabled>
-                                        <option>{tipoReferencia}</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <input v-model="tituloReferencia" class="form-control" type="text" name="titulo_libro_Referencia" id="titulo_libro_Referencia" placeholder="Titulo" required>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <input v-model="autorReferencia" class="form-control" type="text" name="autores_Referencia" id="autores_Referencia" placeholder="Autor(es)" required>
-                                </div>
-                                <span class="col-12 col-sm-12 col-xl-12" v-if="tipoReferencia === 'Libro'">
+                                            <input v-model="newpublicacionReferencia" class="form-control m-1"
+                                                type="number" name="year_publicacion_Referencia"
+                                                id="year_publicacion_Referencia" placeholder="Año de publicación"
+                                                required>
+                                            <input v-model="neweditorialReferencia" class="form-control m-1" type="text"
+                                                name="editorial_Referencia" id="editorial_Referencia"
+                                                placeholder="Editorial" required>
+                                            <input v-model="newpaisReferencia" class="form-control m-1" type="text"
+                                                name="pais_Referencia" id="pais_Referencia" placeholder="País" required>
+                                            <input v-model="newconsultaReferencia" class="form-control m-1" type="date"
+                                                name="fechaReferencia" id="fechaReferencia" required>
+                                        </span>
+                                        <span class="col-12 col-sm-12 col-xl-12" v-else>
 
-                                    <input v-model.number="publicacionReferencia" class="form-control m-1" type="number" name="year_publicacion_Referencia" id="year_publicacion_Referencia" placeholder="Año de publicación" required>
-                                    <input v-model="editorialReferencia" class="form-control m-1" type="text" name="editorial_Referencia" id="editorial_Referencia" placeholder="Editorial" required>
-                                    <input v-model="paisReferencia" class="form-control m-1" type="text" name="pais_Referencia" id="pais_Referencia" placeholder="País" required>
-                                    <input v-model="consultaReferencia" class="form-control m-1" type="date" name="fechaReferencia" id="fechaReferencia" required>
-                                </span>
-                                <span class="col-12 col-sm-12 col-xl-12" v-else>
-            
-                                    <input v-model="sitioReferencia" class="form-control m-1" type="text" name="nombre_sitioReferencia" id="nombre_sitioReferencia" placeholder="Nombre del sitio" required>
-                                    <input v-model="enlaceReferencia" class="form-control m-1" type="text" name="link_sitioReferencia" id="link_sitioReferencia" placeholder="Link" required>
-                                
-                                </span>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <textarea v-model="descripcionReferencia" class="form-control" name="descripcion_Referencia" id="descripcion_Referencia" rows="5" placeholder="Descripción" required></textarea>
+                                            <input v-model="newsitioReferencia" class="form-control m-1" type="text"
+                                                name="nombre_sitioReferencia" id="nombre_sitioReferencia"
+                                                placeholder="Nombre del sitio" required>
+                                            <input v-model="newenlaceReferencia" class="form-control m-1" type="text"
+                                                name="link_sitioReferencia" id="link_sitioReferencia" placeholder="Link"
+                                                required>
+
+                                        </span>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <textarea v-model="newdescripcionReferencia" class="form-control"
+                                                name="descripcion_Referencia" id="descripcion_Referencia" rows="5"
+                                                placeholder="Descripción" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary"><span
+                                                    class="fas fa-edit"></span> Actualizar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-success"><span class="fas fa-archive"></span> Guardar</button>
+                            </form>
+                            <form v-on:submit.prevent="createReferencia" v-else>
+                                <div class="form-group ">
+                                    <div class="row d-flex justify-content-center align-content-center">
+                                        <div class="col-12 col-sm-12 col-xl-12">
+                                            <select v-model="tipoReferencia" class="form-control"
+                                                name="tipo_Referencia1" id="tipo_Referencia1" disabled>
+                                                <option>{tipoReferencia}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <input v-model="tituloReferencia" class="form-control" type="text"
+                                                name="titulo_libro_Referencia" id="titulo_libro_Referencia"
+                                                placeholder="Titulo" required>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <input v-model="autorReferencia" class="form-control" type="text"
+                                                name="autores_Referencia" id="autores_Referencia"
+                                                placeholder="Autor(es)" required>
+                                        </div>
+                                        <span class="col-12 col-sm-12 col-xl-12" v-if="tipoReferencia === 'Libro'">
+
+                                            <input v-model.number="publicacionReferencia" class="form-control m-1"
+                                                type="number" name="year_publicacion_Referencia"
+                                                id="year_publicacion_Referencia" placeholder="Año de publicación"
+                                                required>
+                                            <input v-model="editorialReferencia" class="form-control m-1" type="text"
+                                                name="editorial_Referencia" id="editorial_Referencia"
+                                                placeholder="Editorial" required>
+                                            <input v-model="paisReferencia" class="form-control m-1" type="text"
+                                                name="pais_Referencia" id="pais_Referencia" placeholder="País" required>
+                                            <input v-model="consultaReferencia" class="form-control m-1" type="date"
+                                                name="fechaReferencia" id="fechaReferencia" required>
+                                        </span>
+                                        <span class="col-12 col-sm-12 col-xl-12" v-else>
+
+                                            <input v-model="sitioReferencia" class="form-control m-1" type="text"
+                                                name="nombre_sitioReferencia" id="nombre_sitioReferencia"
+                                                placeholder="Nombre del sitio" required>
+                                            <input v-model="enlaceReferencia" class="form-control m-1" type="text"
+                                                name="link_sitioReferencia" id="link_sitioReferencia" placeholder="Link"
+                                                required>
+
+                                        </span>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <textarea v-model="descripcionReferencia" class="form-control"
+                                                name="descripcion_Referencia" id="descripcion_Referencia" rows="5"
+                                                placeholder="Descripción" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-success"><span
+                                                    class="fas fa-archive"></span> Guardar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
+
                         </div>
-                    </form>
-                    
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!--Modal Lecturas-->
-<div class="modal fade" id="staticBackdropLecturas" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Nueva Lectura</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-xl-12">
-                    <form v-on:submit.prevent="guardarUpdateLectura" v-if="formActualizarLectura">
-                        <div class="form-group ">
-                            <div class="row d-flex justify-content-center align-content-center">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <select v-model="newtipoLectura" class="form-control" name="tipo_lectura11" id="tipo_lectura11" disabled>
-                                        <option>{newtipoLectura}</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <input v-model="newtituloLectura" class="form-control" type="text" name="titulo_libro_lectura" id="titulo_libro_lectura" placeholder="Titulo" required>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <input v-model="newautorLectura" class="form-control" type="text" name="autores_lectura" id="autores_lectura" placeholder="Autor(es)" required>
-                                </div>
-                                <span class="col-12 col-sm-12 col-xl-12" v-if="newtipoLectura === 'Libro'">
+    <!--Modal Lecturas-->
+    <div class="modal fade" id="staticBackdropLecturas" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Nueva Lectura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-xl-12">
+                            <form v-on:submit.prevent="guardarUpdateLectura" v-if="formActualizarLectura">
+                                <div class="form-group ">
+                                    <div class="row d-flex justify-content-center align-content-center">
+                                        <div class="col-12 col-sm-12 col-xl-12">
+                                            <select v-model="newtipoLectura" class="form-control" name="tipo_lectura11"
+                                                id="tipo_lectura11" disabled>
+                                                <option>{newtipoLectura}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <input v-model="newtituloLectura" class="form-control" type="text"
+                                                name="titulo_libro_lectura" id="titulo_libro_lectura"
+                                                placeholder="Titulo" required>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <input v-model="newautorLectura" class="form-control" type="text"
+                                                name="autores_lectura" id="autores_lectura" placeholder="Autor(es)"
+                                                required>
+                                        </div>
+                                        <span class="col-12 col-sm-12 col-xl-12" v-if="newtipoLectura === 'Libro'">
 
-                                    <input v-model="newpublicacionLectura" class="form-control m-1" type="number" name="year_publicacion" id="year_publicacion" placeholder="Año de publicación" required>
-                                    <input v-model="neweditorialLectura" class="form-control m-1" type="text" name="editorial_lectura" id="editorial_lectura" placeholder="Editorial" required>
-                                    <input v-model="newpaisLectura" class="form-control m-1" type="text" name="pais_lectura" id="pais_lectura" placeholder="País" required>
-                                    <input v-model="newconsultaLectura" class="form-control m-1" type="date" name="fecha_letura" id="fecha_letura" required>
-                                </span>
-                                <span class="col-12 col-sm-12 col-xl-12" v-else>
-            
-                                    <input v-model="newsitioLectura" class="form-control m-1" type="text" name="nombre_sitio" id="nombre_sitio" placeholder="Nombre del sitio" required>
-                                    <input v-model="newenlaceLectura" class="form-control m-1" type="text" name="link_sitio" id="link_sitio" placeholder="Link" required>
-                                
-                                </span>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <textarea v-model="newdescripcionLectura" class="form-control" name="descripcion_lectura" id="descripcion_lectura" rows="5" placeholder="Descripción" required></textarea>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary"><span class="fas fa-edit"></span> Actualizar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <form v-on:submit.prevent="createLectura" v-else>
-                        <div class="form-group ">
-                            <div class="row d-flex justify-content-center align-content-center">
-                                <div class="col-12 col-sm-12 col-xl-12">
-                                    <select v-model="tipoLectura" class="form-control" name="tipo_lectura1" id="tipo_lectura1" disabled>
-                                        <option>{tipoLectura}</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <input v-model="tituloLectura" class="form-control" type="text" name="titulo_libro_lectura" id="titulo_libro_lectura" placeholder="Titulo" required>
-                                </div>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <input v-model="autorLectura" class="form-control" type="text" name="autores_lectura" id="autores_lectura" placeholder="Autor(es)" required>
-                                </div>
-                                <span class="col-12 col-sm-12 col-xl-12" v-if="tipoLectura === 'Libro'">
+                                            <input v-model="newpublicacionLectura" class="form-control m-1"
+                                                type="number" name="year_publicacion" id="year_publicacion"
+                                                placeholder="Año de publicación" required>
+                                            <input v-model="neweditorialLectura" class="form-control m-1" type="text"
+                                                name="editorial_lectura" id="editorial_lectura" placeholder="Editorial"
+                                                required>
+                                            <input v-model="newpaisLectura" class="form-control m-1" type="text"
+                                                name="pais_lectura" id="pais_lectura" placeholder="País" required>
+                                            <input v-model="newconsultaLectura" class="form-control m-1" type="date"
+                                                name="fecha_letura" id="fecha_letura" required>
+                                        </span>
+                                        <span class="col-12 col-sm-12 col-xl-12" v-else>
 
-                                    <input v-model="publicacionLectura" class="form-control m-1" type="number" name="year_publicacion" id="year_publicacion" placeholder="Año de publicación" required>
-                                    <input v-model="editorialLectura" class="form-control m-1" type="text" name="editorial_lectura" id="editorial_lectura" placeholder="Editorial" required>
-                                    <input v-model="paisLectura" class="form-control m-1" type="text" name="pais_lectura" id="pais_lectura" placeholder="País" required>
-                                    <input v-model="consultaLectura" class="form-control m-1" type="date" name="fecha_letura" id="fecha_letura" required>
-                                </span>
-                                <span class="col-12 col-sm-12 col-xl-12" v-else>
-            
-                                    <input v-model="sitioLectura" class="form-control m-1" type="text" name="nombre_sitio" id="nombre_sitio" placeholder="Nombre del sitio" required>
-                                    <input v-model="enlaceLectura" class="form-control m-1" type="text" name="link_sitio" id="link_sitio" placeholder="Link" required>
-                                
-                                </span>
-                                <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                    <textarea v-model="descripcionLectura" class="form-control" name="descripcion_lectura" id="descripcion_lectura" rows="5" placeholder="Descripción" required></textarea>
+                                            <input v-model="newsitioLectura" class="form-control m-1" type="text"
+                                                name="nombre_sitio" id="nombre_sitio" placeholder="Nombre del sitio"
+                                                required>
+                                            <input v-model="newenlaceLectura" class="form-control m-1" type="text"
+                                                name="link_sitio" id="link_sitio" placeholder="Link" required>
+
+                                        </span>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <textarea v-model="newdescripcionLectura" class="form-control"
+                                                name="descripcion_lectura" id="descripcion_lectura" rows="5"
+                                                placeholder="Descripción" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary"><span
+                                                    class="fas fa-edit"></span> Actualizar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-xl-12 m-1">
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-secondary green-bg"><span class="fas fa-archive"></span> Guardar</button>
+                            </form>
+                            <form v-on:submit.prevent="createLectura" v-else>
+                                <div class="form-group ">
+                                    <div class="row d-flex justify-content-center align-content-center">
+                                        <div class="col-12 col-sm-12 col-xl-12">
+                                            <select v-model="tipoLectura" class="form-control" name="tipo_lectura1"
+                                                id="tipo_lectura1" disabled>
+                                                <option>{tipoLectura}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <input v-model="tituloLectura" class="form-control" type="text"
+                                                name="titulo_libro_lectura" id="titulo_libro_lectura"
+                                                placeholder="Titulo" required>
+                                        </div>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <input v-model="autorLectura" class="form-control" type="text"
+                                                name="autores_lectura" id="autores_lectura" placeholder="Autor(es)"
+                                                required>
+                                        </div>
+                                        <span class="col-12 col-sm-12 col-xl-12" v-if="tipoLectura === 'Libro'">
+
+                                            <input v-model="publicacionLectura" class="form-control m-1" type="number"
+                                                name="year_publicacion" id="year_publicacion"
+                                                placeholder="Año de publicación" required>
+                                            <input v-model="editorialLectura" class="form-control m-1" type="text"
+                                                name="editorial_lectura" id="editorial_lectura" placeholder="Editorial"
+                                                required>
+                                            <input v-model="paisLectura" class="form-control m-1" type="text"
+                                                name="pais_lectura" id="pais_lectura" placeholder="País" required>
+                                            <input v-model="consultaLectura" class="form-control m-1" type="date"
+                                                name="fecha_letura" id="fecha_letura" required>
+                                        </span>
+                                        <span class="col-12 col-sm-12 col-xl-12" v-else>
+
+                                            <input v-model="sitioLectura" class="form-control m-1" type="text"
+                                                name="nombre_sitio" id="nombre_sitio" placeholder="Nombre del sitio"
+                                                required>
+                                            <input v-model="enlaceLectura" class="form-control m-1" type="text"
+                                                name="link_sitio" id="link_sitio" placeholder="Link" required>
+
+                                        </span>
+                                        <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                            <textarea v-model="descripcionLectura" class="form-control"
+                                                name="descripcion_lectura" id="descripcion_lectura" rows="5"
+                                                placeholder="Descripción" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xl-12 m-1">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-secondary green-bg"><span
+                                                    class="fas fa-archive"></span> Guardar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
+
                         </div>
-                    </form>
-                    
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 {% endblock %}
 {% block specific_scripts %}
-<script src="{% static 'js\vue_Design.js' %}"></script>
+<script src="{% static 'js\vue_Design3.js' %}"></script>
+<script>
+    function filtro() {
+        // Declare variables
+        var input, filter, table, tr, td,i, j, txtValue;
+        input = document.getElementById("filtro");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tablaHijos");
+        tr = table.getElementsByTagName("tr");
+
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text-center");
+            for (j = 0; j < td.length; j++) {
+                txtValue = td[j].textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                    break;
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    } 
+</script>
 {% endblock %}
-
-
-

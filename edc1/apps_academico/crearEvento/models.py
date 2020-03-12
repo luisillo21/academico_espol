@@ -77,21 +77,16 @@ class Aula(models.Model):
     def __str__(self):
         return '{}'.format(self.nombre)
 
-
-class Evento(models.Model):
+class EventoHijo(models.Model):
     diseno = models.ForeignKey(DesignEvento, on_delete=models.CASCADE)
     codigo_evento = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=100)
     tipo_evento = models.CharField(max_length=100)
-    codigo_evento_padre = models.ForeignKey(
-        'self', null=True, blank=True, on_delete=models.CASCADE, related_name='evento')
-    nombre_evento_Padre = models.CharField(
-        max_length=100, null=True, blank=True)
     modalidad = models.CharField(max_length=100)
     centro_costos = models.CharField(max_length=100)
     alcance = models.CharField(max_length=100)
     promocion = models.CharField(max_length=100)
-    duracion = models.IntegerField()
+    duracion = models.IntegerField(null=True)
     aliado = models.ForeignKey(
         Aliado, null=False, blank=False, on_delete=models.CASCADE)
     docente = models.ForeignKey(
@@ -151,6 +146,85 @@ class Evento(models.Model):
     def __str__(self):
         return '{}'.format(self.codigo_evento)
 
+class Evento(models.Model):
+    diseno = models.ForeignKey(DesignEvento, on_delete=models.CASCADE)
+    codigo_evento = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    tipo_evento = models.CharField(max_length=100)
+    codigo_evento_padre = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.CASCADE, related_name='evento')
+    nombre_evento_Padre = models.CharField(
+        max_length=100, null=True, blank=True)
+    modalidad = models.CharField(max_length=100)
+    centro_costos = models.CharField(max_length=100)
+    alcance = models.CharField(max_length=100)
+    promocion = models.CharField(max_length=100)
+    duracion = models.IntegerField()
+    aliado = models.ForeignKey(
+        Aliado, null=False, blank=False, on_delete=models.CASCADE)
+    docente = models.ForeignKey(
+        Docente, null=False, blank=False, on_delete=models.CASCADE)
+    lugar = models.CharField(max_length=150)
+    asesor_comercial_responsable = models.CharField(max_length=100)
+    publico = models.CharField(max_length=100)
+    servicios_incluidos = models.CharField(max_length=250)
+    hora_break = models.TimeField(null=True, blank=True)
+    hora_almuerzo = models.TimeField(null=True, blank=True)
+    opciones_de_calendario = models.CharField(max_length=150)
+    fecha_inicio = models.DateField(null=True, blank=True)
+    fecha_fin = models.DateField(null=True, blank=True)
+    estado = models.CharField(max_length=100)
+    web = models.CharField(max_length=100)
+    
+    def get_hijos(self):
+        return PadreHijo.objects.filter(padre=self.pk).values('hijo')
+
+    def get_aula(self):
+        sesiones = CalendarioEvento.objects.filter(
+            evento_id=self.codigo_evento)
+        return sesiones[0]
+
+    def format_servicios(self):
+        s = self.servicios_incluidos
+        s = s.replace('[', '')
+        s = s.replace(']', '')
+        s = s.replace("'", '')
+        return s
+
+    def horarios(self):
+        horario = ""
+        mes = ""
+        anno = ""
+        days = CalendarioEvento.objects.filter(evento_id=self.codigo_evento)
+        for d in days:
+            if horario == "":
+                horario = horario + str(d.fecha.day)
+                mes = d.fecha.strftime("%B").capitalize()
+                anno = str(d.fecha.year)
+            else:
+                if mes != d.fecha.strftime("%B").capitalize():
+                    horario = horario + ' de ' + mes + ' de ' + anno
+                    horario = horario + ", " + str(d.fecha.day)
+                    mes = d.fecha.strftime("%B").capitalize()
+                    anno = str(d.fecha.year)
+                else:
+                    horario = horario + ", " + str(d.fecha.day)
+                    mes = d.fecha.strftime("%B").capitalize()
+                    anno = str(d.fecha.year)
+
+        horario = horario + ' de ' + mes + ' de ' + anno
+        return horario
+
+    def publish(self):
+        self.web = 'Publicado'
+        self.save(update_fields=['web'])
+
+    def __str__(self):
+        return '{}'.format(self.codigo_evento)
+
+class PadreHijo(models.Model):
+    padre = models.ForeignKey(Evento, on_delete=models.CASCADE)
+    hijo = models.ForeignKey(EventoHijo, on_delete=models.CASCADE)
     
 class CalendarioEvento(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)

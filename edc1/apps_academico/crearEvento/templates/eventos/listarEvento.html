@@ -111,11 +111,12 @@
             <option value="Diplomado">Diplomado</option>
             <option value="Programa">Programa</option>
             <option value="Curso">Curso</option>
-            <option value="Conferencia">Conferencia</option>
             <option value="Taller">Taller</option>
+            <option value="Conferencia">Conferencia</option>
+            <option value="Seminario">Seminario</option>
             <option value="Webinario">Webinario</option>
             <option value="Charla">Charla</option>
-            <option value="Modulo">Modulo</option>
+            <option value="Modulo">Módulo</option>
         </select>
     </div>
 
@@ -157,14 +158,11 @@
                 <th scope="col">{{evento.fecha_fin|date:"d/m/Y"}}</td>
                 <th scope="col">{{evento.estado}}</td>
                 <th scope="col">{{evento.web}}</td>
-                <th scope="col"><a id="ptra" href="{% url 'plan_trabajo_list_to_create' %}"><i class="material-icons">add_circle_outline</i></a>
-                    <a id="edit" href="{% url 'editarEvento' pk=evento.codigo_evento %}"><i
-                            class="material-icons">edit</i></a>
-                    <a onclick="return abrir_modal('{% url 'detalleEvento' pk=evento.codigo_evento %}')" id="view"><i
-                            class="material-icons">search</i>
-                    </a>
-                    <a id="delete" href="{% url 'eliminarEvento' pk=evento.codigo_evento %}"><i
-                            class="material-icons">delete</i></a>
+                <th scope="col">
+                    <a id="ptra" href="{% url 'plan_trabajo_list_to_create' %}"><i class="material-icons">add_circle_outline</i></a>
+                    <a id="edit" href="{% url 'editarEvento' pk=evento.codigo_evento %}"><i class="material-icons">edit</i></a>
+                    <a id="view" onclick="return abrir_modal('{% url 'detalleEvento' pk=evento.codigo_evento %}')"><i class="material-icons">search</i></a>
+                    <a id="delete" href="{% url 'eliminarEvento' pk=evento.codigo_evento %}"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
 

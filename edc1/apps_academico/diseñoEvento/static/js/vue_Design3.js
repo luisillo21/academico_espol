@@ -2,6 +2,9 @@ const app=new Vue({
     el:'#app',
     delimiters:["{","}"],
     data:{
+        padre: null,
+        eventosHijos:[],
+        eventosHijosAgregados:[],
         areas:[],
         especialidades:[],
         objEspecificos:[],
@@ -10,7 +13,7 @@ const app=new Vue({
         recursos:[],
         referencias:[],
         lecturas:[],
-        tipoEvento:[{id:1,nombre:"Diplomado"},{id:2,nombre:"Programa"},{id:3,nombre:"Curso"},{id:4,nombre:"Taller"},{id:5,nombre:"Conferencia"},{id:6,nombre:"Seminario"},{id:7,nombre:"Webinario"},{id:8,nombre:"Charla"}],
+        tipoEvento:[{id:1,nombre:"Diplomado"},{id:2,nombre:"Programa"},{id:3,nombre:"Curso"},{id:4,nombre:"Taller"},{id:5,nombre:"Conferencia"},{id:6,nombre:"Seminario"},{id:7,nombre:"Webinario"},{id:8,nombre:"Charla"},{id:9,nombre:"Módulo"}],
         tiposRecursos:["Equipos","Materiales Didácticos","Software","Hardware","Aula/Laboratorio"],
         modalidades:["Presencial","Semi-Presencial","Virtual"],
         tipoCertificado:["Aprobación","Participación"],
@@ -134,10 +137,34 @@ const app=new Vue({
     mounted: function() {
         this.getAreas();
         this.getEspecialidades();
+        this.getEventosHijos();
         //this.getTipoEvento();             POR AHORA FUNCIONARA CON VALORES QUEMADOS, DE LO CONTRARIO: DESCOMENTAR Y VACIAR LA LISTA TIPO EVENTO PARA USAR LA API
     },
 
     methods:{
+        getEventosHijos: function(){
+            axios.get('/api/eventohijo/').then((response)=>{
+                this.eventosHijos=response.data;
+            }).catch((err)=>{
+                console.log(err)
+            })
+        },
+        agregarHijo: function(index){
+            this.eventosHijosAgregados.push(this.eventosHijos[index]);
+            this.eventosHijos.splice(index, 1);
+        },
+        removerHijo: function(index){
+            this.eventosHijos.push(this.eventosHijosAgregados[index]);
+            this.eventosHijosAgregados.splice(index,1);
+        },
+        guardar: function(tipo){
+            if (tipo==1 || tipo==2){
+                this.padre = true;
+            }
+            else{
+                this.padre = false;
+            }
+        },
         sumarHorasTotales: function(){
             this.newDesign.horas_totales=this.newDesign.horas_presenciales + this.newDesign.horas_autonomas
         },

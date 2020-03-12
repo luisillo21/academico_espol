@@ -27,6 +27,7 @@ from apps_academico.reporte_aca.Acta_emision_certificado_evento import Acta_emis
 from apps_academico.reporte_aca.excel import export_users_xls
 
 
+
 urlpatterns = [
     path('', RedirectView.as_view(url='academico/design/listar/')),
     path('admin/', admin.site.urls),
@@ -43,7 +44,8 @@ urlpatterns = [
     path('acta_nota_evento/',Acta_nota_evento.as_view(),name='acta_nota_evento'),
     path('Acta_entrega_certificado/',Acta_entrega_certificado.as_view(),name='Acta_entrega_certificado'),
     path('Acta_emision_certificado_evento/',Acta_emision_certificado_evento.as_view(),name='Acta_emision_certificado_evento'),
-    path('excel/',export_users_xls,name='excel')
+    path('excel/',export_users_xls,name='excel'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 """path('evento/', include(('apps_academico.crearEvento.urls', 'index'), namespace="index")),
