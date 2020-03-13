@@ -11,9 +11,11 @@ def export_users_xls(request):
     row_num = 0
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
+    mystyle = xlwt.easyxf('pattern: pattern solid, fore_colour blue;'
+                              'font: colour white, bold True')
     columns = ['Username', 'First name', 'Last name', 'Email address', ]
     for col_num in range(len(columns)):
-        ws.write(row_num, col_num, columns[col_num], font_style)
+        ws.write(row_num, col_num, columns[col_num], mystyle)
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
     rows = User.objects.all().values_list('username', 'first_name', 'last_name', 'email')
