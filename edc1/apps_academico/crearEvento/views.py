@@ -323,107 +323,58 @@ def loadEventoName(request):
 
 
 #--------------Seccion de reportes----------------
-class EventoPorCriterio(View):
-    
-    def cabecera(self, pdf):
-        width, height = A4
-        archivo_imagen = settings.MEDIA_ROOT+'/image_event/espol.png'
-        pdf.drawImage(archivo_imagen, 10, 515, 230,
-                      90, preserveAspectRatio=True)
-        pdf.setFont("Helvetica", 12)
-        pdf.drawString(690 ,560, b"REPORTE DE EVENTOS")
-        pdf.setFillColor(yellow)
-        pdf.rect(748,540,78, 12, fill=True, stroke=False)
-        pdf.setFillColor(black)
-        pdf.setFont("Helvetica", 12)
-        pdf.drawString(750,540, u"POEC0502 V7")
+import xlwt
+import itertools
+from django.contrib.auth.models import User
 
-    def docente_asistencias(self):
-        data = {}
-        docente = None
-        diseño = None 
-        try:
-            docente = self.model.objects.get(pk=self.kwargs['pk'])
-            disenio = Evento.objects.filter(docente=docente)
-            if docente and disenio:
-               data = [docente,disenio] 
-               return data
-        except Exception as e:
-            print(e)
-        return data
+def EventoPorCriterio(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="Reporte evento.xls"'
+    wb = xlwt.Workbook(encoding='utf-8')
+    col_width = 150 * 30
+    ws = wb.add_sheet('Users')
 
-    def pie_pagina(self, pdf):
+                    # 20 characters wide
+    try:
+        for i in itertools.count():
+            ws.col(i).width = col_width
+    except ValueError:
+        pass
 
-        pdf.setFont("Helvetica", 10)
-        now = datetime.now()
-        pdf.drawString(10,45,'CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588')
-        pdf.drawString(10, 30, u"Fecha impresión:"+str(now.day) +
-                       '/'+str(now.month)+'/'+str(now.year))
-        page_num = pdf.getPageNumber()
-        text = "Pág. %s|1" % page_num
-        pdf.drawString(28*cm, 30, text)
-        pdf.drawString(7.1*cm, 30, u'Usuario: ')
-        pdf.drawString(8.5*cm, 30, u'Luis Eduardo Ardila Macias')
-        
-        pdf.setFillColor(HexColor('#3c5634'))
-        pdf.drawString(10, 60,"//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
+    ws.col(10).width = 150 * 50
+    ws.col(20).width = 150 * 60
+    ws.col(21).width = 150 * 40
 
-    def contenido(self, pdf, y):
-        #Creamos una tupla de encabezados para neustra tabla
-        width, height = A4
-        styles = getSampleStyleSheet()
-        styleN = styles["BodyText"]
-        styleN.alignment = TA_CENTER
-        Numero= Paragraph('<b>N.-</b>',styleN)
-        Áreas =Paragraph('<b>Áreas</b>', styleN)
-        Estados  =Paragraph('<b>Estados</b>', styleN)
-        Inicio_Fin = Paragraph('<b>Inicio/ Fin</b>', styleN)
-        Periodos=Paragraph('<b>Periodos</b>', styleN)
-        Secuencial = Paragraph('<b>Secuencial</b>', styleN)
-        Tipo_capacitación = Paragraph('<b>Por sede</b>', styleN)
-        sede = Paragraph('<b>Por sede</b>', styleN)
-        Público = Paragraph('<b>Público</b>', styleN)
-        Coordinador_a = Paragraph('<b>Coordinador/a</b>', styleN)
-        Asesor_a = Paragraph('<b>Asesor/a</b>', styleN)
-        Aula = Paragraph('<b>Aula</b>', styleN)
-        encabezado1 = [
-                        [Numero,Áreas,Estados,Inicio_Fin,Periodos,Secuencial,Tipo_capacitación,sede,Público,Coordinador_a,Asesor_a,Aula],
-                        ['1','','','','','','','','','','',''],
-                        ['2','','','','','','','','','','',''],
-                        ['3','','','','','','','','','','',''],
-                        ['4','','','','','','','','','','','']
-                      ]
-        #encabezado2 = [[Numero,Sesion,Fecha,Firma,Hora_de_entrada_planificada,Hora_de_salida_planificada,Hora_de_entrada_ejecutada,Hora_de_salida_ejecutada]]
-        t = Table(encabezado1, colWidths=[1*cm,2.5*cm,2.5*cm,4*cm,3.5*cm,2.5*cm,2*cm,2*cm,2*cm,2.9*cm,2*cm,2*cm])
-        t.setStyle(TableStyle([
-            ('BOX', (0, 0), (-1,-1), 0.20, colors.black),
-            ('INNERGRID', (0,0), (-1, -1),0.10,colors.black),
-            ('ALIGN',(0,0),(-1,-1),'CENTER'),
-            ('BOTTOMPADDING',(0,0),(-1,-1),3),
-        ]))
-        t.wrapOn(pdf,width,height)
-        t.drawOn(pdf,8,420)
 
-    def get(self, request, ):
-        #Indicamos el tipo de contenido a devolver, en este caso un pdf
-        response = HttpResponse(content_type='application/pdf')
-        #La clase io.BytesIO permite tratar un array de bytes como un fichero binario, se utiliza como almacenamiento temporal
-        buffer = BytesIO()
-        #Canvas nos permite hacer el reporte con coordenadas X y Y
-        pdf = canvas.Canvas(buffer, pagesize=A4)
-        pdf.setPageSize(landscape(A4))
-        #Llamo al método donde están definidos los datos que aparecen en el reporte.
-        y = 590
-        self.cabecera(pdf)
-        self.pie_pagina(pdf)
-        self.contenido(pdf, y)
-        #Con show page hacemos un corte de página para pasar a la siguiente
-        pdf.showPage()
-        pdf.save()
-        pdf = buffer.getvalue()
-        buffer.close()
-        response.write(pdf)
-        return response
+    # Sheet header, first row
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    mystyle = xlwt.easyxf('pattern: pattern solid, fore_colour green;'
+                              'font: colour white, bold True; align: horiz center')
+    columns = [
+                'Secuencia','Curso','Inicio/Fin','Tipo Capacitacion','Evento programa',
+                'Promoción','Fecha inicio','Fecha fin','Horario','Estado',
+                'Participantes registrados','Costo','Horas','Instructor',
+                'Área','Tipo de certificado','Modalidad','Empresa','Aula',
+                'Asesor responsable','Coordinador responsable','Fecha creacion evento'
+                ]
+    content_format   = 'align: wrap on'
+    for col_num in range(len(columns)):
+
+        ws.write(row_num,col_num,columns[col_num],mystyle)
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+    """
+    rows = User.objects.all().values_list('username', 'first_name', 'last_name', 'email')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    """
+    wb.save(response)
+
+    return response
 
 
 class Registro_asistencia_evento(View):
