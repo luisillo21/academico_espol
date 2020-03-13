@@ -94,7 +94,7 @@ class SubUnidad(models.Model):
     horas_presenciales_sub=models.IntegerField()
     horas_autonomas_sub=models.IntegerField()
     horas_totales_sub=models.IntegerField()
-    unidad=models.IntegerField()
+    unidad=models.ForeignKey(Unidad,null=False,blank=False,on_delete=models.CASCADE)
     design=models.ForeignKey(DesignEvento,null=False,blank=False,on_delete=models.CASCADE)
     def __str__(self):
         return "{}".format(self.nombre_sub)

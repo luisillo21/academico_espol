@@ -460,12 +460,13 @@
                                             <table class="table table-sm">
                                                 <thead>
                                                     <tr class="text-left">
-                                                        <th>#</th>
+                                                        <th v-if="!padre">#</th>
+                                                        <th v-if="padre">Código evento</th>
                                                         <th>Objetivos especifico de aprendizaje</th>
-                                                        <th>Acciones</th>
+                                                        <th v-if="!padre">Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody v-if="!padre">
                                                     <tr v-for="(especifico,index) in objEspecificos">
                                                         <td>{index + 1}</td>
                                                         <td>
@@ -501,11 +502,30 @@
                                                         <td></td>
                                                     </tr>
                                                 </tbody>
+                                                <tbody v-else>
+                                                    <tr v-for="(eventoHijo,index) in objEspecificosHijos">
+                                                        <td>{eventoHijo.id}</td>
+                                                        <td>
+                                                            <span v-if="formActualizarObj && indexUpdateObj === index">
+                                                                <input v-model="newObjEspecifico" type="text"
+                                                                    class="form-control">
+                                                            </span>
+                                                            <span v-else>
+                                                                <span v-for="(diseno,index) in disenos">
+                                                                    <span v-if="eventoHijo.diseno == diseno.id ">
+                                                                        {diseno.objetivo}
+                                                                    </span>
+                                                                </span>
+                                                                
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
                                             </table>
                                         </div>
 
                                     </div>
-                                    <div class="col-12 col-sm-12 col-xl-12">
+                                    <div v-if="!padre" class="col-12 col-sm-12 col-xl-12">
                                         <div class="d-flex justify-content-end">
                                             <button @click="createObjEspecifico" type="button"
                                                 class="btn btn-success"><span class="fas fa-plus-circle"></span>
@@ -721,14 +741,14 @@
                         <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven"
                             data-parent="#accordionDesign">
                             <div class="card-body">
-                                <div class="row">
+                                <div v-if="!padre" class="row">
                                     <div class="col-12 col-sm-12 col-xl-12 d-flex justify-content-end">
                                         <button @click="vaciarCamposUnidades" type="button" class="btn btn-success"
                                             data-toggle="modal" data-target=".bd-unidad-modal-lg"><span
                                                 class="fas fa-plus-circle"></span> Agregar Unidad</button>
                                     </div>
                                     <div class="col-12 col-sm-12 col-xl-12 p-3">
-                                        <table class="table table-sm">
+                                        <table  class="table table-sm">
                                             <thead>
                                                 <tr>
                                                     <th>N° Unidad</th>
@@ -758,7 +778,9 @@
                                         </table>
                                     </div>
                                 </div>
-
+                                <div v-else class="row">
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1562,7 +1584,7 @@
 
 {% endblock %}
 {% block specific_scripts %}
-<script src="{% static 'js\vue_Design3.js' %}"></script>
+<script src="{% static 'js\vue_Design4.js' %}"></script>
 <script>
     function filtro() {
         // Declare variables

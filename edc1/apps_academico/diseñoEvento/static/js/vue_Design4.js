@@ -5,6 +5,8 @@ const app=new Vue({
         padre: null,
         eventosHijos:[],
         eventosHijosAgregados:[],
+        objEspecificosHijos:[],
+        disenos:[],
         areas:[],
         especialidades:[],
         objEspecificos:[],
@@ -137,25 +139,46 @@ const app=new Vue({
     mounted: function() {
         this.getAreas();
         this.getEspecialidades();
+        this.getDisenos();
         this.getEventosHijos();
         //this.getTipoEvento();             POR AHORA FUNCIONARA CON VALORES QUEMADOS, DE LO CONTRARIO: DESCOMENTAR Y VACIAR LA LISTA TIPO EVENTO PARA USAR LA API
     },
 
     methods:{
+        getDisenos: function(){
+            axios.get('/academico/api/design/').then((response)=>{
+                this.disenos=response.data;
+            }).catch((err)=>{
+                console.log(err);
+            })
+        },
         getEventosHijos: function(){
             axios.get('/api/eventohijo/').then((response)=>{
                 this.eventosHijos=response.data;
             }).catch((err)=>{
-                console.log(err)
+                console.log(err);
             })
         },
         agregarHijo: function(index){
             this.eventosHijosAgregados.push(this.eventosHijos[index]);
             this.eventosHijos.splice(index, 1);
+            this.addObjEspecificosHijos();
         },
         removerHijo: function(index){
             this.eventosHijos.push(this.eventosHijosAgregados[index]);
             this.eventosHijosAgregados.splice(index,1);
+            this.deleteObjEspecificosHijos(index);
+        },
+
+        addObjEspecificosHijos: function(){
+            for(var i of this.eventosHijosAgregados){
+                this.objEspecificosHijos.push(i);
+            }
+            console.log(this.objEspecificosHijos);
+        },
+        deleteObjEspecificosHijos: function(index){
+            this.objEspecificosHijos.splice(index,1);
+            console.log(this.objEspecificosHijos);
         },
         guardar: function(tipo){
             if (tipo==1 || tipo==2){
