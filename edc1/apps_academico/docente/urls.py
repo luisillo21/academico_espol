@@ -10,6 +10,7 @@ urlpatterns = [
     path('<int:docente_pk>/fill/', DocenteFill.as_view()),
     path('<int:docente_pk>/check/', DocenteCheck.as_view()),
     path('<int:docente_pk>/score/', docente_score),
+    #----------------Seccion de reportes
     path('DocentePorCriterio/',docentePorCriterio,name='DocentePorCriterio'),
     path('AsistenciaDocentes/',asistencia_docente,name='asistencia_docente'),
 ]

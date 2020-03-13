@@ -76,20 +76,6 @@ def plan_trabajo_copy(request, basePlanTrabajo_pk, newPlanTrabajo_pk):
 
 #-------------- Seccion de reportes-------------------
 
-
-
-def render_to_pdf(template_src, context_dict={}):
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")),result)
-    if not pdf.err:
-        return HttpResponse(result.getvalue(),content_type='application/pdf')
-    return None
-
-
-
-
 class reporte_empresa(View):
     def get(self, request, *args, **kwargs):
         template = get_template('reporte_empresa.html')

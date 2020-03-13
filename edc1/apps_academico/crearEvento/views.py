@@ -540,3 +540,18 @@ def  eventos_ejecutados(request):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+
+def detalle_part(request):
+    template_path = 'reportes/detalle_participante.html'
+    #design = DesignEvento.objects.filter()
+    context = {'design':'#'}
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    template = get_template(template_path)
+    html = template.render(context)
+    pisaStatus = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    if pisaStatus.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
