@@ -6,7 +6,6 @@ from apps_academico.diseñoEvento.models import SubUnidad
 from apps_academico.diseñoEvento.models import DesignEvento as DisenoEvento
 from apps_academico.crearEvento.models import CalendarioEvento as Sesion
 from apps_academico.crearEvento.models import Evento
-from apps_academico.crearEvento.models import EventoHijo
 
 """
     Custom APIS.
@@ -18,23 +17,17 @@ from apps_academico.crearEvento.models import EventoHijo
 
 #Only used for testing for creation of Sesion(Calendario_Evento)
 class EventoSerializer(serializers.ModelSerializer):
-    eventos_hijos = serializers.ReadOnlyField(source='get_hijos')
     id = serializers.IntegerField(source='codigo_evento')
     class Meta:
         model = Evento
-        fields = ['id','nombre','diseno','tipo_evento','eventos_hijos']
-
-class EventoHijoSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(source='codigo_evento')
-    class Meta:
-        model = EventoHijo
         fields = ['id','nombre','diseno','tipo_evento']
 
 #Only used for testing for creation of Unidad, SubUnidad
 class DisenoEventoSerializer(serializers.ModelSerializer):
+    disenos_hijos = serializers.ReadOnlyField(source='get_hijos')
     class Meta:
         model = DisenoEvento
-        fields = ['id','nombre','objetivo','codigo']
+        fields = ['id','nombre','objetivo','codigo','es_padre','disenos_hijos']
 
 class UnidadSerializer(serializers.ModelSerializer):
     diseno_evento = serializers.PrimaryKeyRelatedField(source='design',queryset=DisenoEvento.objects.all())

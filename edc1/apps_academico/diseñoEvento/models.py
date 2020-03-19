@@ -25,8 +25,52 @@ class TipoEvento(models.Model):
 
     def __str__(self):
         return "{}".format(self.nombre)
-    
+
+# class DesignHijo(models.Model):
+#     codigo=models.TextField()
+#     nombre=models.TextField()
+#     fecha=models.DateField(auto_now=True)
+#     version=models.IntegerField()
+#     cod_programa=models.TextField()
+#     area=models.ForeignKey(Area,null=False,blank=False,on_delete=models.CASCADE)
+#     especialidad=models.ForeignKey(Especialidad,null=False,blank=False,on_delete=models.CASCADE)
+#     tipo_evento=models.ForeignKey(TipoEvento,null=False,blank=False,on_delete=models.CASCADE)
+#     modalidad=models.TextField()
+#     tipo_certificado=models.TextField()
+#     estado=models.TextField()
+#     requisitos_facilitador=models.TextField()   
+#     horas_presenciales=models.IntegerField()
+#     horas_autonomas=models.IntegerField()
+#     horas_totales=models.IntegerField()
+#     justificacion=models.TextField()
+#     objetivo=models.TextField()
+#     dirigido_participante=models.TextField()
+#     indispensable_participante=models.TextField()
+#     recomendables_participante=models.TextField()
+#     metodologia1=models.BooleanField()
+#     metodologia2=models.BooleanField()
+#     metodologia3=models.BooleanField()
+#     metodologia4=models.BooleanField()
+#     metodologia5=models.BooleanField()
+#     metodologia6=models.BooleanField()
+#     metodologia7=models.BooleanField()
+#     metodologia8=models.BooleanField()
+        
+#     def get_hijos(self):
+#         return DisenoPadreHijo.objects.filter(padre=self.pk).values('hijo')
+
+#     def getUnidades(self):
+#         unidades = Unidad.objects.filter(design=self.id)
+#         return unidades
+
+#     def cantidad_diseños(self):
+#         pass
+
+#     def __str__(self):
+#         return "{}".format(self.nombre)
+
 class DesignEvento(models.Model):
+    es_padre=models.BooleanField(default=True)
     codigo=models.TextField()
     nombre=models.TextField()
     fecha=models.DateField(auto_now=True)
@@ -55,6 +99,9 @@ class DesignEvento(models.Model):
     metodologia6=models.BooleanField()
     metodologia7=models.BooleanField()
     metodologia8=models.BooleanField()
+        
+    def get_hijos(self):
+        return DisenoPadreHijo.objects.filter(padre=self.pk).values('hijo')
 
     def getUnidades(self):
         unidades = Unidad.objects.filter(design=self.id)
@@ -63,11 +110,12 @@ class DesignEvento(models.Model):
     def cantidad_diseños(self):
         pass
 
-
     def __str__(self):
         return "{}".format(self.nombre)
 
-
+class DisenoPadreHijo(models.Model):
+    padre = models.ForeignKey(DesignEvento, related_name="padre", on_delete=models.CASCADE)
+    hijo = models.ForeignKey(DesignEvento, related_name="hijo", on_delete=models.CASCADE)
 
 class ObjetivoEpecifico(models.Model):
     descripcion=models.TextField()

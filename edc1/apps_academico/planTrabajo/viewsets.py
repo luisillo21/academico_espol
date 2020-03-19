@@ -8,7 +8,6 @@ from apps_academico.diseñoEvento.models import SubUnidad
 from apps_academico.diseñoEvento.models import DesignEvento as DisenoEvento
 from apps_academico.crearEvento.models import CalendarioEvento as Sesion
 from apps_academico.crearEvento.models import Evento
-from apps_academico.crearEvento.models import EventoHijo
 
 """
     Custom APIS.
@@ -22,10 +21,6 @@ from apps_academico.crearEvento.models import EventoHijo
 class EventoViewSet(viewsets.ModelViewSet):
     queryset = Evento.objects.all()
     serializer_class = EventoSerializer
-
-class EventoHijoViewSet(viewsets.ModelViewSet):
-    queryset = EventoHijo.objects.all()
-    serializer_class = EventoHijoSerializer
 
 #Only used for testing for creation of Unidad, SubUnidad
 class DisenoEventoViewSet(viewsets.ModelViewSet):
