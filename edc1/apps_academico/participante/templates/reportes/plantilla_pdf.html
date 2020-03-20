@@ -38,7 +38,7 @@ left: 10pt; width: 820pt; top: 10pt; height:100pt; font-family: serif;
 {% block ubicacion_codigo %}
 @frame codigo {
     -pdf-frame-content: content_codigo;
-    left: 483pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;font-family: serif;
+    left: 483pt; width: 90pt; margin-left: 10pt; top: 50pt; height: 20pt;font-family: serif;
     font-size: 14px;
     /*-pdf-frame-border = 1;*/
 }
@@ -55,9 +55,9 @@ left: 10pt; width: 820pt; top: 120pt; height: 370pt;font-family: serif;
 {% block tabla_estilos %}
 @frame tabla1 {
     -pdf-frame-content: tabla_1;
-    left: 5pt; width:600pt; top: 240pt; height: 400pt;font-family: serif;
-    /*-pdf-frame-border = 1;*/
-     
+     left: 2.5cm;width:450pt; top: 240pt; height: 400pt;font-family: serif;text-align:center;
+    /* -pdf-frame-border = 1;*/
+
 }
 {% endblock tabla_estilos %}
 
@@ -70,6 +70,7 @@ left: 10pt; width: 820pt; top: 120pt; height: 370pt;font-family: serif;
     -pdf-frame-content: detalle_eventos;
     left: 5pt; width:200pt; top: 200pt; height: 100pt;font-family: serif;
     /* -pdf-frame-border = 1;*/
+
 }
 
 /* Pie de  Pagina */
@@ -96,15 +97,15 @@ left: 10pt; width: 500pt; top: 800pt; height: 50pt;font-family: serif;
 }
 {% endblock contenido_footer %}
 
-
+{% block respon_logistico %}
 @frame resp_logistico{
     -pdf-frame-content: resp_logistico;
-    left: 5;  top: 750pt;font-family: serif;
+    left: 10px;  top: 750pt;font-family: serif;
 }
-
+{% endblock respon_logistico %}
 @frame textos{
     -pdf-frame-content: textos;
-    left: 435px;  top: 220pt;font-family: serif;
+    left: 15.5cm;  top: 220pt;font-family: serif;
 }
 
     @frame fechas{
@@ -117,13 +118,23 @@ left: 10pt; width: 500pt; top: 800pt; height: 50pt;font-family: serif;
     -pdf-frame-content:content_firma;
     left:40px;  top: 24.5cm;font-family: serif;
     }
-
-
-
+{% block header_style %}
+@frame header_cont{
+    -pdf-frame-content:header_cont;
+    left:14.3cm;  top: 1.2cm;font-family: serif;
+    }
+{% endblock header_style %}
 {% endblock estilos %}
 
 }
+
 </style>
+{% block header_cont %}
+<div id="header_cont">
+    <label style="font-family: serif"><strong>ACTA DE ENTREGA DE CERTIFICADOS </strong> </label>
+</div>
+{% endblock header_cont %}
+
 </head>
 <body>
 <!-- Content for Static Frame 'header_frame' -->
@@ -134,6 +145,7 @@ left: 10pt; width: 500pt; top: 800pt; height: 50pt;font-family: serif;
             <br>
     </div>
 </div>
+
 
   <div id="content_codigo">
     <label style=" background-color:yellow; margin-left: 5px; font-size: 12px;font-family: serif;"><strong>{% block codigo %}POEC0502 V7{% endblock codigo %}</strong></label>
@@ -182,8 +194,7 @@ left: 10pt; width: 500pt; top: 800pt; height: 50pt;font-family: serif;
        </table> 
   </div>
   {% endblock standar %}
-
-  <!-- Tabla principal -->
+    <!-- Tabla principal -->
 
   <div id="tabla_1">
     {% block tabla_principal %}

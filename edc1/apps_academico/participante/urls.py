@@ -18,5 +18,10 @@ urlpatterns = [
     path('reporte_asistencia',reporte_asistencia,name='reporte_asistencia'),
     path('perfil_participante',perfil_participante,name='perfil_participante'),
     #-----
-    path('acta_nota_evento',acta_nota_evento,name='acta_nota_evento')
+    path('acta_nota_evento',acta_nota_evento,name='acta_nota_evento'),
+    #-----
+    path('acta_entrega_certificado',acta_entrega_certificado,name='acta_entrega_certificado'),
+    #-----
+    path('acta_emision_certificados_evento',acta_emision_certificados_evento,name='acta_emision_certificados_evento'),
+    path('detalle_evaulacion_evento',detalle_evaulacion_evento,name='detalle_evaulacion_evento'),
 ]

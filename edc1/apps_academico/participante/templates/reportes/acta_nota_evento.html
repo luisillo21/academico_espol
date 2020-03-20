@@ -29,12 +29,12 @@ POEC0502 V7/B
     }
 {% endblock tabla_estilos %}
 
-{% block sty_responsable %}
+{% block respon_logistico %}
 @frame resp_logistico{
     -pdf-frame-content: resp_logistico;
-    left: 40px;  top: 250pt;
+    left: 16.5cm;  top: 750pt;font-family: serif;
 }
-{% endblock sty_responsable %}
+{% endblock respon_logistico %}
 
 {% block fecha%}
 {% endblock fecha %}
@@ -43,7 +43,7 @@ POEC0502 V7/B
 
 
 {% block tabla_principal %}
-    <table class="table"  style="border:0.5px solid black; font-size 12px;">
+    <table class="table"  style="border:0.5px solid black; font-size:12px;">
             <thead >
                 <tr >
                     <td clase='celda' style="width: 20pt; ">N.-</td>
@@ -66,6 +66,8 @@ POEC0502 V7/B
 {% endblock tabla_principal %}
 {% block responsable %}
 <div id="resp_logistico">
-    <label style=" font-size:12px;font-family: serif;  "><strong>Fecha:____________________ </strong></label>
+    <label style="font-size:12px;font-family: serif;   "><strong>Fecha:dd/mm/aaaa </strong></label>
     </div>
 {% endblock responsable %}
+{% block header_cont %}
+{% endblock header_cont %}
