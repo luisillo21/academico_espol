@@ -1,15 +1,15 @@
-{% extends "reporte/plantilla_pdf.html" %}
+{% extends "reportes/plantilla_pdf.html" %}
 {% block content_head %}
     @frame contenido_head {
     -pdf-frame-content: content_head;
-    left: 410pt; width: 250pt; top: 30pt; height: 50pt;
+    left: 410pt; width: 250pt; top: 30pt; height: 50pt;font-family: serif;
     /* -pdf-frame-border = 1;*/
 }
 {% endblock content_head %}
 {% block ubicacion_codigo %}
 @frame codigo {
     -pdf-frame-content: content_codigo;
-    left: 472pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
+    left: 472pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;font-family: serif;
     font-size: 14px;
     /*-pdf-frame-border = 1;*/
 }
@@ -30,28 +30,30 @@ POEC0502 V7/B
 {% endblock tabla_estilos %}
 
 {% block tabla_principal %}
-    <table class="table"  style="border:0.5px solid black; font-size 12px;">
+    <table class="table"  style="border:0.5px solid black; font-size:12px;font-family:serif;">
             <thead >
                 <tr >
-                    <td clase='celda' style="width: 20pt; "></td>
-                    <td clase='celda' style="width: 100px"> <strong><center> PARTICIPANTE </center> </strong></td>
+                    <td clase='celda' style="width: 20pt; ">Id</td>
+                    <td clase='celda' style="width: 100px"> <strong><center> Participante </center> </strong></td>
                     <td clase='celda' style="width: 90px"> <strong><center> E-mail</center></strong></td>
-                    <td clase='celda' style="width:120px"> <strong><center> E-mail <br>alternativo </center></strong></td>
+                    <td clase='celda' style="width:120px;font-size: 11px;height: 1.2cm"> <strong><center> E-mail <br>alternativo </center></strong></td>
                     <td clase='celda' style="width: 80px"> <strong><center> Celular </center></strong></td>
-                    <td clase='celda' style="width: 120px"> <strong><center> Telefono <br>Docimicilio</center></strong> </td>
-                    <td clase='celda' style="width: 110px"> <strong> <center> Telefono <br> Trabajo </center></strong> </td>
+                    <td clase='celda' style=" width: 120px; font-size: 12px;"> <strong><center> Teléfono <br>Docimicilio</center></strong> </td>
+                    <td clase='celda' style="width: 110px"> <strong> <center> Teléfono <br> Trabajo </center></strong> </td>
                     <td clase='celda' style="width: 90px"> <strong><center> Dirección</center></strong></td>
                 </tr>
             </thead>
             <tbody>
             <tr>
             <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
-
-
             </tbody>
-    
-
 {% endblock tabla_principal %}
 
 {% block detalles %}

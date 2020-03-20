@@ -1,0 +1,67 @@
+{% extends "reportes/plantilla_pdf.html" %}
+{% block content_head %}
+    @frame contenido_head {
+    -pdf-frame-content: content_head;
+    left: 410pt; width: 250pt; top: 30pt; height: 50pt;
+    /* -pdf-frame-border = 1;*/
+}
+{% endblock content_head %}
+{% block ubicacion_codigo %}
+@frame codigo {
+    -pdf-frame-content: content_codigo;
+    left: 472pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
+    font-size: 14px;
+    /*-pdf-frame-border = 1;*/
+}
+{% endblock ubicacion_codigo %}
+{% block fecha %}
+{% endblock %}
+{% block texto %}
+{% endblock %}
+
+{% block titulo_right %}
+REPORTE DE ASISTENCIA
+{% endblock titulo_right %}
+{% block codigo %}
+POEC0502 V7/B
+{% endblock codigo %}
+
+{% block tabla_estilos %}
+    @frame tabla1 {
+    -pdf-frame-content: tabla_1;
+    left: 50pt; width:600pt; top: 240pt; height: 400pt;
+    /*-pdf-frame-border = 1;*/
+    }
+{% endblock tabla_estilos %}
+
+{% block tabla_principal %}
+    <table class="table"  style="border:0.5px solid black; font-size : 12px;font-family: serif">
+            <thead >
+                <tr >
+
+                    <td clase='celda' style=" width: 26px"> <strong><center> N.- </center> </strong></td>
+                    <td clase='celda' style="width: 90px"> <strong><center> Cédula </center></strong></td>
+                    <td clase='celda' style="width:120px"> <strong><center> Nombre </center></strong></td>
+                    <td clase='celda' style="width: 80px"> <strong><center> Horas de <br> asistencia </center></strong></td>
+                    <td clase='celda' style="width: 120px"> <strong><center> Horas <br>Justificadas</center></strong> </td>
+                    <td clase='celda' style="width: 110px"> <strong> <center> Total <br> asistencias </center></strong> </td>
+                    <td clase='celda' style="width: 90px"> <strong><center> %Asistencia</center></strong></td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="font-family: serif;height: 23px"> <center>1</center></td>
+                <td ><center></center></td>
+                <td><center> </center></td>
+                <td><center></center></td>
+                <td><center></center></td>
+                <td><center></center></td>
+                <td><center>%</center></td>
+            </tr>
+
+
+            </tbody>
+            </table>
+
+{% endblock tabla_principal %}
+

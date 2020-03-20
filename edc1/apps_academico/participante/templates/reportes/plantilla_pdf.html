@@ -15,7 +15,7 @@ size: {% block hoja %}A4{% endblock hoja %};
 @frame header_frame { 
 /* Cabecera estilos  */  
 -pdf-frame-content: header_content;
-left: 10pt; width: 820pt; top: 10pt; height:100pt;
+left: 10pt; width: 820pt; top: 10pt; height:100pt; font-family: serif;
 /*-pdf-frame-border = 1;*/
 }
 {% endblock header_content %}
@@ -30,7 +30,7 @@ left: 10pt; width: 820pt; top: 10pt; height:100pt;
 {% block content_head %}
 @frame contenido_head {
     -pdf-frame-content: content_head;
-    left: 370pt; width: 250pt; top: 20pt; height: 50pt;
+    left: 370pt; width: 250pt; top: 20pt; height: 50pt;font-family: serif;
     /* -pdf-frame-border = 1;*/
 }
 {% endblock content_head %}
@@ -38,7 +38,7 @@ left: 10pt; width: 820pt; top: 10pt; height:100pt;
 {% block ubicacion_codigo %}
 @frame codigo {
     -pdf-frame-content: content_codigo;
-    left: 483pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
+    left: 483pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;font-family: serif;
     font-size: 14px;
     /*-pdf-frame-border = 1;*/
 }
@@ -48,14 +48,14 @@ left: 10pt; width: 820pt; top: 10pt; height:100pt;
 /* Contenido estilos */
 
 @frame content_frame { 
-left: 10pt; width: 820pt; top: 120pt; height: 370pt;
+left: 10pt; width: 820pt; top: 120pt; height: 370pt;font-family: serif;
  /*-pdf-frame-border = 1;*/
 }
 
 {% block tabla_estilos %}
 @frame tabla1 {
     -pdf-frame-content: tabla_1;
-    left: 5pt; width:600pt; top: 240pt; height: 400pt;
+    left: 5pt; width:600pt; top: 240pt; height: 400pt;font-family: serif;
     /*-pdf-frame-border = 1;*/
      
 }
@@ -63,12 +63,12 @@ left: 10pt; width: 820pt; top: 120pt; height: 370pt;
 
 @frame standar {
     -pdf-frame-content: standar;
-    left: 50pt; width:500pt; top: 100pt; height: 150pt;
+    left: 50pt; width:320pt; top: 100pt; height: 150pt;font-family: serif;
 }
 
 @frame detalle_eventos {
     -pdf-frame-content: detalle_eventos;
-    left: 5pt; width:200pt; top: 200pt; height: 100pt;
+    left: 5pt; width:200pt; top: 200pt; height: 100pt;font-family: serif;
     /* -pdf-frame-border = 1;*/
 }
 
@@ -76,7 +76,7 @@ left: 10pt; width: 820pt; top: 120pt; height: 370pt;
 {% block footer_frame %}
 @frame footer_frame { /* Another static Frame */
 -pdf-frame-content: footer_content;
-left: 1pt; width: 820pt; top: 780pt; height: 40pt;
+left: 1pt; width: 820pt; top: 780pt; height: 40pt;font-family: serif;
 /*-pdf-frame-border = 1;*/
 }
 {% endblock footer_frame %}
@@ -85,22 +85,40 @@ left: 1pt; width: 820pt; top: 780pt; height: 40pt;
     
 @frame contador { /* Another static Frame */
     -pdf-frame-content: contador;
-    right: 20pt; width: 50pt; top: 810pt; height: 20pt;
+    right: 20pt; width: 50pt; top: 810pt; height: 20pt;font-family: serif;
     }
 {% endblock contador %}
 
 {% block contenido_footer %}
 @frame contenido_del_footer { /* Another static Frame */
 -pdf-frame-content: contenido_del_footer;
-left: 10pt; width: 500pt; top: 800pt; height: 50pt;
+left: 10pt; width: 500pt; top: 800pt; height: 50pt;font-family: serif;
 }
 {% endblock contenido_footer %}
 
 
 @frame resp_logistico{
     -pdf-frame-content: resp_logistico;
-    left: 5;  top: 750pt;
+    left: 5;  top: 750pt;font-family: serif;
 }
+
+@frame textos{
+    -pdf-frame-content: textos;
+    left: 435px;  top: 220pt;font-family: serif;
+}
+
+    @frame fechas{
+    -pdf-frame-content:fecha;
+    left: 40px;  top: 290pt;font-family: serif;
+    }
+
+
+@frame content_firma{
+    -pdf-frame-content:content_firma;
+    left:40px;  top: 24.5cm;font-family: serif;
+    }
+
+
 
 {% endblock estilos %}
 
@@ -112,41 +130,51 @@ left: 10pt; width: 500pt; top: 800pt; height: 50pt;
 <div id="header_content">
     <img src="static/image/logo.png" id="imagen" alt="">
     <div id="content_head">
-        <label style="font-size:13px"><strong>{% block titulo_right %}REGISTRO DE ASISTENCIAS DEL DOCENTE{% endblock titulo_right %}</strong></label>
+        <label style=" font-size:13px;font-family: serif;  "><strong>{% block titulo_right %}REGISTRO DE ASISTENCIAS DEL DOCENTE{% endblock titulo_right %}</strong></label>
             <br>
     </div>
 </div>
 
   <div id="content_codigo">
-    <label style="background-color:yellow; margin-left: 5px; font-size: 12px"><strong>{% block codigo %}POEC0502 V7{% endblock codigo %}</strong></label>
+    <label style=" background-color:yellow; margin-left: 5px; font-size: 12px;font-family: serif;"><strong>{% block codigo %}POEC0502 V7{% endblock codigo %}</strong></label>
   </div>
+{% block texto %}
+<div id="textos">
+    <label style=" font-size:19px;font-family: serif;  "><strong>{% block conte_texto %}Control de asistencia{% endblock conte_texto%}</strong></label>
+</div>
+{% endblock texto %}
 
+{% block fecha %}
+    <div id="fecha">
+    <label style=" font-size:12px;font-family: serif;  "><strong>{% block conte_fecha %}Fecha:____________________ H.Entrada:____________________H.Salida:____________________{% endblock conte_fecha%}</strong></label>
+    </div>
+{% endblock fecha %}
 
   <!-- Contenido Standar  -->
   {% block standar %}
   <div id="standar">
-       <table style='style="border:0.5px solid black;' >
-       <tr><td>_____________________________________________________________</td></tr>
+       <table style='font-family: serif; ' >
+       <tr ><td style="color: black;">_____________________________________________________________</td></tr>
             <tr >
-                <td style=" height: 30px; font-size: 14px;"><Strong>Programa:</Strong> {% block evento %}{% endblock evento %}</td>
-                <td style=" height: 30px; font-size: 14px;"><strong>Empresa:</strong> {% block empresa%} {% endblock empresa %}</td>
+                <td style="font-family: serif; height: 30px; font-size: 14px;"><Strong>Programa:</Strong> {% block evento %}{% endblock evento %}</td>
+                <td style="font-family: serif; height: 30px; font-size: 14px;"><strong>Empresa:</strong> {% block empresa%} {% endblock empresa %}</td>
             </tr>
-            <tr style="height: 30px;font-size: 14px;">
+            <tr style="font-family: serif;height: 30px;font-size: 14px;">
                 <td><strong>Evento:</strong>{% block promocion2 %} {% endblock promocion2    %}</td>
-                <td style="width: 150px;"><strong>Aula:</strong> {% block fecha_inicio %}{% endblock fecha_inicio%}</td>
+                <td style="font-family: serif;width: 150px;"><strong>Aula:</strong> {% block fecha_inicio %}{% endblock fecha_inicio%}</td>
             </tr>
 
-            <tr style="height: 30px; font-size: 14px;">
+            <tr style="font-family: serif;height: 30px; font-size: 14px;">
                 <td><strong>Promoción:</strong> {% block promocion%}{% endblock promocion %}</td>
-                <td style="width: 150px;"><strong>Fecha inicio:</strong>{% block fecha_fin2 %}{% endblock fecha_fin2%}</td>
+                <td style="font-family: serif;width: 150px;"><strong>Fecha inicio:</strong>{% block fecha_fin2 %}{% endblock fecha_fin2%}</td>
             </tr>
             
-            <tr style="height: 30px; font-size: 14px;">
+            <tr style="font-family: serif;height: 30px; font-size: 14px;">
                 <td style=""><strong>Tipo de capacitación:</strong>{% block docente %}{% endblock docente %}</td>
                 <td style=""><strong>Fecha Final:</strong>{% block duracion%} {% endblock duracion %}</td>
             </tr>
 
-            <tr style=" height: 30px; font-size: 14px;">
+            <tr style="font-family: serif; height: 30px; font-size: 14px;">
                 <td style=" width: 400px;"><strong>Publico:</strong>{% block publico %}{% endblock publico %}</td>
                 <td style=" "><strong>Duracion:</strong>{% block fecha_fin %}{% endblock fecha_fin%}</td>
             </tr>
@@ -164,28 +192,26 @@ left: 10pt; width: 500pt; top: 800pt; height: 50pt;
     {% endblock tabla_principal %}
   </div>
     <div id="detalle_eventos">
-    {% block detalles %}
-        <table id="table_estilos" style="font-size: 16px;">
+        <table id="table_estilos" style="font-family: serif;font-size: 16px;">
             <tr style="height: 50px">
-                  <td style="width:250px; font-family:Arial"><strong>Total diseños:</strong></td>
-                  <td style="width:300px;">Σ total</td>
-                  <td style="width:250px;"><strong>Modalidad por hora:</strong></td>
-                  <td style="width:300px;">Σ total</td>
+                  <td style="font-family: serif;width:250px;"><strong>Total diseños:</strong></td>
+                  <td style="font-family: serif; width:300px;">Σ total</td>
+                  <td style="font-family: serif;width:250px;"><strong>Modalidad por hora:</strong></td>
+                  <td style="font-family: serif;width:300px;">Σ total</td>
             </tr>
             <tr>
-                  <td style="width:250px; font-family:Arial"><strong>Total Diseño por area:</strong></td>
-                  <td style="width:300px;">Σ total</td>
-                  <td style="width:250px;"><strong>Total tipo certificado</strong></td>
-                  <td style="width:300px;">Σ total</td>
+                  <td style="font-family: serif;width:250px; "><strong>Total Diseño por area:</strong></td>
+                  <td style="font-family: serif;width:300px;">Σ total</td>
+                  <td style="font-family: serif;width:250px;"><strong>Total tipo certificado</strong></td>
+                  <td style="font-family: serif;width:300px;">Σ total</td>
             </tr>
 
-            <tr style="height:50px">
-                  <td style="width:250px; font-family:Arial"><strong>Total tipo de evento</strong></td>
-                  <td style="width:300px;">Σ total</td>
+            <tr style="font-family: serif;height:50px">
+                  <td style=" width:250px; font-family:serif;"><strong>Total tipo de evento</strong></td>
+                  <td style="font-family: serif;width:300px;">Σ total</td>
             </tr>
 
         </table>
-        {% endblock detalles %}
     </div>
 
 
@@ -198,8 +224,25 @@ left: 10pt; width: 500pt; top: 800pt; height: 50pt;
       <label style="font-size: 13px">Pág <pdf:pagenumber> | <pdf:pagecount></label>
   </div>
 
+
+
+{% block responsable %}
+    <div id="resp_logistico">
+    <label style=" font-size:12px;font-family: serif;  "><strong>Responsable logístico:____________________ Fecha:____________________</strong></label>
+    </div>
+{% endblock responsable %}
+
+    {% block firma  %}
+    <div id="content_firma" >
+        <label style=" font-size:12px;font-family: serif;  "><strong> <center>_______________________________ <br>
+        Nombre: <br>
+        Ci:099999999999</center></strong></label>
+    </div>
+    {% endblock firma  %}
+
+
   <div id="contenido_del_footer" style="font-size: 13px">
-      <label>CEC ESPOL, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588</label>
+      <label>CEC ESPOL,Campus Las Peñas, Campus Gustavo Galindo Velasco | Teléf:042269763 | 0960507588</label>
       <br>
       <!-- ESTO: &nbsp sirve para hacer espacioos en tre textos pero si quieres haz un frame aparte y lo mueves q es mas ordenado xD-->
       <label>Fecha impresión: dd/mm/aaa &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Usuario: Nombre apellido</label>

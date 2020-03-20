@@ -1,0 +1,71 @@
+{% extends "reportes/plantilla_pdf.html" %}
+{% block content_head %}
+    @frame contenido_head {
+    -pdf-frame-content: content_head;
+    left: 410pt; width: 250pt; top: 30pt; height: 50pt;
+    /* -pdf-frame-border = 1;*/
+}
+{% endblock content_head %}
+{% block ubicacion_codigo %}
+@frame codigo {
+    -pdf-frame-content: content_codigo;
+    left: 472pt; width: 95pt; margin-left: 10pt; top: 50pt; height: 20pt;
+    font-size: 14px;
+    /*-pdf-frame-border = 1;*/
+}
+{% endblock ubicacion_codigo %}
+{% block titulo_right %}
+ACTAS DE NOTAS EVENTO
+{% endblock titulo_right %}
+{% block codigo %}
+POEC0502 V7/B
+{% endblock codigo %}
+
+{% block tabla_estilos %}
+    @frame tabla1 {
+    -pdf-frame-content: tabla_1;
+    left: 70pt; width:600pt; top: 240pt; height: 400pt;
+    /*-pdf-frame-border = 1;*/
+    }
+{% endblock tabla_estilos %}
+
+{% block sty_responsable %}
+@frame resp_logistico{
+    -pdf-frame-content: resp_logistico;
+    left: 40px;  top: 250pt;
+}
+{% endblock sty_responsable %}
+
+{% block fecha%}
+{% endblock fecha %}
+{% block texto %}
+{% endblock texto%}
+
+
+{% block tabla_principal %}
+    <table class="table"  style="border:0.5px solid black; font-size 12px;">
+            <thead >
+                <tr >
+                    <td clase='celda' style="width: 20pt; ">N.-</td>
+                    <td clase='celda' style="width: 100px"> <strong><center> Cédula </center> </strong></td>
+                    <td clase='celda' style="width: 150px"> <strong><center> Nombre</center></strong></td>
+                    <td clase='celda' style=" width:120px;height: 42px"> <strong><center> Titulo <br>tercer   nivel </center></strong></td>
+                    <td clase='celda' style="width: 80px"> <strong><center> Nota <br> final </center></strong></td>
+                    <td clase='celda' style="width: 120px"> <strong><center> Calificación <br> en letra</center></strong> </td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <td></td>
+            </tr>
+
+
+            </tbody>
+    </table>
+
+{% endblock tabla_principal %}
+{% block responsable %}
+<div id="resp_logistico">
+    <label style=" font-size:12px;font-family: serif;  "><strong>Fecha:____________________ </strong></label>
+    </div>
+{% endblock responsable %}

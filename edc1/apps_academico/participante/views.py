@@ -337,7 +337,7 @@ class Conctacto_participante(View):
             return response
 
 def contacto_participante(request):
-    template_path = 'reporte/contacto_participante.html'
+    template_path = 'reportes/contacto_participante.html'
     #design = DesignEvento.objects.filter()
     #context = {'design':design}
     response = HttpResponse(content_type='application/pdf')
@@ -351,7 +351,48 @@ def contacto_participante(request):
     return response
 
 def registro_asistencia_evento(request):
-    template_path = 'reporte/registro_asistencia_evento.html'
+    template_path = 'reportes/registro_asistencia_evento.html'
+    #design = DesignEvento.objects.filter()
+    #context = {'design':design}
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    template = get_template(template_path)
+    html = template.render()
+    pisaStatus = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    if pisaStatus.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+def reporte_asistencia(request):
+    template_path = 'reportes/reporte_asistencia.html'
+    #design = DesignEvento.objects.filter()
+    #context = {'design':design}
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    template = get_template(template_path)
+    html = template.render()
+    pisaStatus = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    if pisaStatus.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+def perfil_participante(request):
+    template_path = 'reportes/perfil_participante.html'
+    #design = DesignEvento.objects.filter()
+    #context = {'design':design}
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    template = get_template(template_path)
+    html = template.render()
+    pisaStatus = pisa.CreatePDF(
+       html, dest=response, link_callback=link_callback)
+    if pisaStatus.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+def acta_nota_evento(request):
+    template_path = 'reportes/acta_nota_evento.html'
     #design = DesignEvento.objects.filter()
     #context = {'design':design}
     response = HttpResponse(content_type='application/pdf')

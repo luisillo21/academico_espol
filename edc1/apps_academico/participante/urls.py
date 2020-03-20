@@ -15,5 +15,8 @@ urlpatterns = [
     #--------
     path('contacto_participante',contacto_participante,name='contacto_participante'),
     path('registro_asistencia_evento/',registro_asistencia_evento,name='registro_asistencia_evento'),
-    
+    path('reporte_asistencia',reporte_asistencia,name='reporte_asistencia'),
+    path('perfil_participante',perfil_participante,name='perfil_participante'),
+    #-----
+    path('acta_nota_evento',acta_nota_evento,name='acta_nota_evento')
 ]
